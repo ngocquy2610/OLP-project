@@ -1,7 +1,17 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # Changes to the importmap will invalidate the etag for HTML responses
-  stale_when_importmap_changes
+  def home
+    render "layouts/home"
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    # Permit the new fields for sign up
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :fullname, :phone, :address, :role ])
+
+    # Permit them for account editing as well
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :fullname, :phone, :address, :role ])
+  end
 end

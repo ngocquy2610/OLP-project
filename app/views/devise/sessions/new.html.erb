@@ -1,0 +1,32 @@
+<%= render "layouts/header" %>
+<div class="flex justify-around items-center mt-10">
+  <div class="w-1/2">
+    <p class="text-[#4F8929] text-5xl font-bold text-center">ONLINE</p>
+    <p class="text-[#4F8929] text-5xl font-bold text-center mb-7">LEARNING PLATFORM</p>
+    <div><%= image_tag "login-image.png" ,class: "w-full rounded-2xl shadow-lg shadow-black" %></div>
+  </div>
+  <div class="w-1/4">
+    <div class="text-[#1877F2] text-3xl text-center font-bold border-b-2 border-[#1877F2] p-6 w-full">ĐĂNG NHẬP</div>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field my-5">
+        <p class="mb-2"><%= f.label :email, class: "text-[24px] text-[#74787f]" %>:</p>
+        <p><%= f.email_field :email, autofocus: false, autocomplete: "off", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+      </div>
+      <div class="field my-5">
+        <p class="mb-2"><%= f.label :password, class: "text-[24px] text-[#74787f]" %>:</p>
+        <p><%= f.password_field :password, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+      </div>
+      <% if devise_mapping.rememberable? %>
+        <div class="field flex gap-5">
+          <p class="flex items-center"><%= f.check_box :remember_me, class: "w-[20px] h-[20px]" %></p>
+          <p class="flex items-center"><%= f.label :remember_me, class: "text-[20px]" %></p>
+        </div>
+      <% end %>
+      <div class="actions">
+        <%= f.submit "Log in", class: "w-full bg-blue-500 text-white text-center py-2 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
+        <%= render "devise/shared/links" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%= render "layouts/footer" %>
