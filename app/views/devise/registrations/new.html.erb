@@ -49,10 +49,12 @@
           </div>
         </div>
       </div>
-      <div class="actions bg-blue-500 text-white text-center py-2 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer">
-        <%= f.submit "Sign up" %>
+      <div class="actions ">
+        <%= f.submit "Sign up", class: "w-full bg-blue-500 text-white text-center py-2 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
       </div>
-      <%= render "devise/shared/links" %>
+      <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+        <p class="text-blue-500 hover:underline mt-5 cursor-pointer"><%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %></p>
+      <% end %>
     </div>
   </div>
 <% end %>
