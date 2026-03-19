@@ -67,3 +67,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "pundit"
+gem "active_storage_validations"
+gem "pry-rails"
+gem "pry-byebug"

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "about", to: "pages#about", as: "about"
+  get "show",  to: "profiles#show"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -10,6 +12,15 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   root "application#home"
+  resource :profile, only: [ :show, :edit, :update ]
+  resources :courses, only: [ :index, :show ]
+  namespace :management do
+    resources :courses
+    resources :topics
+    resources :lessons
+    resources :exams
+    resources :practices
+  end
   # Defines the root path route ("/")
   # root "posts#index"
 end

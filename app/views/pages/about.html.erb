@@ -1,0 +1,119 @@
+<%= render "layouts/header" %>
+<!-- Hero -->
+<section class="bg-purple-500 text-white py-20">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold">
+      Về Chúng Tôi
+    </h1>
+    <p class="mt-6 text-lg text-blue-100 max-w-2xl mx-auto">
+      Chúng tôi xây dựng nền tảng học tập trực tuyến nhằm giúp mọi người
+      tiếp cận kiến thức chất lượng cao và phát triển kỹ năng để thành công
+      trong thời đại số.
+    </p>
+  </div>
+</section>
+<!-- Mission & Vision -->
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+    <div>
+      <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644"
+           class="rounded-xl shadow-lg">
+    </div>
+    <div>
+      <h2 class="text-3xl font-bold mb-6">Sứ Mệnh Của Chúng Tôi</h2>
+      <p class="text-gray-600 mb-6">
+        Sứ mệnh của chúng tôi là mang đến cơ hội học tập chất lượng cho mọi
+        người ở bất kỳ đâu. Thông qua các khóa học trực tuyến được thiết kế
+        bởi chuyên gia, chúng tôi giúp học viên phát triển kỹ năng và mở ra
+        nhiều cơ hội nghề nghiệp mới.
+      </p>
+      <h3 class="text-2xl font-semibold mb-4">Tầm Nhìn</h3>
+      <p class="text-gray-600">
+        Trở thành một trong những nền tảng học tập trực tuyến hàng đầu,
+        nơi mọi người có thể học hỏi, phát triển và kết nối với cộng đồng
+        tri thức trên toàn thế giới.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- Stats -->
+<section class="bg-gray-100 py-20">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-12">
+      Những Con Số Ấn Tượng
+    </h2>
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <h3 class="text-4xl font-bold text-blue-600">10,000+</h3>
+        <p class="text-gray-600 mt-2">Học viên</p>
+      </div>
+      <div>
+        <h3 class="text-4xl font-bold text-blue-600">500+</h3>
+        <p class="text-gray-600 mt-2">Khóa học</p>
+      </div>
+      <div>
+        <h3 class="text-4xl font-bold text-blue-600">120+</h3>
+        <p class="text-gray-600 mt-2">Giảng viên</p>
+      </div>
+      <div>
+        <h3 class="text-4xl font-bold text-blue-600">50+</h3>
+        <p class="text-gray-600 mt-2">Quốc gia</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Team -->
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-12">
+      Đội Ngũ Của Chúng Tôi
+    </h2>
+    <div class="grid md:grid-cols-3 gap-10">
+      <!-- Member -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg"
+             class="w-32 h-32 rounded-full mx-auto mb-4">
+        <h4 class="text-xl font-semibold">Nguyễn Minh</h4>
+        <p class="text-gray-500">CEO & Founder</p>
+        <p class="text-gray-600 text-sm mt-4">
+          Người sáng lập nền tảng với hơn 10 năm kinh nghiệm trong lĩnh vực
+          giáo dục và công nghệ.
+        </p>
+      </div>
+      <!-- Member -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg"
+             class="w-32 h-32 rounded-full mx-auto mb-4">
+        <h4 class="text-xl font-semibold">Trần Anh</h4>
+        <p class="text-gray-500">Head of Education</p>
+        <p class="text-gray-600 text-sm mt-4">
+          Chịu trách nhiệm xây dựng nội dung khóa học và hợp tác với
+          các giảng viên trên toàn cầu.
+        </p>
+      </div>
+      <!-- Member -->
+      <div class="bg-white rounded-xl shadow p-6">
+        <img src="https://randomuser.me/api/portraits/men/52.jpg"
+             class="w-32 h-32 rounded-full mx-auto mb-4">
+        <h4 class="text-xl font-semibold">Lê Hoàng</h4>
+        <p class="text-gray-500">Lead Developer</p>
+        <p class="text-gray-600 text-sm mt-4">
+          Phụ trách phát triển và tối ưu nền tảng công nghệ để mang lại
+          trải nghiệm học tập tốt nhất.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- CTA -->
+<section class="bg-purple-500 text-white py-20 text-center">
+  <h2 class="text-3xl font-bold">
+    Tham Gia Cộng Đồng Học Tập Ngay Hôm Nay
+  </h2>
+  <p class="mt-4 text-blue-100">
+    Hàng nghìn học viên đã bắt đầu hành trình phát triển kỹ năng của họ.
+  </p>
+  <button class="mt-8 bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200">
+    <%= link_to "Khám phá khóa học", courses_path %>
+  </button>
+</section>
