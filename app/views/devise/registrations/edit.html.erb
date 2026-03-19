@@ -1,42 +1,36 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <p><%= f.label :email %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-    <p><%= f.password_field :password, autocomplete: "new-password" %></p>
-    <% if @minimum_password_length %>
-      <p><em><%= @minimum_password_length %> characters minimum</em></p>
+<%= render "layouts/header" %>
+<div class="w-1/3 mx-auto mt-10 border-1 p-10 rounded-lg shadow-lg shadow-gray-400">
+  <div class="mt-5 text-[24px] text-[#74787f] font-bold">Đổi mật khẩu - <em><%= current_user.fullname %></em></div>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="field my-5">
+      <p class="mb-2"><%= f.label :email, "Email", class: "text-[24px] text-[#74787f]" %></p>
+      <p><%= f.email_field :email, readonly: true, autocomplete: "email", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2 bg-[#9b9fa5]" %></p>
+    </div>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Đang chờ xác nhận: <%= resource.unconfirmed_email %></div>
     <% end %>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :password_confirmation %></p>
-    <p><%= f.password_field :password_confirmation, autocomplete: "new-password" %></p>
-  </div>
-
-  <div class="field">
-    <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
-    <p><%= f.password_field :current_password, autocomplete: "current-password" %></p>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+    <div class="field my-5">
+      <p class="mb-2"><%= f.label :current_password, "Mật khẩu hiện tại", class: "text-[24px] text-[#74787f]" %> <br>
+        <i>(Chúng tôi cần mật khẩu hiện tại của bạn để xác nhận các thay đổi)</i></p>
+      <p><%= f.password_field :current_password, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+    </div>
+    <div class="field my-5">
+      <p class="mb-2"><%= f.label :password, "Mật khẩu mới", class: "text-[24px] text-[#74787f]" %></p>
+      <% if @minimum_password_length %>
+        <p class="mb-2"><em>(Tối thiểu <%= @minimum_password_length %> ký tự)</em></p>
+      <% end %>
+      <p><%= f.password_field :password, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+    </div>
+    <div class="field my-5">
+      <p class="mb-2"><%= f.label :password_confirmation, "Xác nhận mật khẩu mới", class: "text-[24px] text-[#74787f]" %></p>
+      <p><%= f.password_field :password_confirmation, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+    </div>
+    <div class="flex gap-5 justify-center">
+      <div class="actions">
+        <%= f.submit "Xác nhận", class: "bg-green-400 border-1 border-green-400 w-fit py-2 px-5 rounded-full text-black hover:bg-white hover:text-black hover:border-1 transition cursor-pointer" %>
+      </div>
+      <%= link_to "Quay lại", :back, class: "bg-gray-500 text-white border-1 border-gray-500 px-4 py-2 rounded-full hover:bg-white hover:text-gray-500 hover:border-1" %>
+    </div>
+  <% end %>
+</div>

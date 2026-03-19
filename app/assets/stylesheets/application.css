@@ -8,3 +8,13 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+/* Sticky footer for all pages */
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+.footer {
+	margin-top: auto;
+}

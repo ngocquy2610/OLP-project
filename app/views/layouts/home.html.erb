@@ -1,98 +1,96 @@
 <%= render "layouts/header" %>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<h1>This is homepage</h1>
-<br>
-<p>Welcome to Homepage</p>
-<br>
-<%= render "layouts/footer" %>
+<section class="bg-purple-500 text-white">
+  <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <h2 class="text-4xl md:text-5xl font-bold leading-tight">
+        Học Kỹ Năng Trực Tuyến <br>
+        Mọi Lúc, Mọi Nơi
+      </h2>
+      <p class="mt-6 text-lg text-blue-100">
+        Tham gia cùng hàng nghìn học viên trên toàn thế giới và nâng cao kỹ năng của bạn
+        với các khóa học trực tuyến chất lượng từ những chuyên gia hàng đầu.
+      </p>
+      <div class="mt-8 space-x-4">
+        <%= link_to "Khám phá khóa học", courses_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
+        <% unless user_signed_in? %>
+          <%= link_to "Bắt đầu ngay", new_user_session_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <%= image_tag "home/home-image.svg", class: "rounded-xl shadow-lg"%>
+    </div>
+  </div>
+</section>
+<!-- Features -->
+<section class="py-16">
+  <div class="max-w-7xl mx-auto px-6 text-center">
+    <h3 class="text-3xl font-bold mb-12">Tại Sao Nên Chọn Nền Tảng Của Chúng Tôi</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
+        <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/book.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
+        <h4 class="text-xl font-semibold mb-2">Khóa Học Chất Lượng</h4>
+        <p class="text-gray-600">
+          Học từ các khóa học chất lượng cao được thiết kế bởi những chuyên gia trong ngành.
+        </p>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
+        <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/teacher.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
+        <h4 class="text-xl font-semibold mb-2">Giảng Viên Chuyên Nghiệp</h4>
+        <p class="text-gray-600">
+          Tiếp thu kiến thức từ các giảng viên giàu kinh nghiệm trên khắp thế giới.
+        </p>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
+        <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/clock.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
+        <h4 class="text-xl font-semibold mb-2">Học Mọi Lúc</h4>
+        <p class="text-gray-600">
+          Truy cập khóa học của bạn bất cứ lúc nào trên mọi thiết bị.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Popular Courses -->
+<section class="bg-gray-100 py-16">
+  <div class="max-w-7xl mx-auto px-6">
+    <h3 class="text-3xl font-bold text-center mb-12">Các Khóa Học Phổ Biến</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+      <% if @featured_courses.present? %>
+        <% @featured_courses.each do |course| %>
+          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <% if course.course_image.attached? %>
+              <%= image_tag course.course_image, class: "w-full h-48 object-cover rounded-lg" %>
+            <% end %>
+            <h4 class="font-bold mt-2"><%= course.name %></h4>
+            <%= link_to "Xem chi tiết", course_path(course), class: "text-blue-500 hover:underline" %>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-center col-span-3 text-gray-500">Hiện chưa có khóa học nào.</p>
+      <% end %>
+    </div>
+  </div>
+</section>
+<!-- Testimonials -->
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h3 class="text-3xl font-bold mb-12">Học Viên Nói Gì Về Chúng Tôi</h3>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-white p-8 rounded-xl shadow">
+        <p class="text-gray-600">
+          "Nền tảng này đã giúp tôi chuyển hướng sang nghề lập trình web.
+          Các khóa học được thiết kế rất rõ ràng và dễ hiểu."
+        </p>
+        <div class="mt-4 font-semibold">— Tiến Bob</div>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow">
+        <p class="text-gray-600">
+          "Giảng viên tuyệt vời và nội dung chất lượng cao. 
+          Tôi đã cải thiện kỹ năng lập trình của mình rất nhiều."
+        </p>
+        <div class="mt-4 font-semibold">— Mạnh LV</div>
+      </div>
+    </div>
+  </div>
+</section>

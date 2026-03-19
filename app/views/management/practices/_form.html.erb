@@ -1,0 +1,40 @@
+<%= form_with(model: [:management, practice], class: "space-y-6") do |f| %>
+  <%# 1. Hiển thị lỗi nếu có (để bạn không bao giờ bị "chết chìm" trong im lặng nữa) %>
+  <% if practice.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-lg text-red-700 text-sm mb-4">
+      <h3 class="font-bold"><%= pluralize(practice.errors.count, "lỗi") %>:</h3>
+      <ul class="list-disc pl-5 mt-1">
+        <% practice.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%# 2. Thêm trường chọn Khóa học (course_id) %>
+  <div>
+    <%= f.label :lesson_id, "Thuộc bài học", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.collection_select :lesson_id, Lesson.all, :id, :name, { prompt: "Chọn một bài học..." }, { class: "w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-indigo-500 outline-none" } %>
+  </div>
+  <%# 3. Các trường cũ của bạn %>
+  <div>
+    <%= f.label :question, "Câu hỏi", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.text_field :question, class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div>
+    <%= f.label :answers, "Đáp án", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <p class="text-gray-700"><em>Nhập các đáp án, cách nhau bằng dấu phẩy</em></p>
+    <%= f.text_field :answers, class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div>
+    <%= f.label :correct_answers, "Đáp án đúng", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.text_field :correct_answers, class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div>
+    <%= f.label :type, "Mô tả bài kiểm tra", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.collection_select :type, Practice.types.keys, :to_s, :humanize, { prompt: "Chọn một loại..." }, { class: "w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-indigo-500 outline-none" } %>
+  </div>
+  <div class="flex items-center space-x-3 pt-4">
+    <%= f.submit "Lưu bài thực hành", class: "bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-indigo-700 cursor-pointer" %>
+    <%= link_to "Hủy bỏ", profile_path(current_user), class: "text-gray-500 hover:underline" %>
+  </div>
+<% end %>

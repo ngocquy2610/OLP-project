@@ -1,0 +1,35 @@
+<div class="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden mt-10 border border-gray-200">
+  <div class="p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Thông tin học viên</h2>
+    <div class="space-y-3">
+      <div class="flex border-b pb-2">
+        <span class="font-semibold w-32">Họ và tên:</span>
+        <span class="text-gray-600"><%= @user.fullname.presence || "Chưa cập nhật" %></span>
+      </div>
+      <div class="flex border-b pb-2">
+        <span class="font-semibold w-32">Số điện thoại:</span>
+        <span class="text-gray-600"><%= @user.phone.presence || "Chưa cập nhật" %></span>
+      </div>
+      <div class="flex border-b pb-2">
+        <span class="font-semibold w-32">Địa chỉ:</span>
+        <span class="text-gray-600"><%= @user.address.presence || "Chưa cập nhật" %></span>
+      </div>
+      <div class="flex border-b pb-2">
+        <span class="font-semibold w-32">Email:</span>
+        <span class="text-gray-600"><%= @user.email %></span>
+      </div>
+      <div class="flex">
+        <span class="font-semibold w-32">Vai trò:</span>
+        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full uppercase">
+          <%= @user.role %>
+        </span>
+      </div>
+    </div>
+    <div class="mt-8">
+      <%= link_to "Đổi mật khẩu", edit_user_registration_path, 
+          class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition" %>
+      <%= link_to "Chỉnh sửa thông tin", edit_profile_path, 
+          class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition" %>
+    </div>
+  </div>
+</div>

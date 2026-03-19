@@ -1,0 +1,35 @@
+<%= form_with(model: [:management, lesson], class: "space-y-6") do |f| %>
+  <%# 1. Hiển thị lỗi nếu có (để bạn không bao giờ bị "chết chìm" trong im lặng nữa) %>
+  <% if lesson.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-lg text-red-700 text-sm mb-4">
+      <h3 class="font-bold"><%= pluralize(lesson.errors.count, "lỗi") %>:</h3>
+      <ul class="list-disc pl-5 mt-1">
+        <% lesson.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%# 2. Thêm trường chọn Chủ đề (topic_id) %>
+  <div>
+    <%= f.label :topic_id, "Thuộc chủ đề", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.collection_select :topic_id, Topic.all, :id, :name, { prompt: "Chọn một chủ đề..." }, { class: "w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-indigo-500 outline-none" } %>
+  </div>
+  <%# 3. Các trường cũ của bạn %>
+  <div>
+    <%= f.label :name, "Tên bài học", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.text_field :name, class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div>
+    <%= f.label :description, "Mô tả bài học", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.text_area :description, rows: 4, class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div>
+    <%= f.label :video, "Upload Video", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+    <%= f.file_field :video, accept: 'video/*', class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+  </div>
+  <div class="flex items-center space-x-3 pt-4">
+    <%= f.submit "Lưu bài học", class: "bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-indigo-700 cursor-pointer" %>
+    <%= link_to "Hủy bỏ", profile_path(current_user), class: "text-gray-500 hover:underline" %>
+  </div>
+<% end %>

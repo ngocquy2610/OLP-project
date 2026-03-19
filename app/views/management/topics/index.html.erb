@@ -1,0 +1,35 @@
+<%= render "layouts/header" %>
+<%= turbo_frame_tag "profile_content" do %>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Quản lý Chủ đề</h1>
+    <%= link_to "Thêm chủ đề mới", new_management_topic_path, 
+        class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm" %>
+  </div>
+  <div class="overflow-x-auto bg-white rounded-xl border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Ảnh</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Tên chủ đề</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Giá</th>
+          <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase">Hành động</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <% @topics.each do |topic| %>
+          <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-900"><%= topic.name %></div>
+            </td>
+            <td class="px-6 py-4 text-right text-sm font-medium space-x-3">
+              <%= link_to "Sửa", edit_management_topic_path(topic), class: "text-indigo-600 hover:text-indigo-900",data: { turbo_frame: "profile_content" } %>
+              <%= button_to "Xóa", management_topic_path(topic), method: :delete,
+                  form: { data: { turbo_confirm: "Bạn có chắc chắn muốn xóa?" } },
+                  class: "inline text-red-600 hover:text-red-900" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
