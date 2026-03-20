@@ -20,7 +20,6 @@ class ProfilesController < ApplicationController
   private
 
   def profile_params
-    # Chỉ cho phép sửa các trường thông tin cá nhân, KHÔNG cho sửa role ở đây để bảo mật
     params.require(:user).permit(:fullname, :phone, :address)
   end
 end

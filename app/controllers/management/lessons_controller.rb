@@ -3,6 +3,7 @@ class Management::LessonsController < ApplicationController
   before_action :set_lesson, only: [ :show, :edit, :update, :destroy ]
   def index
     @lessons = Lesson.all
+    @lessons = @lessons.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id))) if current_user&.teacher?
   end
 
   def show
@@ -12,7 +13,7 @@ class Management::LessonsController < ApplicationController
   def create
     @lesson = Lesson.new(lesson_params)
     if @lesson.save
-      redirect_to profile_path(current_user), notice: "Lesson was successfully created."
+      redirect_to new_management_practice_path, notice: "Lesson was successfully created."
     else
       render :new
     end

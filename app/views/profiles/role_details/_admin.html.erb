@@ -27,9 +27,11 @@
     </div>
     <div class="mt-8">
       <%= link_to "Đổi mật khẩu", edit_user_registration_path,
-          class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition" %>
+          class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition",
+          data: { turbo_frame: "_top" } %>
       <%= link_to "Chỉnh sửa thông tin", edit_profile_path, 
-          class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition" %>
+          class: "bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg transition",
+          data: { turbo_frame: "_top" } %>
     </div>
   </div>
 </div>

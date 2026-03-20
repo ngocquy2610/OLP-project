@@ -3,6 +3,7 @@ class Management::ExamsController < ApplicationController
   before_action :set_exam, only: [ :show, :edit, :update, :destroy ]
   def index
     @exams = Exam.all
+    @exams = @exams.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id))) if current_user&.teacher?
   end
 
   def show
@@ -12,7 +13,7 @@ class Management::ExamsController < ApplicationController
   def create
     @exam = Exam.new(exam_params)
     if @exam.save
-      redirect_to profile_path(current_user), notice: "Exam was successfully created."
+      redirect_to new_management_lesson_path, notice: "Exam was successfully created."
     else
       render :new
     end

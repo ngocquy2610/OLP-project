@@ -4,6 +4,7 @@ class Management::TopicsController < ApplicationController
 
   def index
     @topics = Topic.all
+    @topics = @topics.where(course_id: Course.where(user_id: current_user.id)) if current_user&.teacher?
   end
 
   def show
@@ -14,7 +15,7 @@ class Management::TopicsController < ApplicationController
   def create
     @topic = Topic.new(topic_params)
     if @topic.save
-      redirect_to profile_path(tab: "topics"), notice: "Topic was successfully created."
+      redirect_to new_management_exam_path, notice: "Topic was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
