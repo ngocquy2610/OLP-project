@@ -5,9 +5,8 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <% @courses.each do |course| %>
           <div class="bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-md transition">
-            <!-- Thumbnail (optional) -->
-            <% if course.image.present? %>
-              <img src="<%= course.image %>" class="w-full h-40 object-cover">
+            <% if course.course_image.attached? %>
+                <%= image_tag(course.course_image, class: "w-full h-40 object-cover") %>
             <% else %>
               <div class="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-400">
                 No Image
@@ -21,9 +20,11 @@
               <p class="text-sm text-gray-500 mb-4">
                 <%= truncate(course.description, length: 80) %>
               </p>
-              <%= link_to "Học ngay",
-                "#",
-                class: "block text-center bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition" %>
+              <% if current_user.owned_courses.exists?(course.id) %>
+                <%= link_to "Học ngay",
+                    learn_course_path(course),
+                    class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
+            <% end %>
             </div>
           </div>
         <% end %>

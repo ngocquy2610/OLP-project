@@ -18,7 +18,10 @@ Rails.application.routes.draw do
   resources :courses, only: [ :index, :show ] do
     collection do
       get :my_courses
-  end
+    end
+    member do
+      get :learn
+    end
   end
 
   resource :cart, only: [ :show ]

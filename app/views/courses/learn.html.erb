@@ -1,0 +1,49 @@
+<%= turbo_frame_tag "profile_content" do %>
+  <div class="flex h-screen bg-gray-100">
+    <!-- LEFT: Video Player -->
+    <div class="flex-1 flex flex-col">
+      <!-- Video -->
+      <div class="bg-black">
+        <% if @current_lesson&.video.attached? %>
+          <video controls class="w-full h-[500px] bg-black">
+            <source src="<%= url_for(@current_lesson.video) %>" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        <% else %>
+          <div class="h-[500px] flex items-center justify-center bg-black text-white">
+            No video available
+          </div>
+        <% end %>
+      </div>
+      <!-- Lesson Info -->
+      <div class="p-6 bg-white">
+        <h2 class="text-xl font-semibold">
+          <%= @current_lesson&.name %>
+        </h2>
+        <p class="text-gray-600 mt-2">
+          <%= @current_lesson&.description %>
+        </p>
+      </div>
+    </div>
+    <!-- RIGHT: Lesson List -->
+    <div class="w-96 bg-white border-l overflow-y-auto">
+      <% @topics.each do |topic| %>
+        <div class="border-b">
+          <!-- Topic Title -->
+          <div class="p-4 bg-gray-100 font-semibold">
+            <%= topic.name %>
+          </div>
+          <!-- Lessons -->
+          <% topic.lessons.each do |lesson| %>
+            <%= link_to learn_course_path(@course, lesson_id: lesson.id),
+              class: "block px-4 py-3 hover:bg-gray-50 #{'bg-blue-100' if lesson == @current_lesson}" do %>
+              <p class="text-sm">
+                ▶ <%= lesson.name %>
+              </p>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
