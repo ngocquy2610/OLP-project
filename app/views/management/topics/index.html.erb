@@ -8,9 +8,8 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Ảnh</th>
           <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Tên chủ đề</th>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Giá</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Thuộc khóa học</th>
           <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase">Hành động</th>
         </tr>
       </thead>
@@ -19,6 +18,9 @@
           <tr class="hover:bg-gray-50 transition">
             <td class="px-6 py-4">
               <div class="font-medium text-gray-900"><%= topic.name %></div>
+            </td>
+            <td class="px-6 py-4">
+              <p><%= topic.course.name %></p>
             </td>
             <td class="px-6 py-4 text-right text-sm font-medium space-x-3">
               <%= link_to "Sửa", edit_management_topic_path(topic), class: "text-indigo-600 hover:text-indigo-900",data: { turbo_frame: "profile_content" } %>

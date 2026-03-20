@@ -1,0 +1,33 @@
+<%= turbo_frame_tag "profile_content" do %>
+  <div class="max-w-5xl mx-auto py-10 px-4">
+    <h2 class="text-2xl font-semibold mb-6">Thanh toán</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- LEFT: Order Items -->
+      <div class="lg:col-span-2 space-y-4">
+        <% @order.order_items.each do |item| %>
+          <div class="flex justify-between bg-white p-4 rounded-xl border">
+            <p class="font-medium"><%= item.course.name %></p>
+            <p class="font-semibold">
+              <%= number_to_currency(item.price, unit: "₫", precision: 0, delimiter: ",") %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+      <!-- RIGHT: Payment Summary -->
+      <div class="bg-white p-6 rounded-xl border h-fit">
+        <h3 class="font-semibold mb-4">Tổng đơn hàng</h3>
+        <div class="flex justify-between mb-2">
+          <span>Tổng tiền</span>
+          <span class="font-semibold">
+            <%= number_to_currency(@order.total, unit: "₫", precision: 0, delimiter: ",") %>
+          </span>
+        </div>
+        <!-- Payment Button -->
+        <%= button_to "Thanh toán ngay",
+          pay_order_path(@order),
+          method: :post,
+          class: "w-full mt-4 bg-green-600 text-white py-2 rounded-xl hover:bg-green-700" %>
+      </div>
+    </div>
+  </div>
+<% end %>

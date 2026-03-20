@@ -1,52 +1,68 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="max-w-6xl mx-auto px-4 py-8">
     <h2 class="text-2xl font-semibold mb-6">Your Cart</h2>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div class="lg:col-span-2 space-y-4">
-        <% @cart.cart_items.each do |item| %>
-          <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border">
-            <div class="flex items-center gap-4">
-              <input 
-                type="checkbox"
-                class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              >
-              <div>
-                <p class="font-medium text-gray-800">
-                  <%= item.course&.name %>
-                </p>
-                <!-- Quantity removed: each course can only be bought once -->
+    <%= form_with url: checkout_cart_path, method: :post do %>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- LEFT: Cart Items -->
+        <div class="lg:col-span-2 space-y-4">
+          <% if @cart.cart_items.any? %>
+            <% @cart.cart_items.each do |item| %>
+              <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border">
+                <!-- Checkbox + Course Info -->
+                <div class="flex items-center gap-4">
+                  <input 
+                    type="checkbox"
+                    name="selected_items[]"
+                    value="<%= item.id %>"
+                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  >
+                  <div>
+                    <p class="font-medium text-gray-800">
+                      <%= item.course&.name %>
+                    </p>
+                  </div>
+                </div>
+                <!-- Price + Remove -->
+                <div class="flex items-center gap-4">
+                  <p class="font-semibold text-gray-700">
+                    <%= number_to_currency(item.course&.price.to_i, unit: "₫", precision: 0, delimiter: ",") %>
+                  </p>
+                  <%= link_to "Remove",
+                    cart_item_path(item),
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                    class: "text-red-500 hover:text-red-700 text-sm" %>
+                </div>
               </div>
-            </div>
-            <div class="flex items-center gap-4">
-              <p class="font-semibold text-gray-700">
-                <%= item.course&.price %> đ
-              </p>
-              <%= button_to "Remove",
-                  cart_item_path(item),
-                  method: :delete,
-                  class: "text-red-500 hover:text-red-700 text-sm" %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-      <div class="bg-white p-6 rounded-2xl shadow-sm border h-fit">
-        <h3 class="text-lg font-semibold mb-4">Summary</h3>
-        <div class="space-y-2 text-sm text-gray-600">
-          <div class="flex justify-between">
-            <span>Items</span>
-            <span><%= @cart.cart_items.count %></span>
-          </div>
-          <div class="flex justify-between">
-            <span>Total</span>
-            <span class="font-semibold text-gray-800">
-              <%= @cart.cart_items.sum { |i| i.course&.price.to_i } %> đ
-            </span>
-          </div>
+            <% end %>
+          <% else %>
+            <p class="text-gray-500">Your cart is empty.</p>
+          <% end %>
         </div>
-        <button class="w-full mt-6 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition">
-          Checkout
-        </button>
+        <!-- RIGHT: Summary -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border h-fit">
+          <h3 class="text-lg font-semibold mb-4">Summary</h3>
+          <div class="space-y-2 text-sm text-gray-600">
+            <div class="flex justify-between">
+              <span>Items</span>
+              <span><%= @cart.cart_items.count %></span>
+            </div>
+            <div class="flex justify-between">
+              <span>Total</span>
+              <span class="font-semibold text-gray-800">
+                <%= number_to_currency(
+                      @cart.cart_items.sum { |i| i.course&.price.to_i },
+                      unit: "₫",
+                      precision: 0,
+                      delimiter: ","
+                    ) %>
+              </span>
+            </div>
+          </div>
+          <!-- Checkout Button -->
+          <%= submit_tag "Checkout",
+              class: "w-full mt-6 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition" %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 <% end %>
