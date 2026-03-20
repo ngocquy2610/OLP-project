@@ -1,4 +1,4 @@
-<%= form_with(model: [:management, lesson], class: "space-y-6") do |f| %>
+<%= form_with(model: [:management, lesson], local: true, html: { multipart: true }, class: "space-y-6") do |f| %>
   <% if lesson.errors.any? %>
     <div class="bg-red-50 p-4 rounded-lg text-red-700 text-sm mb-4">
       <h3 class="font-bold"><%= pluralize(lesson.errors.count, "lỗi") %>:</h3>
