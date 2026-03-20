@@ -24,7 +24,7 @@ class Management::CoursesController < ApplicationController
 
     authorize @course
     if @course.save
-      redirect_to profile_path(current_user), notice: "Course was successfully created."
+      redirect_to new_management_topic_path, notice: "Course was successfully created."
     else
       render :new, status: :unprocessable_entity
     end

@@ -3,6 +3,7 @@ class Management::PracticesController < ApplicationController
   before_action :set_practice, only: [ :show, :edit, :update, :destroy ]
   def index
     @practices = Practice.all
+    @practices = @practices.where(lesson_id: Lesson.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id)))) if current_user&.teacher?
   end
 
   def show

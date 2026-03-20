@@ -1,4 +1,3 @@
-<%= render "layouts/header" %>
 <section class="bg-purple-500 text-white">
   <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 items-center">
     <div>
@@ -22,7 +21,6 @@
     </div>
   </div>
 </section>
-<!-- Features -->
 <section class="py-16">
   <div class="max-w-7xl mx-auto px-6 text-center">
     <h3 class="text-3xl font-bold mb-12">Tại Sao Nên Chọn Nền Tảng Của Chúng Tôi</h3>
@@ -51,19 +49,21 @@
     </div>
   </div>
 </section>
-<!-- Popular Courses -->
 <section class="bg-gray-100 py-16">
   <div class="max-w-7xl mx-auto px-6">
     <h3 class="text-3xl font-bold text-center mb-12">Các Khóa Học Phổ Biến</h3>
     <div class="grid md:grid-cols-3 gap-8">
       <% if @featured_courses.present? %>
         <% @featured_courses.each do |course| %>
-          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-3 justify-center items-center">
             <% if course.course_image.attached? %>
               <%= image_tag course.course_image, class: "w-full h-48 object-cover rounded-lg" %>
             <% end %>
-            <h4 class="font-bold mt-2"><%= course.name %></h4>
+            <h4 class="font-bold text-gray-800 text-center"><%= course.name %></h4>
+            <div class="text-gray-500 text-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
+            <div class="text-sm text-black text-center"><%= number_to_currency(course.price, unit: "VNĐ", precision: 0, format: "%n %u") %></div>
             <%= link_to "Xem chi tiết", course_path(course), class: "text-blue-500 hover:underline" %>
+            <%= button_to "Add to Cart", cart_items_path(course_id: course.id), method: :post, class: "w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
           </div>
         <% end %>
       <% else %>
@@ -72,7 +72,6 @@
     </div>
   </div>
 </section>
-<!-- Testimonials -->
 <section class="py-16">
   <div class="max-w-6xl mx-auto px-6 text-center">
     <h3 class="text-3xl font-bold mb-12">Học Viên Nói Gì Về Chúng Tôi</h3>
