@@ -15,7 +15,12 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   root "application#home"
   resource :profile, only: [ :show, :edit, :update ]
-  resources :courses, only: [ :index, :show ]
+  resources :courses, only: [ :index, :show ] do
+    collection do
+      get :my_courses
+  end
+  end
+
   resource :cart, only: [ :show ]
   resources :cart_items, only: [ :create, :destroy ]
   namespace :management do
@@ -24,6 +29,12 @@ Rails.application.routes.draw do
     resources :lessons
     resources :exams
     resources :practices
+  end
+  resources :orders, only: [ :show ] do
+    post :pay, on: :member
+  end
+  resource :cart do
+    post :checkout
   end
   # Defines the root path route ("/")
   # root "posts#index"

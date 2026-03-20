@@ -6,6 +6,9 @@ class User < ApplicationRecord
   has_many :courses
   has_one :cart, dependent: :destroy
   after_create :create_cart
+  has_many :orders, dependent: :destroy
+  has_many :enrollments
+  has_many :owned_courses, through: :enrollments, source: :course
 
   def create_cart
     Cart.create(user: self)

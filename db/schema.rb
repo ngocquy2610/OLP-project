@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_19_033421) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_19_033421) do
     t.integer "cart_id", null: false
     t.integer "course_id", null: false
     t.datetime "created_at", null: false
-    # quantity removed: each course can only be bought once
+    t.integer "quantity"
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["course_id"], name: "index_cart_items_on_course_id"
@@ -85,6 +85,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_19_033421) do
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
+  create_table "enrollments", force: :cascade do |t|
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["course_id"], name: "index_enrollments_on_course_id"
+    t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
   create_table "exams", force: :cascade do |t|
     t.text "answers", null: false
     t.text "correct_answers", null: false
@@ -102,6 +111,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_19_033421) do
     t.integer "topic_id"
     t.datetime "updated_at", null: false
     t.string "video"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "order_id", null: false
+    t.decimal "price"
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_order_items_on_course_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "status"
+    t.decimal "total"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "practices", force: :cascade do |t|
@@ -162,5 +190,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_19_033421) do
   add_foreign_key "course_creates", "courses"
   add_foreign_key "course_creates", "users"
   add_foreign_key "courses", "users"
+  add_foreign_key "enrollments", "courses"
+  add_foreign_key "enrollments", "users"
+  add_foreign_key "order_items", "courses"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "users"
   add_foreign_key "teacher_panels", "users"
 end
