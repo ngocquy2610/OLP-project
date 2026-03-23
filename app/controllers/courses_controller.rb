@@ -16,7 +16,10 @@ class CoursesController < ApplicationController
       # FULL DATA (only for buyers)
       @lessons = @course.topics.includes(:lessons).flat_map(&:lessons)
       @exams = @course.topics.includes(:exams).flat_map(&:exams)
-      @practices = @lessons.includes(:practices).flat_map(&:practices)
+      @practices = @course.topics
+                   .includes(lessons: :practices)
+                   .flat_map(&:lessons)
+                   .flat_map(&:practices)
     else
       # LIMITED DATA (public)
       @lessons = @course.topics.includes(:lessons).flat_map(&:lessons) # preview only
