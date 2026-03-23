@@ -1,13 +1,20 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-2xl font-bold text-gray-800">Quản lý Bài thực hành</h1>
-    <%= link_to "Thêm bài thực hành mới", new_management_practice_path, 
-        class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm" %>
+    <div class="flex items-center space-x-4">
+      <%= form_with url: management_practices_path, method: :get, local: false, data: { turbo_frame: 'profile_content' }, class: "flex items-center space-x-2" do %>
+        <%= label_tag :lesson_id, "Lọc theo bài học:", class: "text-sm font-medium text-gray-700 mr-2" %>
+        <%= select_tag :lesson_id, options_from_collection_for_select(@lessons, :id, :name, @selected_lesson&.id), include_blank: false, class: "border rounded-lg p-2 bg-white", onchange: 'if(this.form.requestSubmit){this.form.requestSubmit()}else{this.form.dispatchEvent(new Event("submit", {bubbles:true,cancelable:true}))}' %>
+      <% end %>
+      <%= link_to "Thêm bài thực hành mới", new_management_practice_path, 
+          class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm" %>
+    </div>
   </div>
   <div class="overflow-x-auto bg-white rounded-xl border border-gray-200">
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Thuộc bài học</th>
           <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Câu hỏi</th>
           <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Đáp án</th>
           <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Đáp án đúng</th>
@@ -18,6 +25,9 @@
       <tbody class="divide-y divide-gray-200">
         <% @practices.each do |practice| %>
           <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4">
+              <div class="font-medium text-gray-900"><%= practice.lesson.name %></div>
+            </td>
             <td class="px-6 py-4">
               <div class="font-medium text-gray-900"><%= practice.question %></div>
             </td>

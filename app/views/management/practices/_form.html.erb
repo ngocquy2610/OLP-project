@@ -28,7 +28,7 @@
   </div>
   <div>
     <%= f.label :type, "Mô tả bài kiểm tra", class: "block text-sm font-semibold text-gray-700 mb-1" %>
-    <%= f.collection_select :type, Practice.types.keys, :to_s, :humanize, { prompt: "Chọn một loại..." }, { class: "w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-indigo-500 outline-none" } %>
+    <%= f.select :type, options_for_select([["Multiple choice", "multiple_choice"],["True / False", "true_false"]], f.object.type), { prompt: "Chọn một loại..." }, { class: "w-full border rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-indigo-500 outline-none" } %>
   </div>
   <div class="flex items-center space-x-3 pt-4">
     <%= f.submit "Lưu bài thực hành", class: "bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-indigo-700 cursor-pointer" %>
