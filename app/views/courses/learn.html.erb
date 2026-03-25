@@ -4,8 +4,8 @@
     <div class="flex-1 flex flex-col">
       <!-- Video -->
       <div class="bg-black">
-        <% if @current_lesson&.video.attached? %>
-          <video controls class="w-full h-[500px] bg-black">
+        <% if @current_lesson&.video&.attached? %>
+          <video controls class="w-full h-fit bg-black">
             <source src="<%= url_for(@current_lesson.video) %>" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <!-- RIGHT: Lesson List -->
-    <div class="w-96 bg-white border-l overflow-y-auto">
+    <div class="w-100 bg-white border-l overflow-y-auto">
       <% @topics.each do |topic| %>
         <div class="border-b">
           <!-- Topic Title -->
@@ -37,10 +37,52 @@
           <% topic.lessons.each do |lesson| %>
             <%= link_to learn_course_path(@course, lesson_id: lesson.id),
               class: "block px-4 py-3 hover:bg-gray-50 #{'bg-blue-100' if lesson == @current_lesson}" do %>
-              <p class="text-sm">
+              <p class="">
                 ▶ <%= lesson.name %>
               </p>
             <% end %>
+            <%= link_to practice_lesson_path(lesson),
+              class: "block px-4 py-3 hover:bg-gray-50",
+              data: { turbo_frame: "profile_content" } do %>
+              <p class="">
+                📝 Practice of <%= lesson.name %>
+                <% last_practice = @last_practice_attempts[lesson.id] %>
+                <% if last_practice&.completed %>
+                  <span class="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs">Done</span>
+                <% elsif last_practice %>
+                  <span class="ml-2 px-2 py-1 bg-yellow-500 text-white rounded text-xs">Attempted</span>
+                <% else %>
+                  <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded text-xs">New</span>
+                <% end %>
+              </p>
+            <% end %>
+          <% end %>
+          <% highest = @highest_attempts[topic.id] %>
+          <% if highest %>
+            <div class="flex items-center justify-between">
+              <% if highest.status == "Passed" %>
+                <div class="p-3">
+                  <%= link_to "Làm lại", exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
+                </div>
+                <div class="px-4 py-2 text-sm text-gray-700">
+                  Trạng thái: <span class="font-semibold bg-green-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                </div>
+              <% else %>
+                <div class="p-3">
+                  <%= link_to "Làm lại", exam_topic_path(topic), class: "inline-block bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700", data: { turbo_frame: "profile_content" } %>
+                </div>
+                <div class="px-4 py-2 text-sm text-gray-700">
+                  Trạng thái: <span class="font-semibold bg-red-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                </div>
+              <% end %>
+              <div class="px-4 py-2 text-sm text-gray-700">
+                Điểm: <strong><%= highest.score %> %</strong>
+              </div>
+            </div>
+          <% else %>
+            <div class="p-3">
+              <%= link_to "Làm bài kiểm tra", exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
+            </div>
           <% end %>
         </div>
       <% end %>

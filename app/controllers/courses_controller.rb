@@ -9,11 +9,9 @@ class CoursesController < ApplicationController
     @topics = @course.topics.includes(:lessons)
     render "courses/show"
 
-    # Check ownership
     @owned = current_user&.owned_courses&.exists?(@course.id)
 
     if @owned
-      # FULL DATA (only for buyers)
       @lessons = @course.topics.includes(:lessons).flat_map(&:lessons)
       @exams = @course.topics.includes(:exams).flat_map(&:exams)
       @practices = @course.topics
@@ -21,26 +19,41 @@ class CoursesController < ApplicationController
                    .flat_map(&:lessons)
                    .flat_map(&:practices)
     else
-      # LIMITED DATA (public)
-      @lessons = @course.topics.includes(:lessons).flat_map(&:lessons) # preview only
-      @exams   = [] # or hide completely
-      @practices = [] # or hide completely
+      @lessons = @course.topics.includes(:lessons).flat_map(&:lessons)
+      @exams   = []
+      @practices = []
     end
   end
 
   def learn
     @course = Course.find(params[:id])
 
-    # 🔒 Security: must own course
     unless current_user.owned_courses.exists?(@course.id)
       redirect_to course_path(@course), alert: "Bạn chưa mua khóa học này"
       return
     end
 
-    # Load structure
     @topics = @course.topics.includes(:lessons)
 
-    # Current lesson (default = first lesson)
+    if current_user
+      exam_attempts = current_user.exam_attempts
+                            .where(topic_id: @topics.map(&:id))
+                            .order(score: :desc)
+      @highest_attempts = exam_attempts.group_by(&:topic_id).transform_values(&:first)
+      @score = @highest_attempts.values.map(&:score).compact
+
+
+      lesson_ids = @topics.flat_map(&:lessons).map(&:id)
+      practice_attempts = current_user.practice_attempts
+                                .where(lesson_id: lesson_ids)
+                                .order(score: :desc)
+      @last_practice_attempts = practice_attempts.group_by(&:lesson_id).transform_values(&:first)
+    else
+      @highest_attempts = {}
+      @score = []
+      @last_practice_attempts = {}
+    end
+
     if params[:lesson_id]
       @current_lesson = Lesson.find(params[:lesson_id])
     else

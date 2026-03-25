@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -37,6 +37,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.boolean "correct"
+    t.datetime "created_at", null: false
+    t.integer "question_id", null: false
+    t.string "selected_answer"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -94,6 +105,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
+  create_table "exam_attempts", force: :cascade do |t|
+    t.boolean "completed"
+    t.datetime "created_at", null: false
+    t.integer "score"
+    t.integer "topic_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["topic_id"], name: "index_exam_attempts_on_topic_id"
+    t.index ["user_id"], name: "index_exam_attempts_on_user_id"
+  end
+
   create_table "exams", force: :cascade do |t|
     t.text "answers", null: false
     t.text "correct_answers", null: false
@@ -102,6 +124,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
     t.integer "topic_id"
     t.integer "type"
     t.datetime "updated_at", null: false
+  end
+
+  create_table "lesson_views", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "lesson_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.boolean "watched", default: false, null: false
+    t.datetime "watched_at"
+    t.index ["lesson_id"], name: "index_lesson_views_on_lesson_id"
+    t.index ["user_id", "lesson_id"], name: "index_lesson_views_on_user_id_and_lesson_id", unique: true
+    t.index ["user_id"], name: "index_lesson_views_on_user_id"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -130,6 +164,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "practice_attempts", force: :cascade do |t|
+    t.boolean "completed"
+    t.datetime "created_at", null: false
+    t.integer "lesson_id", null: false
+    t.float "score"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["lesson_id"], name: "index_practice_attempts_on_lesson_id"
+    t.index ["user_id"], name: "index_practice_attempts_on_user_id"
   end
 
   create_table "practices", force: :cascade do |t|
@@ -182,6 +227,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "courses"
   add_foreign_key "carts", "users"
@@ -192,8 +239,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_061824) do
   add_foreign_key "courses", "users"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "users"
+  add_foreign_key "exam_attempts", "topics"
+  add_foreign_key "exam_attempts", "users"
+  add_foreign_key "lesson_views", "lessons"
+  add_foreign_key "lesson_views", "users"
   add_foreign_key "order_items", "courses"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
+  add_foreign_key "practice_attempts", "lessons"
+  add_foreign_key "practice_attempts", "users"
   add_foreign_key "teacher_panels", "users"
 end
