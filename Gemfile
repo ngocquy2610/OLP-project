@@ -72,3 +72,6 @@ gem "pundit"
 gem "active_storage_validations"
 gem "pry-rails"
 gem "pry-byebug"
+
+gem "dotenv-rails"
+gem "stripe"
