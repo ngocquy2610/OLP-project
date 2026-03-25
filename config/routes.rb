@@ -39,6 +39,21 @@ Rails.application.routes.draw do
   resource :cart do
     post :checkout
   end
+
+  resources :topics do
+    member do
+      get :exam
+      post :submit_exam
+    end
+  end
+
+  resources :lessons do
+    member do
+      get :practice
+      post :submit_practice
+    end
+  end
+
   # Defines the root path route ("/")
   # root "posts#index"
 end

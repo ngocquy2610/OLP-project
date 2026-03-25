@@ -1,0 +1,21 @@
+<%= turbo_frame_tag "profile_content" do %>
+  <h2 class="text-xl font-semibold mb-6">Exam of <%= @topic.name %></h2>
+  <%= form_with url: submit_exam_topic_path(@topic), method: :post do %>
+    <% @exams.each_with_index do |exam, index| %>
+      <div class="mb-6 p-4 border rounded-xl bg-white">
+        <p class="font-medium mb-3">
+          <%= index + 1 %>. <%= exam.question %>
+        </p>
+        <% exam.answers.split(",").each do |ans| %>
+          <label class="block mb-2">
+            <%= radio_button_tag "answers[#{exam.id}]", ans.strip %>
+            <span class="ml-2"><%= ans.strip %></span>
+          </label>
+        <% end %>
+      </div>
+    <% end %>
+    <%= submit_tag "Submit",
+      class: "bg-blue-600 text-white px-6 py-2 rounded-xl" %>
+    <%= link_to "Quay lại", learn_course_path(@topic.course, lesson_id: @lesson&.id), class: "bg-gray-500 text-white border-1 border-gray-500 px-4 py-2 rounded-xl hover:bg-white hover:text-gray-500 hover:border-1" %>
+  <% end %>
+<% end %>
