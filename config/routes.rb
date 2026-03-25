@@ -33,8 +33,12 @@ Rails.application.routes.draw do
     resources :exams
     resources :practices
   end
-  resources :orders, only: [ :show ] do
-    post :pay, on: :member
+  resources :orders do
+    member do
+      post :checkout   # create Stripe session
+      get :success     # after payment
+      get :cancel
+    end
   end
   resource :cart do
     post :checkout

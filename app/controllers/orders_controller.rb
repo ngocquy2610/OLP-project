@@ -23,4 +23,46 @@ class OrdersController < ApplicationController
 
     redirect_to courses_path, notice: "Bạn đã sở hữu khóa học!"
   end
+
+  def checkout
+    order = current_user.orders.find(params[:id])
+
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: [ "card" ],
+      line_items: order.order_items.map do |item|
+        {
+          price_data: {
+            currency: "vnd",
+            product_data: {
+              name: item.course.name
+            },
+            unit_amount: item.course.price.to_i # VND (no decimals)
+          },
+          quantity: 1
+        }
+      end,
+      mode: "payment",
+      success_url: success_order_url(order),
+      cancel_url: cancel_order_url(order)
+    )
+
+    redirect_to session.url, allow_other_host: true
+  end
+
+  def success
+    order = current_user.orders.find(params[:id])
+
+    order.update(status: "paid")
+
+    # 🔥 Grant course access
+    order.order_items.each do |item|
+      current_user.enrollments.create!(course: item.course)
+    end
+
+    redirect_to courses_path, notice: "Payment successful!"
+  end
+
+  def cancel
+    redirect_to cart_path, alert: "Payment canceled"
+  end
 end
