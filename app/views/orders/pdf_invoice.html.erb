@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Invoice #<%= @order.id %></title>
+  <style>
+    body { font-family: Helvetica, sans-serif; color: #333; line-height: 1.5; }
+    .invoice-box { max-w-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; }
+    .header { text-align: center; margin-bottom: 40px; }
+    table { width: 100%; text-align: left; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; }
+    th { background-color: #f8f9fa; }
+    .total { font-size: 20px; font-weight: bold; color: #4f46e5; text-align: right; }
+  </style>
+</head>
+<body>
+  <div class="invoice-box">
+    <div class="header">
+    <img src="data:image/png;base64,<%= Base64.encode64(File.read(Rails.root.join('app', 'assets', 'images', 'logo-image.png'))) %>" style="width: 150px; height: auto; margin-bottom: 20px;" />
+      <h2>RECEIPT / INVOICE</h2>
+      <p>Order #<%= @order.id %> | <%= @order.created_at.strftime("%B %d, %Y") %></p>
+    </div>
+    <p><strong>Customer:</strong> <%= @order.user.fullname %></p>
+    <p><strong>Email:</strong> <%= @order.user.email %></p>
+    <p><strong>Status:</strong> <%= @order.status.upcase %></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Course Item</th>
+          <th style="text-align: right;">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% total = 0 %>
+        <% @order.order_items.each do |item| %>
+          <tr>
+            <td><%= item.course.name %></td>
+            <td style="text-align: right;"><%= item.price %></td>
+          </tr>
+          <% total += item.price %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <p class="total">Total Paid: <%= total %></p>
+    <p style="text-align: center; margin-top: 50px; color: #777;">Thank you for your business!</p>
+  </div>
+</body>
+</html>

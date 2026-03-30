@@ -58,6 +58,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :orders, only: [:index, :show] do
+    member do
+      get :invoice #invoice_order_path
+    end
+  end
+
   # Defines the root path route ("/")
   # root "posts#index"
 end

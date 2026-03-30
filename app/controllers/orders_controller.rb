@@ -1,8 +1,31 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @orders = current_user.orders.order(created_at: :desc)
+    @orders = @orders.includes(order_items: :course)
+  end
+
   def show
     @order = current_user.orders.find(params[:id])
+  end
+
+  def invoice
+    @order = current_user.orders.includes(order_items: :course).find(params[:id])
+
+    respond_to do |format|
+      # Optional: You can still have an HTML view just for the invoice if you want
+      format.html 
+      
+      # The PDF generator
+      format.pdf do
+        render pdf: "Invoice_#{@order.id}",
+               template: "orders/pdf_invoice",
+               formats: [:html],
+               layout: false,
+               margin: { top: 15, bottom: 15, left: 15, right: 15 }
+      end
+    end
   end
 
   def pay
@@ -50,22 +73,26 @@ class OrdersController < ApplicationController
   end
 
   def success
-    
     order = current_user.orders.find(params[:id]) 
     order.update(status: "paid")
 
     order.order_items.each do |item|
-      current_user.enrollments&.create!(course: item.course)
-      @course = item.course
+      course = item.course
       amount_paid = item.price.to_i
-      PaymentMailer.student_receipt_email(current_user, @course, amount_paid).deliver_later
 
-      PaymentMailer.teacher_notification_email(@course.user, current_user, @course).deliver_later
-
-      flash[:notice] = "Payment successful! You can now access the course."
+      current_user.enrollments.find_or_create_by!(course: course)
+      
+      PaymentMailer.student_receipt_email(current_user, course, amount_paid, order).deliver_later
+      PaymentMailer.teacher_notification_email(course.user, current_user, course).deliver_later
     end
 
-    redirect_to courses_path, notice: "Payment successful!"
+    if current_user.cart.present?
+      purchased_course_ids = order.order_items.pluck(:course_id)
+      
+      current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
+    end
+
+    redirect_to courses_path, notice: "Payment successful! You can now access your courses."
   end
 
   def cancel
