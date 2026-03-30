@@ -50,13 +50,19 @@ class OrdersController < ApplicationController
   end
 
   def success
-    order = current_user.orders.find(params[:id])
-
+    
+    order = current_user.orders.find(params[:id]) 
     order.update(status: "paid")
 
-    # 🔥 Grant course access
     order.order_items.each do |item|
       current_user.enrollments&.create!(course: item.course)
+      @course = item.course
+      amount_paid = item.price.to_i
+      PaymentMailer.student_receipt_email(current_user, @course, amount_paid).deliver_later
+
+      PaymentMailer.teacher_notification_email(@course.user, current_user, @course).deliver_later
+
+      flash[:notice] = "Payment successful! You can now access the course."
     end
 
     redirect_to courses_path, notice: "Payment successful!"
