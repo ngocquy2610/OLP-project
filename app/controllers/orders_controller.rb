@@ -56,7 +56,7 @@ class OrdersController < ApplicationController
 
     # 🔥 Grant course access
     order.order_items.each do |item|
-      current_user.enrollments.create!(course: item.course)
+      current_user.enrollments&.create!(course: item.course)
     end
 
     redirect_to courses_path, notice: "Payment successful!"

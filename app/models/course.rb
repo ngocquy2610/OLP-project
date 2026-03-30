@@ -10,5 +10,5 @@ class Course < ApplicationRecord
   validates :course_image,
             attached: true,
             content_type: [ "image/png", "image/jpeg" ],
-            size: { less_than: 5.megabytes, message: "File quá lớn (tối đa 5MB)" }
+            size: { less_than: 20.megabytes, message: "File quá lớn (tối đa 5MB)" }
 end
