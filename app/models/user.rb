@@ -1,21 +1,20 @@
 class User < ApplicationRecord
+  # app/models/user.rb
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :confirmable
+        :recoverable, :rememberable, :validatable,
+        :confirmable
 
   enum :role, { student: 0, teacher: 1, admin: 2 }, default: :student
+
   has_many :courses
   has_one :cart, dependent: :destroy
-  after_create :create_cart
   has_many :orders, dependent: :destroy
   has_many :enrollments
   has_many :owned_courses, through: :enrollments, source: :course
   has_many :exam_attempts, dependent: :destroy
   has_many :practice_attempts, dependent: :destroy
-  has_many :lesson_views, dependent: :destroy
 
-  def create_cart
-    Cart.create(user: self)
-  end
+  after_create :create_cart
 
   def teacher?
     role == "teacher"
@@ -23,5 +22,20 @@ class User < ApplicationRecord
 
   def admin?
     role == "admin"
+  end
+
+  # Override Devise's default synchronous email dispatch
+# app/models/user.rb
+
+  protected
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  private
+
+  def create_cart
+    Cart.create(user: self)
   end
 end

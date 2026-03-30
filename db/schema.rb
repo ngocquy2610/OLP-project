@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_153200) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -42,19 +45,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
   create_table "answers", force: :cascade do |t|
     t.boolean "correct"
     t.datetime "created_at", null: false
-    t.integer "question_id", null: false
+    t.bigint "question_id", null: false
     t.string "selected_answer"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.integer "cart_id", null: false
-    t.integer "course_id", null: false
+    t.bigint "cart_id", null: false
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
-    t.integer "quantity"
     t.datetime "updated_at", null: false
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["course_id"], name: "index_cart_items_on_course_id"
@@ -63,24 +65,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "course_buys", force: :cascade do |t|
-    t.integer "course_id", null: false
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["course_id"], name: "index_course_buys_on_course_id"
     t.index ["user_id"], name: "index_course_buys_on_user_id"
   end
 
   create_table "course_creates", force: :cascade do |t|
-    t.integer "course_id", null: false
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["course_id"], name: "index_course_creates_on_course_id"
     t.index ["user_id"], name: "index_course_creates_on_user_id"
   end
@@ -89,18 +91,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
     t.datetime "created_at", null: false
     t.text "description"
     t.string "image"
-    t.string "name"
-    t.decimal "price"
+    t.string "name", null: false
+    t.decimal "price", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
   create_table "enrollments", force: :cascade do |t|
-    t.integer "course_id", null: false
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["course_id"], name: "index_enrollments_on_course_id"
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
@@ -109,9 +111,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
     t.boolean "completed"
     t.datetime "created_at", null: false
     t.integer "score"
-    t.integer "topic_id", null: false
+    t.bigint "topic_id", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["topic_id"], name: "index_exam_attempts_on_topic_id"
     t.index ["user_id"], name: "index_exam_attempts_on_user_id"
   end
@@ -121,36 +123,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
     t.text "correct_answers", null: false
     t.datetime "created_at", null: false
     t.text "question", null: false
-    t.integer "topic_id"
-    t.integer "type"
+    t.bigint "topic_id", null: false
+    t.integer "type", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "lesson_views", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "lesson_id", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.boolean "watched", default: false, null: false
-    t.datetime "watched_at"
-    t.index ["lesson_id"], name: "index_lesson_views_on_lesson_id"
-    t.index ["user_id", "lesson_id"], name: "index_lesson_views_on_user_id_and_lesson_id", unique: true
-    t.index ["user_id"], name: "index_lesson_views_on_user_id"
+    t.index ["topic_id"], name: "index_exams_on_topic_id"
   end
 
   create_table "lessons", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
     t.string "name", null: false
-    t.integer "topic_id"
+    t.bigint "topic_id", null: false
     t.datetime "updated_at", null: false
-    t.string "video"
+    t.string "video", null: false
+    t.index ["topic_id"], name: "index_lessons_on_topic_id"
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "course_id", null: false
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
-    t.integer "order_id", null: false
+    t.bigint "order_id", null: false
     t.decimal "price"
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_order_items_on_course_id"
@@ -162,17 +154,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
     t.string "status"
     t.decimal "total"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "practice_attempts", force: :cascade do |t|
     t.boolean "completed"
     t.datetime "created_at", null: false
-    t.integer "lesson_id", null: false
+    t.bigint "lesson_id", null: false
     t.float "score"
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.index ["lesson_id"], name: "index_practice_attempts_on_lesson_id"
     t.index ["user_id"], name: "index_practice_attempts_on_user_id"
   end
@@ -181,27 +173,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
     t.text "answers", null: false
     t.text "correct_answers", null: false
     t.datetime "created_at", null: false
-    t.integer "lesson_id"
+    t.bigint "lesson_id", null: false
     t.text "question", null: false
     t.boolean "type", default: false, null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "teacher_panels", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
-    t.string "title"
-    t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_teacher_panels_on_user_id"
+    t.index ["lesson_id"], name: "index_practices_on_lesson_id"
   end
 
   create_table "topics", force: :cascade do |t|
-    t.integer "course_id"
+    t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.text "description"
-    t.string "name"
+    t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_topics_on_course_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -227,7 +212,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "courses"
@@ -241,12 +225,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_000000) do
   add_foreign_key "enrollments", "users"
   add_foreign_key "exam_attempts", "topics"
   add_foreign_key "exam_attempts", "users"
-  add_foreign_key "lesson_views", "lessons"
-  add_foreign_key "lesson_views", "users"
+  add_foreign_key "exams", "topics"
+  add_foreign_key "lessons", "topics"
   add_foreign_key "order_items", "courses"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
   add_foreign_key "practice_attempts", "lessons"
   add_foreign_key "practice_attempts", "users"
-  add_foreign_key "teacher_panels", "users"
+  add_foreign_key "practices", "lessons"
+  add_foreign_key "topics", "courses"
 end

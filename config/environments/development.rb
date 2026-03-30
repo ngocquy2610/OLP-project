@@ -32,7 +32,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
@@ -81,7 +81,7 @@ Rails.application.configure do
   # 1. Set the default URL for links in emails
 
   # 2. Configure SMTP settings (Example using Gmail)
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :smtp # Use letter_opener to open emails in the browser instead of sending them
   config.action_mailer.smtp_settings = {
     address:              "smtp.gmail.com",
     port:                 587,
@@ -89,6 +89,7 @@ Rails.application.configure do
     user_name:            ENV["GMAIL_USERNAME"], # Use environment variables!
     password:             ENV["GMAIL_PASSWORD"], # Use an "App Password," not your real login
     authentication:       "plain",
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    openssl_verify_mode: 'none'
   }
 end
