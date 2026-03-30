@@ -77,3 +77,6 @@ gem "dotenv-rails"
 gem "stripe"
 gem "sidekiq"
 gem "letter_opener"
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
