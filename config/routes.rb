@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "about", to: "pages#about", as: "about"
   get "show",  to: "profiles#show"
   get "cart_items", to: "cart_items#create", as: "add_to_cart"
+  get 'teacher/dashboard', to: 'teacher_dashboards#index', as: :teacher_dashboard
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -64,6 +65,5 @@ Rails.application.routes.draw do
     end
   end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+
 end
