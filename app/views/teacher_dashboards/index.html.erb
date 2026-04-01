@@ -1,0 +1,52 @@
+<%= turbo_frame_tag "profile_content" do %>
+<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div class="mb-8 border-b pb-4">
+    <h1 class="text-3xl font-bold text-gray-800">Teacher Dashboard</h1>
+    <p class="text-gray-500 mt-2">Manage your courses and track your income.</p>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Name</th>
+          <th class="py-3 px-6 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+          <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Sell Quantity</th>
+          <th class="py-3 px-6 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total Revenue</th>
+          <th class="py-3 px-6 text-right text-xs font-bold text-green-600 uppercase tracking-wider">Actual Receipt (90%)</th>
+        </tr>
+      </thead>
+      
+      <tbody class="divide-y divide-gray-200">
+        <% total_platform_revenue = 0 %>
+        <% total_actual_receipt = 0 %>
+
+        <% @courses.each do |course| %>
+          <% quantity = @sell_quantities[course.id] || 0 %>
+          <% revenue = @revenues[course.id] || 0 %>
+          <% actual_receipt = revenue * 0.9 %>
+          
+          <% total_platform_revenue += revenue %>
+          <% total_actual_receipt += actual_receipt %>
+
+          <tr class="hover:bg-gray-50 transition duration-150">
+            <td class="py-4 px-6 text-sm font-medium text-gray-900"><%= course.name %></td>
+            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= course.price %></td>
+            <td class="py-4 px-6 text-sm text-gray-600 text-center"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><%= quantity %></span></td>
+            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= revenue %></td>
+            <td class="py-4 px-6 text-sm font-bold text-green-600 text-right"><%= actual_receipt %></td>
+          </tr>
+        <% end %>
+      </tbody>
+
+      <tfoot class="bg-gray-100 border-t-2 border-gray-300">
+        <tr>
+          <td colspan="3" class="py-4 px-6 text-right font-bold text-gray-800 text-lg">GRAND TOTAL</td>
+          <td class="py-4 px-6 text-right font-bold text-gray-800 text-lg"><%= total_platform_revenue %></td>
+          <td class="py-4 px-6 text-right font-bold text-green-700 text-xl"><%= total_actual_receipt %></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<% end %>

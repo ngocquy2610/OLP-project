@@ -11,8 +11,12 @@ class Management::LessonsController < ApplicationController
   end
 
   def create
+    Rails.logger.debug "[LessonsController#create] params[:lesson]=#{params[:lesson].inspect}"
     @lesson = Lesson.new(lesson_params)
     if @lesson.save
+      if params[:lesson].present? && params[:lesson][:video].present?
+        @lesson.video.attach(params[:lesson][:video]) unless @lesson.video.attached?
+      end
       redirect_to new_management_practice_path, notice: "Lesson was successfully created."
     else
       render :new
@@ -25,7 +29,11 @@ class Management::LessonsController < ApplicationController
 
   def update
     @lesson = Lesson.find(params[:id])
+    Rails.logger.debug "[LessonsController#update] params[:lesson]=#{params[:lesson].inspect}"
     if @lesson.update(lesson_params)
+      if params[:lesson].present? && params[:lesson][:video].present?
+        @lesson.video.attach(params[:lesson][:video]) unless @lesson.video.attached?
+      end
       redirect_to profile_path(current_user), notice: "Lesson was successfully updated."
     else
       render :edit
