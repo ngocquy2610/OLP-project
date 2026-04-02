@@ -6,7 +6,7 @@
   </div>
   <div class="w-1/2">
     <div class="text-[#1877F2] text-3xl text-center font-bold border-b-2 border-[#1877F2] p-6 w-full">Đăng ký</div>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { controller: "policy-modal" } }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
       <div class="flex justify-between gap-10">
         <div class="w-1/2">
@@ -42,18 +42,37 @@
           <div class="field my-5">
             <p class="mb-2"><%= f.label :role, "Tài khoản:", class: "text-[24px] text-[#74787f]" %></p>
             <%= f.select :role, 
-      [['Học sinh', 'student'], ['Giáo viên', 'teacher']], 
-      {}, 
-      class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %>
+              [['Học sinh', 'student'], ['Giáo viên', 'teacher']], 
+              {}, 
+              class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %>
           </div>
         </div>
       </div>
-      <div class="actions ">
-        <%= f.submit "Đăng ký", class: "w-full bg-blue-500 text-white text-center py-2 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
+      <div class="actions">
+        <%= f.submit "Đăng ký", data: { action: "click->policy-modal#open" }, class: "w-full bg-blue-500 text-white text-center py-2 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
       </div>
       <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
         <p class="text-blue-500 hover:underline mt-5 cursor-pointer"><%= link_to "Không nhận được email xác nhận?", new_confirmation_path(resource_name) %></p>
       <% end %>
-    </div>
+
+      <div data-policy-modal-target="modal" class="hidden fixed inset-0 flex items-center justify-center z-50 px-4">
+        <div aria-hidden="true" class="absolute inset-0 bg-black/50"></div>
+        <div class="relative bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[80vh] flex flex-col">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-bold text-gray-900">Điều khoản dịch vụ & Chính sách bảo mật</h3>
+          </div>
+          <div class="px-6 py-4 overflow-y-auto flex-1 text-sm text-gray-600 space-y-4">
+            <p>Chào mừng bạn đến với nền tảng giáo dục trực tuyến. Khi đăng ký, bạn đồng ý với các điều khoản sau:</p>
+            <p><strong>1. Thu thập dữ liệu:</strong> Chúng tôi thu thập email và thông tin cơ bản để cung cấp trải nghiệm học tập tốt nhất.</p>
+            <p><strong>2. Tôn trọng:</strong> Học sinh và giáo viên phải duy trì môi trường tôn trọng lẫn nhau. Mọi hành vi spam hoặc lăng mạ sẽ bị khóa tài khoản.</p>
+            <p><strong>3. Thanh toán:</strong> Nền tảng giữ lại 10% hoa hồng đối với các giao dịch mua khóa học thành công.</p>
+          </div>
+          <div class="px-6 py-4 border-t border-gray-200 flex justify-end space-x-4 bg-gray-50 rounded-b-lg">
+            <button type="button" data-action="click->policy-modal#close" class="text-gray-500 hover:text-gray-700 font-medium">Hủy</button>
+            <button type="button" data-action="click->policy-modal#agree" class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 font-bold transition">Đồng ý & Đăng ký</button>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
