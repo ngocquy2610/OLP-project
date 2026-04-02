@@ -63,7 +63,13 @@
             <div class="text-gray-500 text-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
             <div class="text-sm text-black text-center"><%= number_to_currency(course.price, unit: "VNĐ", precision: 0, format: "%n %u") %></div>
             <%= link_to "Xem chi tiết", course_path(course), class: "text-blue-500 hover:underline" %>
-            <%= button_to "Add to Cart", cart_items_path(course_id: course.id), method: :post, class: "w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
+            <% if current_user&.owned_courses&.exists?(course.id) %>
+        <%= link_to "Học ngay",
+                    learn_course_path(course),
+                    class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
+        <% else %>
+          <%= button_to "Add to Cart", cart_items_path(course_id: course.id), method: :post, class: "w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
+        <% end %>
           </div>
         <% end %>
       <% else %>

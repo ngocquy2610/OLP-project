@@ -80,3 +80,5 @@ gem "letter_opener"
 
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem "chartkick", "~> 5.2"
+gem "groupdate", "~> 6.7"

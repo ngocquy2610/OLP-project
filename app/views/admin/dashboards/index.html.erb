@@ -1,0 +1,73 @@
+<%= turbo_frame_tag "profile_content" do %>
+  <div class="max-w-7xl mx-auto mt-8 px-4 sm:px-6 lg:px-8">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900">Platform Overview</h1>
+      <p class="mt-2 text-sm text-gray-600">Welcome to the admin panel. Here is how your platform is performing.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
+      <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-500">
+        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Students</p>
+        <p class="mt-2 text-3xl font-bold text-gray-900"><%= @student_count %></p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Teachers</p>
+        <p class="mt-2 text-3xl font-bold text-gray-900"><%= @teacher_count %></p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-500">
+        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Active Courses</p>
+        <p class="mt-2 text-3xl font-bold text-gray-900"><%= @course_count %></p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6 border-l-4 border-yellow-500">
+        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Enrollments</p>
+        <p class="mt-2 text-3xl font-bold text-gray-900"><%= @total_sales %></p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6 border-l-4 border-emerald-500">
+        <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Gross Revenue</p>
+        <p class="mt-2 text-3xl font-bold text-gray-900"><%= @total_income %></p>
+        <p class="mt-1 text-xs font-semibold text-emerald-600">Platform Profit: <%= @platform_profit %></p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+      <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+        <div class="flex items-center space-x-4">
+          <h2 class="text-xl font-bold text-gray-900">Sales Performance</h2>
+          <span class="bg-emerald-100 text-emerald-800 text-sm font-bold px-3 py-1.5 rounded-full">
+            Income: <%= @period_income %>
+          </span>
+        </div>
+        
+        <%= form_with url: admin_dashboard_path, method: :get, class: "inline-block" do |f| %>
+          <%= f.select :period, 
+                options_for_select([['By Day (Last 30 Days)', 'day'], ['By Month', 'month'], ['By Year', 'year']], @period), 
+                {}, 
+                { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 cursor-pointer", 
+                  onchange: "this.form.requestSubmit()" } %>
+        <% end %>
+      </div>
+
+      <div class="mt-4">
+        <% if @period == 'year' %>
+          <%= column_chart @sales_data, 
+                           colors: ["#f59e0b"], 
+                           xtitle: "Year", 
+                           ytitle: "Courses Sold",
+                           empty: "No sales data available." %>
+        <% else %>
+          <%= line_chart @sales_data, 
+                         colors: ["#4f46e5"], 
+                         xtitle: (@period == 'day' ? "Date" : "Month"), 
+                         ytitle: "Courses Sold",
+                         curve: true,
+                         points: (@period == 'month'),
+                         empty: "No sales data available." %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
