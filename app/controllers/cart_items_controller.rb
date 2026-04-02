@@ -14,15 +14,23 @@ class CartItemsController < ApplicationController
     item = cart.cart_items.find_by(course_id: course.id)
 
     if item
-      redirect_to cart_path, alert: "Course already in cart"
+      respond_to do |format|
+        format.html { redirect_to cart_path, alert: "Đã có trong giỏ hàng" }
+        format.json { render json: { success: false, error: "Đã có trong giỏ hàng", count: cart.cart_items.count } }
+      end
     else
       item = cart.cart_items.new(course: course)
 
       if item.save
-        redirect_to cart_path, notice: "Added to cart"
+        respond_to do |format|
+          format.html { redirect_to cart_path, notice: "Added to cart" }
+          format.json { render json: { success: true, count: cart.cart_items.count } }
+        end
       else
-        redirect_back fallback_location: root_path,
-          alert: item.errors.full_messages.to_sentence
+        respond_to do |format|
+          format.html { redirect_back fallback_location: root_path, alert: item.errors.full_messages.to_sentence }
+          format.json { render json: { success: false, error: item.errors.full_messages.to_sentence, count: cart.cart_items.count }, status: :unprocessable_entity }
+        end
       end
     end
   end
