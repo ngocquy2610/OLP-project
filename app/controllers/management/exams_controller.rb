@@ -2,21 +2,18 @@ class Management::ExamsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_exam, only: [ :show, :edit, :update, :destroy ]
   def index
-    # Load topics available to the user (teachers see only their courses' topics)
     if current_user&.teacher?
       @topics = Topic.where(course_id: Course.where(user_id: current_user.id))
     else
       @topics = Topic.all
     end
 
-    # Default selected topic = first available topic
     @selected_topic = if params[:topic_id].present?
                         @topics.find_by(id: params[:topic_id])
     else
                         @topics.first
     end
 
-    # If no topics available, return empty set
     if @selected_topic
       @exams = Exam.where(topic_id: @selected_topic.id)
     else
@@ -29,12 +26,10 @@ class Management::ExamsController < ApplicationController
   end
 
   def create
-    # Support bulk create via params[:exams] (Option A)
     if params[:exams].present?
       created = []
       ActiveRecord::Base.transaction do
         params[:exams].each do |q|
-          # skip completely blank rows
           next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank?
 
           created << Exam.create!(
