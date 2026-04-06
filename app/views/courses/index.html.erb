@@ -12,7 +12,7 @@
         <%= link_to "Học ngay",
                     learn_course_path(course),
                     class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
-        <% elsif course.user_id == current_user.id %>
+          <% elsif current_user && course.user_id == current_user.id %>
         <% else %>
           <button data-controller="add-to-cart"
                   data-action="click->add-to-cart#add"
