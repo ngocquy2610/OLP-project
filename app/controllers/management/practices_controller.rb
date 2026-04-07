@@ -2,14 +2,12 @@ class Management::PracticesController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_practice, only: [ :show, :edit, :update, :destroy ]
   def index
-    # Load lessons available to the user (teachers see only lessons from their courses)
     if current_user&.teacher?
       @lessons = Lesson.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id)))
     else
       @lessons = Lesson.all
     end
 
-    # Default selected lesson = params[:lesson_id] or first available lesson
     @selected_lesson = if params[:lesson_id].present?
                          @lessons.find_by(id: params[:lesson_id])
     else
@@ -29,12 +27,10 @@ class Management::PracticesController < ApplicationController
 
 
   def create
-    # Support bulk create via params[:practices]
     if params[:practices].present?
       created = []
       ActiveRecord::Base.transaction do
         params[:practices].each do |q|
-          # skip completely blank rows
           next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank?
 
           created << Practice.create!(

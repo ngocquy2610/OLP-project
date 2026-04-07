@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  # app/models/user.rb
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable,
         :confirmable
@@ -23,9 +22,6 @@ class User < ApplicationRecord
   def admin?
     role == "admin"
   end
-
-  # Override Devise's default synchronous email dispatch
-# app/models/user.rb
 
   protected
 
