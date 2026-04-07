@@ -1,20 +1,32 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-2xl font-semibold mb-6">Your Cart</h2>
-    <%= form_with url: checkout_cart_path, method: :post do %>
+  <div class="flex items-center mb-6 gap-5">
+    <h2 class="text-2xl font-semibold">Your Cart</h2>
+    <div class="flex items-center">
+              <input 
+                type="checkbox"
+                id="check_all" 
+                class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+              >
+            </div>
+  </div>
+    <%= form_with url: checkout_cart_path, method: :post, id: "cart-form" do %>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- LEFT: Cart Items -->
+        
         <div class="lg:col-span-2 space-y-4">
           <% if @cart.cart_items.any? %>
+          
+            
+
             <% @cart.cart_items.each do |item| %>
               <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border">
-                <!-- Checkbox + Course Info -->
+                
                 <div class="flex items-center gap-4">
                   <input 
                     type="checkbox"
                     name="selected_items[]"
                     value="<%= item.id %>"
-                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    class="js-item-checkbox w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
                   >
                   <div>
                     <p class="font-medium text-gray-800">
@@ -22,7 +34,7 @@
                     </p>
                   </div>
                 </div>
-                <!-- Price + Remove -->
+                
                 <div class="flex items-center gap-4">
                   <p class="font-semibold text-gray-700">
                     <%= number_to_currency(item.course&.price.to_i, unit: "₫", precision: 0, delimiter: ",") %>
@@ -34,11 +46,12 @@
                 </div>
               </div>
             <% end %>
+            
           <% else %>
             <p class="text-gray-500">Your cart is empty.</p>
           <% end %>
         </div>
-        <!-- RIGHT: Summary -->
+
         <div class="bg-white p-6 rounded-2xl shadow-sm border h-fit">
           <h3 class="text-lg font-semibold mb-4">Summary</h3>
           <div class="space-y-2 text-sm text-gray-600">
@@ -58,11 +71,35 @@
               </span>
             </div>
           </div>
-          <!-- Checkout Button -->
           <%= submit_tag "Checkout",
               class: "w-full mt-6 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition" %>
         </div>
+        
       </div>
     <% end %>
   </div>
+
+  <script>
+    function initializeCheckAll() {
+      const checkAllBox = document.getElementById('check_all');
+      const itemBoxes = document.querySelectorAll('.js-item-checkbox');
+
+      if (!checkAllBox) return;
+
+      checkAllBox.addEventListener('change', function() {
+        itemBoxes.forEach(box => {
+          box.checked = this.checked;
+        });
+      });
+
+      itemBoxes.forEach(box => {
+        box.addEventListener('change', function() {
+          const allChecked = Array.from(itemBoxes).every(b => b.checked);
+          checkAllBox.checked = allChecked;
+        });
+      });
+    }
+
+    initializeCheckAll();
+  </script>
 <% end %>

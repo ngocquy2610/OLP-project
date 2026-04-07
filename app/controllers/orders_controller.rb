@@ -14,10 +14,8 @@ class OrdersController < ApplicationController
     @order = current_user.orders.includes(order_items: :course).find(params[:id])
 
     respond_to do |format|
-      # Optional: You can still have an HTML view just for the invoice if you want
       format.html 
       
-      # The PDF generator
       format.pdf do
         render pdf: "Invoice_#{@order.id}",
                template: "orders/pdf_invoice",
@@ -59,7 +57,7 @@ class OrdersController < ApplicationController
             product_data: {
               name: item.course.name
             },
-            unit_amount: item.course.price.to_i # VND (no decimals)
+            unit_amount: item.course.price.to_i
           },
           quantity: 1
         }
