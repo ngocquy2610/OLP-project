@@ -67,5 +67,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get 'dashboard', to: 'dashboards#index'
+    get 'management', to: 'management#index'
+    delete 'management/:id', to: 'management#destroy', as: 'management_destroy'
+    patch 'management/:id', to: 'management#update', as: 'management_update'
   end
 end
