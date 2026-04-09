@@ -1,26 +1,45 @@
 <%= turbo_frame_tag "profile_content" do %>
   <h1 class="text-2xl text-center font-bold text-gray-800 mt-5"><%= t('admin.courses.index.title') %></h1>
-  <div class="flex flex-wrap gap-4 mt-6 justify-center">
+  <div class="flex flex-wrap gap-4 my-6 justify-center">
     <% @courses.each do |course| %>
-      <div class="flex flex-col gap-3 justify-center items-center mt-6 border-1 p-4 rounded-lg bg-gray-50 text-gray-600 w-1/6">
-        <%= image_tag(course.course_image, class: "w-full h-32 object-cover rounded-lg") if course.course_image.attached? %>
-        <div class="font-bold text-gray-800 text-center"><%= course.name %></div>
-        <div class="text-gray-500 text-center break-all line-clamp-3"><em><%= truncate(course.description, length: 200, separator: ' ', omission: "...") %></em></div>
-        <div class="text-sm text-black text-center"><%= format_vnd(course.price) %></div>
-        <%= link_to t('admin.courses.show.view_details'), course_path(course), class: "text-blue-500 hover:underline" %>
-        <% if current_user&.owned_courses&.exists?(course.id) %>
-        <%= link_to t('admin.courses.show.learn_now'),
-                    learn_course_path(course),
-                    class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
-          <% elsif current_user && course.user_id == current_user.id %>
-        <% else %>
-          <button data-controller="add-to-cart"
-                  data-action="click->add-to-cart#add"
-                  data-add-to-cart-course-id-value="<%= course.id %>"
-                  class="w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer">
-            <%= t('admin.courses.show.add_to_cart') %>
-          </button>
-        <% end %>
+      <div class="flex flex-col gap-3 justify-between items-center mt-6 border-1 p-4 rounded-lg bg-gray-50 text-gray-600 w-1/6 h-100">
+        <div class="w-full h-32 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+          <% if course.course_image.attached? %>
+            <%= image_tag(course.course_image, class: "w-full h-full object-cover") %>
+          <% else %>
+            <svg class="w-16 h-16 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 13l2.5-3 3.5 4.5L16 11l4 6H4l4-4z" />
+            </svg>
+          <% end %>
+        </div>
+
+        <div class="w-full">
+          <div class="font-bold text-gray-800 text-center"><%= course.name %></div>
+          <div class="text-gray-500 text-center break-words line-clamp-3 h-20 flex items-start justify-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
+        </div>
+
+        <div class="w-full text-center">
+          <div class="text-sm text-black"><%= format_vnd(course.price) %></div>
+          <%= link_to t('admin.courses.show.view_details'), course_path(course), class: "text-blue-500 hover:underline" %>
+
+          <div class="mt-2 h-12 flex items-center justify-center w-full">
+            <% if current_user&.owned_courses&.exists?(course.id) %>
+              <%= link_to t('admin.courses.show.learn_now'),
+                          learn_course_path(course),
+                          class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
+            <% elsif current_user && course.user_id == current_user.id %>
+              <div class="w-full h-10"></div>
+            <% else %>
+              <button data-controller="add-to-cart"
+                      data-action="click->add-to-cart#add"
+                      data-add-to-cart-course-id-value="<%= course.id %>"
+                      class="w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition">
+                <%= t('admin.courses.show.add_to_cart') %>
+              </button>
+            <% end %>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>
