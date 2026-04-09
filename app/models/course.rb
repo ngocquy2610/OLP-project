@@ -6,7 +6,16 @@ class Course < ApplicationRecord
   has_many :carts, through: :cart_items
 
   validates :name, presence: true
-  validates :price, numericality: { greater_than_or_equal_to: 0 }
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validate :price_must_be_zero_or_minimum
+
+  def price_must_be_zero_or_minimum
+    return if price.nil?
+    p = price.to_i
+    if p != 0 && p < 20_000
+      errors.add(:price, "must be 0 (free) or at least 20,000 VNĐ")
+    end
+  end
   validates :course_image,
             attached: true,
             content_type: [ "image/png", "image/jpeg" ],

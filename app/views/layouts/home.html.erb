@@ -51,29 +51,41 @@
   <div class="max-w-7xl mx-auto px-6">
     <h3 class="text-3xl font-bold text-center mb-12"><%= t('home.popular_courses_title') %></h3>
     <div class="grid md:grid-cols-3 gap-8">
-      <% if @featured_courses.present? %>
+        <% if @featured_courses.present? %>
         <% @featured_courses.each do |course| %>
-          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-3 justify-center items-center">
-            <% if course.course_image.attached? %>
-              <%= image_tag course.course_image, class: "w-full h-48 object-cover rounded-lg" %>
-            <% end %>
+          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-3 justify-between items-center h-80">
+            <div class="w-full h-48 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+              <% if course.course_image.attached? %>
+                <%= image_tag course.course_image, class: "w-full h-full object-cover" %>
+              <% else %>
+                <svg class="w-20 h-20 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 13l2.5-3 3.5 4.5L16 11l4 6H4l4-4z" />
+                </svg>
+              <% end %>
+            </div>
+
             <h4 class="font-bold text-gray-800 text-center"><%= course.name %></h4>
-            <div class="text-gray-500 text-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
+            <div class="text-gray-500 text-center h-16 flex items-start justify-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
             <div class="text-sm text-black text-center"><%= format_vnd(course.price) %></div>
             <%= link_to t('home.course.view_details'), course_path(course), class: "text-blue-500 hover:underline" %>
-            <% if current_user&.owned_courses&.exists?(course.id) %>
-          <%= link_to t('home.course.learn_now'),
-                learn_course_path(course),
-                class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
-        <% elsif course.user_id == current_user&.id %>
-        <% else %>
-          <button data-controller="add-to-cart"
-                  data-action="click->add-to-cart#add"
-                  data-add-to-cart-course-id-value="<%= course.id %>"
-                  class="w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer">
-            <%= t('home.course.add_to_cart') %>
-          </button>
-        <% end %>
+
+            <div class="mt-2 h-12 flex items-center justify-center w-full">
+              <% if current_user&.owned_courses&.exists?(course.id) %>
+                <%= link_to t('home.course.learn_now'),
+                      learn_course_path(course),
+                      class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
+              <% elsif course.user_id == current_user&.id %>
+                <div class="w-full h-10"></div>
+              <% else %>
+                <button data-controller="add-to-cart"
+                        data-action="click->add-to-cart#add"
+                        data-add-to-cart-course-id-value="<%= course.id %>"
+                        class="w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition">
+                  <%= t('home.course.add_to_cart') %>
+                </button>
+              <% end %>
+            </div>
           </div>
         <% end %>
       <% else %>

@@ -42,7 +42,7 @@ class Management::ExamsController < ApplicationController
         end
       end
 
-      redirect_to management_exams_path, notice: "Tạo #{created.size} câu hỏi thành công"
+      redirect_to new_management_lesson_path, notice: "Tạo #{created.size} câu hỏi thành công"
     else
       @exam = Exam.new(exam_params)
       if @exam.save

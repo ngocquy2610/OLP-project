@@ -18,7 +18,18 @@
       <tbody class="divide-y divide-gray-200">
         <% @courses.each do |course| %>
           <tr class="hover:bg-gray-50 transition">
-            <td><%= image_tag(course.course_image, class: "w-16 h-16 object-cover rounded-lg") if course.course_image.attached? %></td>
+            <td>
+              <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+                <% if course.course_image.attached? %>
+                  <%= image_tag(course.course_image, class: "w-full h-full object-cover") %>
+                <% else %>
+                  <svg class="w-8 h-8 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 13l2.5-3 3.5 4.5L16 11l4 6H4l4-4z" />
+                  </svg>
+                <% end %>
+              </div>
+            </td>
             <td class="px-6 py-4">
               <div class="font-medium text-gray-900"><%= course.name %></div>
             </td>

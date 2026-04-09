@@ -48,6 +48,26 @@ class OrdersController < ApplicationController
   def checkout
     order = current_user.orders.find(params[:id])
 
+    # If total is zero (all free courses), mark as paid and enroll immediately (skip Stripe)
+    total_amount = order.order_items.sum(:price).to_i
+    if total_amount == 0
+      order.update(status: "paid")
+
+      order.order_items.each do |item|
+        current_user.enrollments.find_or_create_by!(course: item.course)
+        PaymentMailer.student_receipt_email(current_user, item.course, item.price.to_i, order).deliver_later
+        PaymentMailer.teacher_notification_email(item.course.user, current_user, item.course).deliver_later
+      end
+
+      if current_user.cart.present?
+        purchased_course_ids = order.order_items.pluck(:course_id)
+        current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
+      end
+
+      redirect_to courses_path, notice: "Payment successful! You can now access your courses."
+      return
+    end
+
     session = Stripe::Checkout::Session.create(
       payment_method_types: [ "card" ],
       line_items: order.order_items.map do |item|
