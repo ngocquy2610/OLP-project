@@ -181,12 +181,12 @@ vi:
         delete: "Xóa"
         change_role: "Đổi vai trò"
         confirm: "Bạn có chắc chắn không?"
+        actions:
+        edit: "Sửa"
+        delete: "Xóa"
       errors:
         header: "%{count} lỗi ngăn cản việc lưu:"
       delete_confirm: "Bạn có chắc chắn không?"
-      actions:
-        edit: "Sửa"
-        delete: "Xóa"
       forms:
         choose_topic: "Chọn một chủ đề..."
         choose_course: "Chọn một khóa học..."
