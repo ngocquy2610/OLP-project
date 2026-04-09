@@ -39,6 +39,7 @@ en:
     logout: "Log out"
     register: "Register"
   cart:
+    check_all: "Select all"
     title: "Your Cart"
     remove: "Remove"
     remove_confirm: "Are you sure?"
@@ -460,7 +461,7 @@ en:
       phone: "Phone"
       address: "Address"
     admin:
-      title: "%{role} Information"
+      title: "Admin Information"
       fullname: "Full name:"
       phone: "Phone:"
       address: "Address:"
@@ -468,6 +469,13 @@ en:
       role: "Role:"
     teacher:
       title: "Teacher Information"
+      fullname: "Full name:"
+      phone: "Phone:"
+      address: "Address:"
+      email: "Email:"
+      role: "Role:"
+    student:
+      title: "Student Information"
       fullname: "Full name:"
       phone: "Phone:"
       address: "Address:"

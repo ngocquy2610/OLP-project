@@ -24,7 +24,7 @@
             </td>
             <td class="px-6 py-4 text-sm text-gray-600"><%= truncate(course.description, length: 100) %></td>
             <td class="px-6 py-4 text-sm text-gray-600">
-              <%= number_to_currency(course.price, unit: "VNĐ", precision: 0, format: "%n %u") %>
+              <%= format_vnd(course.price) %>
             </td>
             <td class="px-6 py-4 text-right text-sm font-medium space-x-3 flex">
                 <%= link_to t('admin.management.actions.edit'), edit_management_course_path(course), class: "text-indigo-600 hover:text-indigo-900",data: { turbo_frame: "profile_content" } %>

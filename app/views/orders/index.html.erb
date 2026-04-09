@@ -5,24 +5,24 @@
   <% if @orders.any? %>
     <table class="table w-full">
       <thead>
-        <tr class="flex items-center justify-between  p-4">
-          <th class="w-1/4 text-left"><%= t('orders.index.table.date') %></th>
-          <th class="w-1/4 text-left"><%= t('orders.index.table.course') %></th>
-          <th class="w-1/4 text-left"><%= t('orders.index.table.status') %></th>
-          <th class="w-1/4 text-left"><%= t('orders.index.table.invoice') %></th>
+        <tr class="flex items-center justify-between  p-4 border-y">
+          <th class="w-1/4 text-left "><%= t('orders.index.table.date') %></th>
+          <th class="w-1/4 text-left "><%= t('orders.index.table.course') %></th>
+          <th class="w-1/4 text-left "><%= t('orders.index.table.status') %></th>
+          <th class="w-1/4 text-left "><%= t('orders.index.table.invoice') %></th>
         </tr>
       </thead>
       
       <tbody>
       <hr>
         <% @orders.each do |order| %>
-          <tr class="flex items-center justify-between  p-4">
+          <tr class="flex items-center justify-between  p-4 border-t">
             
             <td class="w-1/4 text-left"><%= order.created_at.strftime("%B %d, %Y") %></td>
             <td class="w-1/4 text-left">
               <ul>
                 <% order.order_items.each do |item| %>
-                  <li><%= item.course.name %></li>
+                  <li><%= truncate(item.course.name, length: 20) %></li>
                 <% end %>
               </ul>
             </td>

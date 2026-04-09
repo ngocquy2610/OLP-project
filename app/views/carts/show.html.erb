@@ -1,13 +1,14 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="max-w-6xl mx-auto px-4 py-8">
-  <div class="flex items-center mb-6 gap-5">
+  <div class="flex items-center mb-6 gap-25">
     <h2 class="text-2xl font-semibold"><%= t('cart.title') %></h2>
     <div class="flex items-center">
               <input 
                 type="checkbox"
-                id="check_all" 
+                id="check_all"
                 class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
               >
+              <label for="check_all" class="ml-2 text-xs text-gray-600 cursor-pointer"><%= t('cart.check_all') %></label>
             </div>
   </div>
     <%= form_with url: checkout_cart_path, method: :post, id: "cart-form" do %>
@@ -26,8 +27,14 @@
                     type="checkbox"
                     name="selected_items[]"
                     value="<%= item.id %>"
+                    data-price="<%= item.course&.price.to_i %>"
                     class="js-item-checkbox w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
                   >
+                  <% if item.course&.course_image&.attached? %>
+                    <div class="w-20 h-12 flex-shrink-0">
+                      <%= image_tag item.course.course_image, class: "w-full h-full object-cover rounded-md" %>
+                    </div>
+                  <% end %>
                   <div>
                     <p class="font-medium text-gray-800">
                       <%= item.course&.name %>
@@ -37,7 +44,7 @@
                 
                 <div class="flex items-center gap-4">
                   <p class="font-semibold text-gray-700">
-                    <%= number_to_currency(item.course&.price.to_i, unit: "₫", precision: 0, delimiter: ",") %>
+                    <%= format_vnd(item.course&.price) %>
                   </p>
                   <%= link_to t('cart.remove'),
                     cart_item_path(item),
@@ -57,22 +64,15 @@
           <div class="space-y-2 text-sm text-gray-600">
             <div class="flex justify-between">
                 <span><%= t('cart.items_label') %></span>
-              <span><%= @cart.cart_items.count %></span>
+              <span id="selected_count">0</span>
             </div>
             <div class="flex justify-between">
                 <span><%= t('cart.total_label') %></span>
-              <span class="font-semibold text-gray-800">
-                <%= number_to_currency(
-                      @cart.cart_items.sum { |i| i.course&.price.to_i },
-                      unit: "₫",
-                      precision: 0,
-                      delimiter: ","
-                    ) %>
-              </span>
+              <span id="selected_total" class="font-semibold text-gray-800"><%= format_vnd(0) %></span>
             </div>
           </div>
             <%= submit_tag t('cart.checkout'),
-              class: "w-full mt-6 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition" %>
+              class: "w-full mt-6 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition cursor-pointer" %>
         </div>
         
       </div>
@@ -80,26 +80,57 @@
   </div>
 
   <script>
+    function formatCurrency(amount) {
+      const n = Number(amount) || 0;
+      try {
+        return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(n) + ' VNĐ';
+      } catch (e) {
+        return n.toString() + ' VNĐ';
+      }
+    }
+
+    function updateSummary() {
+      const itemBoxes = document.querySelectorAll('.js-item-checkbox');
+      const selectedCountEl = document.getElementById('selected_count');
+      const selectedTotalEl = document.getElementById('selected_total');
+      if (!selectedCountEl || !selectedTotalEl) return;
+      const checked = Array.from(itemBoxes).filter(b => b.checked);
+      const total = checked.reduce((sum, b) => sum + Number(b.dataset.price || 0), 0);
+      selectedCountEl.textContent = checked.length;
+      selectedTotalEl.textContent = formatCurrency(total);
+    }
+
     function initializeCheckAll() {
       const checkAllBox = document.getElementById('check_all');
       const itemBoxes = document.querySelectorAll('.js-item-checkbox');
 
-      if (!checkAllBox) return;
-
-      checkAllBox.addEventListener('change', function() {
-        itemBoxes.forEach(box => {
-          box.checked = this.checked;
+      if (checkAllBox) {
+        checkAllBox.addEventListener('change', function() {
+          itemBoxes.forEach(box => {
+            box.checked = this.checked;
+          });
+          updateSummary();
         });
-      });
+      }
 
       itemBoxes.forEach(box => {
         box.addEventListener('change', function() {
           const allChecked = Array.from(itemBoxes).every(b => b.checked);
-          checkAllBox.checked = allChecked;
+          if (checkAllBox) checkAllBox.checked = allChecked;
+          updateSummary();
         });
       });
     }
 
-    initializeCheckAll();
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeCheckAll();
+      updateSummary();
+    });
+
+    document.addEventListener('turbo:load', function() {
+      // Re-run for Turbo navigation
+      initializeCheckAll();
+      updateSummary();
+    });
   </script>
 <% end %>

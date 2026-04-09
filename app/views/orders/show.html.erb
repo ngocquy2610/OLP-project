@@ -8,7 +8,7 @@
           <div class="flex justify-between bg-white p-4 rounded-xl border">
             <p class="font-medium"><%= item.course.name %></p>
             <p class="font-semibold">
-              <%= number_to_currency(item.price, unit: "₫", precision: 0, delimiter: ",") %>
+              <%= format_vnd(item.price) %>
             </p>
           </div>
         <% end %>
@@ -19,7 +19,7 @@
         <div class="flex justify-between mb-2">
           <span><%= t('orders.show.total_label') %></span>
           <span class="font-semibold">
-            <%= number_to_currency(@order.total, unit: "₫", precision: 0, delimiter: ",") %>
+            <%= format_vnd(@order.total) %>
           </span>
         </div>
         <!-- Payment Button -->

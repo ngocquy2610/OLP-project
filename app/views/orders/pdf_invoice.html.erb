@@ -36,14 +36,14 @@
         <% @order.order_items.each do |item| %>
           <tr>
             <td><%= item.course.name %></td>
-            <td style="text-align: right;"><%= item.price %></td>
+            <td style="text-align: right;"><%= format_vnd(item.price) %></td>
           </tr>
           <% total += item.price %>
         <% end %>
       </tbody>
     </table>
 
-    <p class="total"><%= t('orders.pdf.total_paid', total: total) %></p>
+    <p class="total"><%= t('orders.pdf.total_paid', total: format_vnd(total)) %></p>
     <p style="text-align: center; margin-top: 50px; color: #777;"><%= t('orders.pdf.thanks') %></p>
   </div>
 </body>
