@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="max-w-5xl mx-auto py-10 px-4">
-    <h2 class="text-2xl font-semibold mb-6">Thanh toán</h2>
+    <h2 class="text-2xl font-semibold mb-6"><%= t('orders.show.title') %></h2>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- LEFT: Order Items -->
       <div class="lg:col-span-2 space-y-4">
@@ -15,15 +15,15 @@
       </div>
       <!-- RIGHT: Payment Summary -->
       <div class="bg-white p-6 rounded-xl border h-fit">
-        <h3 class="font-semibold mb-4">Tổng đơn hàng</h3>
+        <h3 class="font-semibold mb-4"><%= t('orders.show.summary_title') %></h3>
         <div class="flex justify-between mb-2">
-          <span>Tổng tiền</span>
+          <span><%= t('orders.show.total_label') %></span>
           <span class="font-semibold">
             <%= number_to_currency(@order.total, unit: "₫", precision: 0, delimiter: ",") %>
           </span>
         </div>
         <!-- Payment Button -->
-        <%= button_to "Thanh toán ngay",
+        <%= button_to t('orders.show.pay_now'),
           checkout_order_path(@order),
           method: :post,
           data: { turbo: false },

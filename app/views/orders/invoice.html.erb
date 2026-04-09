@@ -1,14 +1,14 @@
 <div class="max-w-3xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-lg border border-gray-200">
   <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-bold text-gray-800">Invoice #<%= @order.id %></h1>
+    <h1 class="text-3xl font-bold text-gray-800"><%= t('orders.invoice.title', id: @order.id) %></h1>
     
-    <%= link_to "Download PDF", order_path(@order, format: :pdf), target: "_blank", class: "bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition cursor-pointer" %>
+    <%= link_to t('orders.invoice.download_pdf'), order_path(@order, format: :pdf), target: "_blank", class: "bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition cursor-pointer" %>
   </div>
 
   <div class="mb-6">
-    <p class="text-gray-600"><strong>Date:</strong> <%= @order.created_at.strftime("%B %d, %Y") %></p>
-    <p class="text-gray-600"><strong>Status:</strong> <span class="text-green-600 font-bold"><%= @order.status.upcase %></span></p>
-    <p class="text-gray-600"><strong>Customer:</strong> <%= current_user.email %></p>
+    <p class="text-gray-600"><strong><%= t('orders.invoice.date_label') %></strong> <%= @order.created_at.strftime("%B %d, %Y") %></p>
+    <p class="text-gray-600"><strong><%= t('orders.invoice.status_label') %></strong> <span class="text-green-600 font-bold"><%= @order.status.upcase %></span></p>
+    <p class="text-gray-600"><strong><%= t('orders.invoice.customer_label') %></strong> <%= current_user.email %></p>
   </div>
 
   <table class="w-full text-left border-collapse">
@@ -30,7 +30,7 @@
     </tbody>
     <tfoot>
       <tr>
-        <td class="py-4 font-bold text-xl text-gray-900">Total</td>
+        <td class="py-4 font-bold text-xl text-gray-900"><%= t('orders.invoice.total_label') %></td>
         <td class="py-4 font-bold text-xl text-indigo-600 text-right"><%= total %></td>
       </tr>
     </tfoot>

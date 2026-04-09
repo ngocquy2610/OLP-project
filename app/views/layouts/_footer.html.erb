@@ -1,26 +1,26 @@
 <div class="bg-[#15a5ff] text-white py-8 px-4 flex justify-around">
   <div class="w-1/5 flex flex-col items-center gap-4">
     <%= image_tag "logo-olp.svg" ,class: "w-[100px] h-[100px] rounded-full" %>
-    <div class="text-sm text-gray-300"><em>Học Kỹ Năng Trực Tuyến Mọi Lúc, Mọi Nơi</em></div>
+    <div class="text-sm text-gray-300"><em><%= t('footer.tagline') %></em></div>
   </div>
   <div class="w-1/5 flex flex-col items-center gap-4">
-    <%= link_to "Trang chủ", root_path %>
-    <%= link_to "Về chúng tôi", about_path %>
-    <%= link_to "Khóa học", courses_path %>
-    <%= link_to "Liên hệ", "https://zalo.me/0977692109", target: "_blank", rel: "noopener" %>
+    <%= link_to t('nav.home'), root_path %>
+    <%= link_to t('nav.about'), about_path %>
+    <%= link_to t('nav.course'), courses_path %>
+    <%= link_to t('footer.contact.link_label'), "https://zalo.me/0977692109", target: "_blank", rel: "noopener" %>
   </div>
   <div class="w-1/5 flex flex-col gap-4">
     <div class="text-sm text-white">
-      123 Đường ABC, Phường XYZ
+      <%= t('footer.address.line1') %>
     </div>
     <div class="text-sm text-white">
-      Thành phố HCM, Việt Nam
+      <%= t('footer.address.line2') %>
     </div>
     <div class="text-sm text-white">
-      Email: support@onlinelearningplatform.com
+      <%= t('footer.contact.email_label') %>: support@onlinelearningplatform.com
     </div>
     <div class="text-sm text-white">
-      Điện thoại: +84 123 456 789
+      <%= t('footer.contact.phone_label') %>: +84 123 456 789
     </div>
   </div>
   <div class="w-2/5 flex flex-col items-center gap-4">
