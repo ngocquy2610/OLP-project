@@ -59,7 +59,7 @@
             <% end %>
             <h4 class="font-bold text-gray-800 text-center"><%= course.name %></h4>
             <div class="text-gray-500 text-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
-            <div class="text-sm text-black text-center"><%= number_to_currency(course.price, unit: "VNĐ", precision: 0, format: "%n %u") %></div>
+            <div class="text-sm text-black text-center"><%= format_vnd(course.price) %></div>
             <%= link_to t('home.course.view_details'), course_path(course), class: "text-blue-500 hover:underline" %>
             <% if current_user&.owned_courses&.exists?(course.id) %>
           <%= link_to t('home.course.learn_now'),

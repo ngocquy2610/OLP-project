@@ -37,6 +37,7 @@ vi:
     logout: "Đăng xuất"
     register: "Đăng ký"
   cart:
+    check_all: "Chọn tất cả"
     title: "Giỏ hàng của bạn"
     remove: "Xóa"
     remove_confirm: "Bạn có chắc chắn không?"
@@ -471,6 +472,13 @@ vi:
       address: "Địa chỉ:"
       email: "Email:"
       role: "Vai trò:"
+    student:
+      title: "Thông tin học viên"
+      fullname: "Họ và tên:"
+      phone: "Số điện thoại:"
+      address: "Địa chỉ:"
+      email: "Email:"
+      role: "Role:"
     actions:
       change_password: "Đổi mật khẩu"
     edit_label: "Chỉnh sửa thông tin"

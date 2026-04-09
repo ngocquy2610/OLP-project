@@ -6,7 +6,7 @@
         <%= image_tag(course.course_image, class: "w-full h-32 object-cover rounded-lg") if course.course_image.attached? %>
         <div class="font-bold text-gray-800 text-center"><%= course.name %></div>
         <div class="text-gray-500 text-center break-all line-clamp-3"><em><%= truncate(course.description, length: 200, separator: ' ', omission: "...") %></em></div>
-        <div class="text-sm text-black text-center"><%= number_to_currency(course.price, unit: "VNĐ", precision: 0, format: "%n %u") %></div>
+        <div class="text-sm text-black text-center"><%= format_vnd(course.price) %></div>
         <%= link_to t('admin.courses.show.view_details'), course_path(course), class: "text-blue-500 hover:underline" %>
         <% if current_user&.owned_courses&.exists?(course.id) %>
         <%= link_to t('admin.courses.show.learn_now'),
