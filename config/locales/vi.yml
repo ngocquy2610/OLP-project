@@ -349,6 +349,7 @@ vi:
       exam:
         title: "Bài kiểm tra của %{topic}"
         take: "Làm bài kiểm tra"
+        submit: "Nộp bài kiểm tra"
     payment_mailer:
       student_receipt:
         subject: "Mua hàng thành công"
@@ -367,6 +368,7 @@ vi:
         grand_total: "TỔNG CỘNG"
     lessons:
       practice_title: "Luyện tập"
+      submit_practice: "Nộp bài luyện tập"
     pages:
       about:
         mission_title: "Sứ Mệnh Của Chúng Tôi"

@@ -351,6 +351,7 @@ en:
       exam:
         title: "Exam of %{topic}"
         take: "Take Exam"
+        submit: "Submit Exam"
     payment_mailer:
       student_receipt:
         subject: "Purchase successful"
@@ -369,6 +370,7 @@ en:
         grand_total: "GRAND TOTAL"
     lessons:
       practice_title: "Practice"
+      submit_practice: "Submit Practice"
     pages:
       about:
         mission_title: "Our Mission"
