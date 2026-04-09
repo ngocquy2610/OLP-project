@@ -1,0 +1,609 @@
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
+vi:
+  nav:
+    home: "Trang chủ"
+    about: "Về chúng tôi"
+    course: "Khóa học"
+    cart: "Giỏ hàng"
+    login: "Đăng nhập"
+    logout: "Đăng xuất"
+    register: "Đăng ký"
+  cart:
+    title: "Giỏ hàng của bạn"
+    remove: "Xóa"
+    remove_confirm: "Bạn có chắc chắn không?"
+    empty: "Giỏ hàng của bạn đang trống."
+    summary: "Tổng kết"
+    items_label: "Số mặt hàng"
+    total_label: "Tổng cộng"
+    checkout: "Thanh toán"
+  flash:
+    not_authorized: "Bạn không có quyền thực hiện hành động này."
+  home:
+    hero:
+      title: "Học Kỹ Năng Trực Tuyến\nMọi Lúc, Mọi Nơi"
+      subtitle: "Tham gia cùng hàng nghìn học viên trên toàn thế giới và nâng cao kỹ năng của bạn với các khóa học trực tuyến chất lượng từ những chuyên gia hàng đầu."
+      cta_explore: "Khám phá khóa học"
+      cta_start: "Bắt đầu ngay"
+    features:
+      quality_courses:
+        title: "Khóa Học Chất Lượng"
+        desc: "Học từ các khóa học chất lượng cao được thiết kế bởi những chuyên gia trong ngành."
+      professional_instructors:
+        title: "Giảng Viên Chuyên Nghiệp"
+        desc: "Tiếp thu kiến thức từ các giảng viên giàu kinh nghiệm trên khắp thế giới."
+      learn_anytime:
+        title: "Học Mọi Lúc"
+        desc: "Truy cập khóa học của bạn bất cứ lúc nào trên mọi thiết bị."
+    popular_courses_title: "Các Khóa Học Phổ Biến"
+    course:
+      view_details: "Xem chi tiết"
+      learn_now: "Học ngay"
+      add_to_cart: "Thêm vào giỏ"
+    no_courses: "Hiện chưa có khóa học nào."
+    testimonials_title: "Học Viên Nói Gì Về Chúng Tôi"
+    testimonial_1: "Nền tảng này đã giúp tôi chuyển hướng sang nghề lập trình web. Các khóa học được thiết kế rất rõ ràng và dễ hiểu."
+    testimonial_1_author: "— Tiến Bob"
+    testimonial_2: "Giảng viên tuyệt vời và nội dung chất lượng cao. Tôi đã cải thiện kỹ năng lập trình của mình rất nhiều."
+    testimonial_2_author: "— Mạnh LV"
+  footer:
+    tagline: "Học Kỹ Năng Trực Tuyến Mọi Lúc, Mọi Nơi"
+    contact:
+      link_label: "Liên hệ"
+      email_label: "Email"
+      phone_label: "Điện thoại"
+    address:
+      line1: "123 Đường ABC, Phường XYZ"
+      line2: "Thành phố HCM, Việt Nam"
+  devise:
+    brand:
+      line1: "NỀN TẢNG"
+      line2: "GIÁO DỤC TRỰC TUYẾN"
+    sessions:
+      title: "Đăng nhập"
+      email_label: "Email"
+      password_label: "Mật khẩu"
+      remember_me: "Ghi nhớ đăng nhập"
+      submit: "Đăng nhập"
+    registrations:
+      title: "Đăng ký"
+      email_label: "Email"
+      password_label: "Mật khẩu"
+      password_confirmation: "Xác nhận mật khẩu"
+      fullname: "Họ và tên"
+      phone: "Số điện thoại"
+      address: "Địa chỉ"
+      role: "Tài khoản"
+      role_options:
+        student: "Học sinh"
+        teacher: "Giáo viên"
+      submit: "Đăng ký"
+      policy_modal:
+        title: "Điều khoản dịch vụ & Chính sách bảo mật"
+        close: "Hủy"
+        agree: "Đồng ý & Đăng ký"
+      email_label: "Email"
+      edit_title: "Đổi mật khẩu"
+      pending_reconfirmation: "Đang chờ xác nhận: %{email}"
+      current_password_label: "Mật khẩu hiện tại"
+      current_password_help: "Chúng tôi cần mật khẩu hiện tại của bạn để xác nhận các thay đổi"
+      confirm_button: "Xác nhận"
+    passwords:
+      new_title: "Quên mật khẩu?"
+      minimum_length: "Tối thiểu 6 ký tự"
+      send_instructions: "Gửi hướng dẫn đặt lại mật khẩu"
+      reset_title: "Đặt lại mật khẩu"
+      new_password_label: "Mật khẩu mới"
+      password_confirmation: "Xác nhận mật khẩu mới"
+      submit_reset: "Đổi mật khẩu"
+    confirmations:
+      resend_title: "Yêu cầu gửi lại email xác nhận"
+      resend_button: "Gửi lại hướng dẫn xác nhận"
+    policy_modal:
+      welcome: "Chào mừng bạn đến với nền tảng giáo dục trực tuyến. Khi đăng ký, bạn đồng ý với các điều khoản sau:"
+      collection_title: "Thu thập dữ liệu"
+      collection_text: "Chúng tôi thu thập email và thông tin cơ bản để cung cấp trải nghiệm học tập tốt nhất."
+      respect_title: "Tôn trọng"
+      respect_text: "Học sinh và giáo viên phải duy trì môi trường tôn trọng lẫn nhau. Mọi hành vi spam hoặc lăng mạ sẽ bị khóa tài khoản."
+      payment_title: "Thanh toán"
+      payment_text: "Nền tảng giữ lại 10% hoa hồng đối với các giao dịch mua khóa học thành công."
+    unlocks:
+      title: "Gửi lại hướng dẫn mở khóa"
+      submit: "Gửi lại hướng dẫn mở khóa"
+    links:
+      sign_in: "Đăng nhập"
+      sign_up: "Đăng ký"
+      forgot_password: "Quên mật khẩu?"
+      resend_confirmation: "Không nhận được email xác nhận?"
+      resend_unlock: "Không nhận được hướng dẫn mở khóa?"
+      back: "Quay lại"
+  admin:
+    dashboard:
+      title: "Tổng quan hệ thống"
+      subtitle: "Chào mừng đến với trang quản trị. Dưới đây là hiệu suất nền tảng của bạn."
+      cards:
+        total_students: "Tổng số học sinh"
+        total_teachers: "Tổng số giáo viên"
+        active_courses: "Khóa học đang hoạt động"
+        total_enrollments: "Tổng số đăng ký"
+        gross_revenue: "Tổng doanh thu"
+      platform_profit: "Lợi nhuận nền tảng: %{profit}"
+      sales_performance: "Hiệu suất bán hàng"
+      income_label: "Doanh thu: %{income}"
+      period_options:
+        day: "Theo ngày (30 ngày gần nhất)"
+        month: "Theo tháng"
+        year: "Theo năm"
+      charts:
+        xtitle_year: "Năm"
+        xtitle_date: "Ngày"
+        xtitle_month: "Tháng"
+        ytitle: "Số khóa học bán"
+        empty: "Không có dữ liệu bán hàng."
+    management:
+      title: "Quản lý người dùng"
+      table:
+        id: "ID"
+        name: "Tên"
+        email: "Email"
+        role: "Vai trò"
+        actions: "Hành động"
+      actions:
+        delete: "Xóa"
+        change_role: "Đổi vai trò"
+        confirm: "Bạn có chắc chắn không?"
+      errors:
+        header: "%{count} lỗi ngăn cản việc lưu:"
+      delete_confirm: "Bạn có chắc chắn không?"
+      actions:
+        edit: "Sửa"
+        delete: "Xóa"
+      forms:
+        choose_topic: "Chọn một chủ đề..."
+        choose_course: "Chọn một khóa học..."
+        choose_lesson: "Chọn một bài học..."
+        choose_type: "Chọn một loại..."
+      types:
+        multiple_choice: "Trắc nghiệm"
+        true_false: "Đúng / Sai"
+      courses:
+        index:
+          title: "Quản lý Khóa học"
+          new: "Thêm khóa học mới"
+          table:
+            image: "Ảnh"
+            name: "Tên khóa học"
+            description: "Mô tả"
+            price: "Giá"
+            actions: "Hành động"
+        new:
+          title: "Tạo khóa học mới"
+        edit:
+          title: "Chỉnh sửa: %{name}"
+        form:
+          name: "Tên khóa học"
+          price: "Giá"
+          course_image: "Ảnh bìa"
+          description: "Mô tả khóa học"
+          submit: "Lưu khóa học"
+          cancel: "Hủy bỏ"
+      exams:
+        index:
+          title: "Quản lý Bài kiểm tra"
+          new: "Thêm bài kiểm tra mới"
+          filter_by_topic: "Lọc theo chủ đề:"
+          table:
+            topic: "Thuộc chủ đề"
+            question: "Câu hỏi"
+            answers: "Đáp án"
+            correct_answers: "Đáp án đúng"
+            kind: "Loại"
+            actions: "Hành động"
+        new:
+          title: "Tạo bài kiểm tra"
+          submit: "Tạo bài kiểm tra"
+        edit:
+          title: "Chỉnh sửa: %{question}"
+        form:
+          topic: "Thuộc chủ đề"
+          question: "Câu hỏi"
+          answers: "Đáp án"
+          answers_hint: "Nhập các đáp án, cách nhau bằng dấu phẩy"
+          correct_answers: "Đáp án đúng"
+          kind: "Loại bài kiểm tra"
+          submit: "Lưu bài kiểm tra"
+          cancel: "Hủy bỏ"
+        actions:
+          add_question: "Thêm câu hỏi"
+          remove_question: "Xóa câu hỏi"
+      lessons:
+        index:
+          title: "Quản lý Bài học"
+          new: "Thêm bài học mới"
+          table:
+            name: "Tên bài học"
+            topic: "Thuộc chủ đề"
+            course: "Thuộc khóa học"
+            actions: "Hành động"
+        new:
+          title: "Tạo bài học mới"
+        edit:
+          title: "Chỉnh sửa: %{name}"
+        form:
+          topic: "Thuộc chủ đề"
+          name: "Tên bài học"
+          description: "Mô tả bài học"
+          video: "Upload Video"
+          submit: "Lưu bài học"
+          cancel: "Hủy bỏ"
+      practices:
+        index:
+          title: "Quản lý Bài thực hành"
+          new: "Thêm bài thực hành mới"
+          filter_by_lesson: "Lọc theo bài học:"
+          table:
+            lesson: "Thuộc bài học"
+            question: "Câu hỏi"
+            answers: "Đáp án"
+            correct_answers: "Đáp án đúng"
+            kind: "Loại"
+            actions: "Hành động"
+        new:
+          title: "Tạo bài thực hành"
+          submit: "Tạo bài thực hành"
+        edit:
+          title: "Chỉnh sửa: %{question}"
+        form:
+          lesson: "Thuộc bài học"
+          question: "Câu hỏi"
+          answers: "Đáp án"
+          answers_hint: "Nhập các đáp án, cách nhau bằng dấu phẩy"
+          correct_answers: "Đáp án đúng"
+          kind: "Loại bài thực hành"
+          submit: "Lưu bài thực hành"
+          cancel: "Hủy bỏ"
+        actions:
+          add_question: "Thêm câu hỏi"
+          remove_question: "Xóa câu hỏi"
+      topics:
+        index:
+          title: "Quản lý Chủ đề"
+          new: "Thêm chủ đề mới"
+          table:
+            name: "Tên chủ đề"
+            course: "Thuộc khóa học"
+            actions: "Hành động"
+        new:
+          title: "Tạo chủ đề mới"
+        edit:
+          title: "Chỉnh sửa: %{name}"
+        form:
+          course: "Thuộc khóa học"
+          name: "Tên chủ đề"
+          description: "Mô tả chủ đề"
+          submit: "Lưu chủ đề"
+          cancel: "Hủy bỏ"
+    cart:
+      title: "Giỏ hàng của bạn"
+      remove: "Xóa"
+      remove_confirm: "Bạn có chắc chắn không?"
+      empty: "Giỏ hàng của bạn đang trống."
+      summary: "Tổng kết"
+      items_label: "Số mặt hàng"
+      total_label: "Tổng cộng"
+      checkout: "Thanh toán"
+    courses:
+      index:
+        title: "Danh sách khóa học"
+      show:
+        back: "Quay lại danh sách khóa học"
+        learn_now: "Học ngay"
+        add_to_cart: "Thêm vào giỏ"
+        view_details: "Xem chi tiết"
+      learn:
+        no_video: "Không có video"
+        practice_of: "Luyện tập của %{lesson}"
+        status:
+          done: "Hoàn thành"
+          attempted: "Đã thử"
+          new: "Mới"
+        retry: "Làm lại"
+        status_label: "Trạng thái:"
+        score_label: "Điểm:"
+        take_exam: "Làm bài kiểm tra"
+      my_courses:
+        title: "Khóa học của tôi"
+        no_image: "Không có hình ảnh"
+        learn_now: "Học ngay"
+        no_courses: "Bạn chưa sở hữu khóa học nào."
+    topics:
+      exam:
+        title: "Bài kiểm tra của %{topic}"
+        take: "Làm bài kiểm tra"
+    payment_mailer:
+      student_receipt:
+        subject: "Mua hàng thành công"
+        body: "Bạn đã mua thành công %{course_name}."
+    not_updated: "Chưa cập nhật"
+    edit: "Chỉnh sửa thông tin"
+    teacher_dashboard:
+      title: "Bảng điều khiển giảng viên"
+      subtitle: "Quản lý khóa học và theo dõi thu nhập của bạn."
+      table:
+        course_name: "Tên khóa học"
+        price: "Giá"
+        sell_quantity: "Số lượng bán"
+        total_revenue: "Tổng doanh thu"
+        actual_receipt: "Tiền nhận thực (90%)"
+        grand_total: "TỔNG CỘNG"
+    lessons:
+      practice_title: "Luyện tập"
+    pages:
+      about:
+        mission_title: "Sứ Mệnh Của Chúng Tôi"
+        vision_title: "Tầm Nhìn"
+        students_label: "Học viên"
+        courses_label: "Khóa học"
+  orders:
+    index:
+      title: "Lịch sử thanh toán"
+      table:
+        date: "Ngày mua"
+        course: "Khoá học"
+        status: "Trạng thái"
+        invoice: "Hóa đơn"
+      download_invoice: "Tải hóa đơn"
+      empty: "Bạn chưa mua khóa học nào."
+      browse: "Khám phá khóa học"
+    show:
+      title: "Thanh toán"
+      summary_title: "Tổng đơn hàng"
+      total_label: "Tổng tiền"
+      pay_now: "Thanh toán ngay"
+    invoice:
+      title: "Hóa đơn # %{id}"
+      download_pdf: "Tải PDF"
+      date_label: "Ngày:"
+      status_label: "Trạng thái:"
+      customer_label: "Khách hàng:"
+      total_label: "Tổng"
+    pdf:
+      title: "Biên nhận / Hóa đơn"
+      order_line: "Đơn hàng #%{id} | %{date}"
+      customer_label: "Khách hàng:"
+      email_label: "Email:"
+      status_label: "Trạng thái:"
+      total_paid: "Tổng đã thanh toán: %{total}"
+      thanks: "Cảm ơn bạn đã sử dụng dịch vụ!"
+  pages:
+    about:
+      hero:
+        title: "Về Chúng Tôi"
+        subtitle: "Chúng tôi xây dựng nền tảng học tập trực tuyến nhằm giúp mọi người tiếp cận kiến thức chất lượng cao và phát triển kỹ năng để thành công trong thời đại số."
+      mission_title: "Sứ Mệnh Của Chúng Tôi"
+      mission_text: "Sứ mệnh của chúng tôi là mang đến cơ hội học tập chất lượng cho mọi người ở bất kỳ đâu. Thông qua các khóa học trực tuyến được thiết kế bởi chuyên gia, chúng tôi giúp học viên phát triển kỹ năng và mở ra nhiều cơ hội nghề nghiệp mới."
+      vision_title: "Tầm Nhìn"
+      vision_text: "Trở thành một trong những nền tảng học tập trực tuyến hàng đầu, nơi mọi người có thể học hỏi, phát triển và kết nối với cộng đồng tri thức trên toàn thế giới."
+      stats_title: "Những Con Số Ấn Tượng"
+      team_title: "Đội Ngũ Của Chúng Tôi"
+      team:
+        member_1:
+          name: "Nguyễn Minh"
+          role: "CEO & Founder"
+        member_2:
+          name: "Trần Anh"
+          role: "Head of Education"
+        member_3:
+          name: "Lê Hoàng"
+          role: "Lead Developer"
+      cta_title: "Tham Gia Cộng Đồng Học Tập Ngay Hôm Nay"
+      cta_subtitle: "Hàng nghìn học viên đã bắt đầu hành trình phát triển kỹ năng của họ."
+      cta_action: "Khám phá khóa học"
+  profiles:
+    information: "Thông tin hồ sơ"
+    sidebar:
+      title: "Hồ sơ"
+      student_panel: "Bảng học viên"
+      purchased_courses: "Khóa học đã mua"
+      payment_history: "Lịch sử thanh toán"
+      teacher_panel: "Bảng giảng viên"
+      manage_courses: "Quản lý Khóa học"
+      manage_topics: "Quản lý Chủ đề"
+      manage_lessons: "Quản lý Bài học"
+      manage_exams: "Quản lý Bài kiểm tra"
+      manage_practices: "Quản lý Bài thực hành"
+      user_panel: "Bảng người dùng"
+      manage_income: "Quản lý thu nhập"
+      admin_panel: "Bảng quản trị"
+      admin_dashboard: "Quản trị website"
+      user_management: "Quản lý người dùng"
+    edit:
+      title: "Chinh sửa hồ sơ"
+      save: "Lưu thay đổi"
+      cancel: "Hủy"
+      danger_title: "Khu vực nguy hiểm"
+      danger_text: "Một khi đã xóa tài khoản, bạn không thể khôi phục lại dữ liệu."
+      delete_account: "Xóa tài khoản của tôi"
+      delete_confirm: "Bạn có chắc chắn muốn xóa?"
+    form:
+      fullname: "Họ và Tên"
+      phone: "Số điện thoại"
+      address: "Địa chỉ"
+    admin:
+      title: "%{role}"
+      fullname: "Họ và tên:"
+      phone: "Số điện thoại:"
+      address: "Địa chỉ:"
+      email: "Email:"
+      role: "Vai trò:"
+    teacher:
+      title: "Thông tin giảng viên"
+      fullname: "Họ và tên:"
+      phone: "Số điện thoại:"
+      address: "Địa chỉ:"
+      email: "Email:"
+      role: "Vai trò:"
+    actions:
+      change_password: "Đổi mật khẩu"
+    edit_label: "Chỉnh sửa thông tin"
+    not_updated: "Chưa cập nhật"
+    management:
+      errors:
+        header: "%{count} lỗi ngăn cản việc lưu:"
+      delete_confirm: "Bạn có chắc chắn không?"
+      actions:
+        edit: "Sửa"
+        delete: "Xóa"
+      forms:
+        choose_topic: "Chọn một chủ đề..."
+        choose_course: "Chọn một khóa học..."
+        choose_lesson: "Chọn một bài học..."
+        choose_type: "Chọn một loại..."
+      types:
+        multiple_choice: "Trắc nghiệm"
+        true_false: "Đúng / Sai"
+      courses:
+        index:
+          title: "Quản lý Khóa học"
+          new: "Thêm khóa học mới"
+          table:
+            image: "Ảnh"
+            name: "Tên khóa học"
+            description: "Mô tả"
+            price: "Giá"
+            actions: "Hành động"
+        new:
+          title: "Tạo khóa học mới"
+        edit:
+          title: "Chỉnh sửa: %{name}"
+        form:
+          name: "Tên khóa học"
+          price: "Giá"
+          course_image: "Ảnh bìa"
+          description: "Mô tả khóa học"
+          submit: "Lưu khóa học"
+          cancel: "Hủy bỏ"
+      exams:
+        index:
+          title: "Quản lý Bài kiểm tra"
+          new: "Thêm bài kiểm tra mới"
+          filter_by_topic: "Lọc theo chủ đề:"
+          table:
+            topic: "Thuộc chủ đề"
+            question: "Câu hỏi"
+            answers: "Đáp án"
+            correct_answers: "Đáp án đúng"
+            kind: "Loại"
+            actions: "Hành động"
+        new:
+          title: "Tạo bài kiểm tra"
+          submit: "Tạo bài kiểm tra"
+        edit:
+          title: "Chỉnh sửa: %{question}"
+        form:
+          topic: "Thuộc chủ đề"
+          question: "Câu hỏi"
+          answers: "Đáp án"
+          answers_hint: "Nhập các đáp án, cách nhau bằng dấu phẩy"
+          correct_answers: "Đáp án đúng"
+          kind: "Loại bài kiểm tra"
+          submit: "Lưu bài kiểm tra"
+          cancel: "Hủy bỏ"
+        actions:
+          add_question: "Thêm câu hỏi"
+          remove_question: "Xóa câu hỏi"
+      lessons:
+        index:
+          title: "Quản lý Bài học"
+          new: "Thêm bài học mới"
+          table:
+            name: "Tên bài học"
+            topic: "Thuộc chủ đề"
+            course: "Thuộc khóa học"
+            actions: "Hành động"
+        new:
+          title: "Tạo bài học mới"
+        edit:
+          title: "Chỉnh sửa: %{name}"
+        form:
+          topic: "Thuộc chủ đề"
+          name: "Tên bài học"
+          description: "Mô tả bài học"
+          video: "Upload Video"
+          submit: "Lưu bài học"
+          cancel: "Hủy bỏ"
+      practices:
+        index:
+          title: "Quản lý Bài thực hành"
+          new: "Thêm bài thực hành mới"
+          filter_by_lesson: "Lọc theo bài học:"
+          table:
+            lesson: "Thuộc bài học"
+            question: "Câu hỏi"
+            answers: "Đáp án"
+            correct_answers: "Đáp án đúng"
+            kind: "Loại"
+            actions: "Hành động"
+        new:
+          title: "Tạo bài thực hành"
+          submit: "Tạo bài thực hành"
+        edit:
+          title: "Chỉnh sửa: %{question}"
+        form:
+          lesson: "Thuộc bài học"
+          question: "Câu hỏi"
+          answers: "Đáp án"
+          answers_hint: "Nhập các đáp án, cách nhau bằng dấu phẩy"
+          correct_answers: "Đáp án đúng"
+          kind: "Loại bài thực hành"
+          submit: "Lưu bài thực hành"
+          cancel: "Hủy bỏ"
+        actions:
+          add_question: "Thêm câu hỏi"
+          remove_question: "Xóa câu hỏi"
+      topics:
+        index:
+          title: "Quản lý Chủ đề"
+          new: "Thêm chủ đề mới"
+          table:
+            name: "Tên chủ đề"
+            course: "Thuộc khóa học"
+            actions: "Hành động"
+        new:
+          title: "Tạo chủ đề mới"
+        edit:
+          title: "Chỉnh sửa: %{name}"
+        form:
+          course: "Thuộc khóa học"
+          name: "Tên chủ đề"
+          description: "Mô tả chủ đề"
+          submit: "Lưu chủ đề"
+          cancel: "Hủy bỏ"

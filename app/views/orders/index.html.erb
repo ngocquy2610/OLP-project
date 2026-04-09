@@ -1,15 +1,15 @@
 <%= turbo_frame_tag "profile_content" do %>
-<div class="payment-history-container">
-  <h1 class="text-2xl font-bold mb-4">Your Payment History</h1>
+  <div class="payment-history-container">
+  <h1 class="text-2xl font-bold mb-4"><%= t('orders.index.title') %></h1>
 
   <% if @orders.any? %>
     <table class="table w-full">
       <thead>
         <tr class="flex items-center justify-between  p-4">
-          <th class="w-1/4 text-left">Ngày mua</th>
-          <th class="w-1/4 text-left">Khoá học</th>
-          <th class="w-1/4 text-left">Trạng thái</th>
-          <th class="w-1/4 text-left">Hóa đơn</th>
+          <th class="w-1/4 text-left"><%= t('orders.index.table.date') %></th>
+          <th class="w-1/4 text-left"><%= t('orders.index.table.course') %></th>
+          <th class="w-1/4 text-left"><%= t('orders.index.table.status') %></th>
+          <th class="w-1/4 text-left"><%= t('orders.index.table.invoice') %></th>
         </tr>
       </thead>
       
@@ -29,7 +29,7 @@
 
             <td class="w-1/4 text-left"><span class="badge"><%= order.status.capitalize %></span></td>
             <td class="w-1/4 text-left">
-              <%= link_to "Download Invoice", invoice_order_path(order, format: :pdf), target: "_blank", class: "bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition cursor-pointer" %>
+              <%= link_to t('orders.index.download_invoice'), invoice_order_path(order, format: :pdf), target: "_blank", class: "bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition cursor-pointer" %>
             </td>
           </tr>
     
@@ -38,8 +38,8 @@
     </table>
   <% else %>
     <div class="empty-state">
-      <p>You haven't purchased any courses yet.</p>
-      <%= link_to "Browse Courses", courses_path, class: "btn btn-primary" %>
+      <p><%= t('orders.index.empty') %></p>
+      <%= link_to t('orders.index.browse'), courses_path, class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>

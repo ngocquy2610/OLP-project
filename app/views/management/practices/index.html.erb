@@ -1,12 +1,12 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Quản lý Bài thực hành</h1>
+    <h1 class="text-2xl font-bold text-gray-800"><%= t('admin.management.practices.index.title') %></h1>
     <div class="flex items-center space-x-4">
       <%= form_with url: management_practices_path, method: :get, local: false, data: { turbo_frame: 'profile_content' }, class: "flex items-center space-x-2" do %>
-        <%= label_tag :lesson_id, "Lọc theo bài học:", class: "text-sm font-medium text-gray-700 mr-2" %>
+        <%= label_tag :lesson_id, t('admin.management.practices.index.filter_by_lesson'), class: "text-sm font-medium text-gray-700 mr-2" %>
         <%= select_tag :lesson_id, options_from_collection_for_select(@lessons, :id, :name, @selected_lesson&.id), include_blank: false, class: "border rounded-lg p-2 bg-white", onchange: 'if(this.form.requestSubmit){this.form.requestSubmit()}else{this.form.dispatchEvent(new Event("submit", {bubbles:true,cancelable:true}))}' %>
       <% end %>
-      <%= link_to "Thêm bài thực hành mới", new_management_practice_path, 
+      <%= link_to t('admin.management.practices.index.new'), new_management_practice_path, 
           class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm" %>
     </div>
   </div>
@@ -14,12 +14,12 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Thuộc bài học</th>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Câu hỏi</th>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Đáp án</th>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Đáp án đúng</th>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Loại</th>
-          <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase">Hành động</th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.practices.index.table.lesson') %></th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.practices.index.table.question') %></th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.practices.index.table.answers') %></th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.practices.index.table.correct_answers') %></th>
+          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.practices.index.table.kind') %></th>
+          <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.practices.index.table.actions') %></th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200">
@@ -41,9 +41,9 @@
               <div class="font-medium text-gray-900"><%= practice.type %></div>
             </td>
             <td class="px-6 py-4 text-right text-sm font-medium space-x-3">
-              <%= link_to "Sửa", edit_management_practice_path(practice), class: "text-indigo-600 hover:text-indigo-900",data: { turbo_frame: "profile_content" } %>
-              <%= button_to "Xóa", management_practice_path(practice), method: :delete,
-                  form: { data: { turbo_confirm: "Bạn có chắc chắn muốn xóa?" } },
+                <%= link_to t('admin.management.actions.edit'), edit_management_practice_path(practice), class: "text-indigo-600 hover:text-indigo-900",data: { turbo_frame: "profile_content" } %>
+                <%= button_to t('admin.management.actions.delete'), management_practice_path(practice), method: :delete,
+                  form: { data: { turbo_confirm: t('admin.management.delete_confirm') } },
                   class: "inline text-red-600 hover:text-red-900" %>
             </td>
           </tr>

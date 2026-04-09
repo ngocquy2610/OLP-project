@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-2xl font-semibold mb-6">Khóa học của tôi</h2>
+    <h2 class="text-2xl font-semibold mb-6"><%= t('admin.courses.my_courses.title') %></h2>
     <% if @courses.any? %>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <% @courses.each do |course| %>
@@ -9,7 +9,7 @@
                 <%= image_tag(course.course_image, class: "w-full h-40 object-cover") %>
             <% else %>
               <div class="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-400">
-                No Image
+                <%= t('admin.courses.my_courses.no_image') %>
               </div>
             <% end %>
             <!-- Content -->
@@ -21,7 +21,7 @@
                 <%= truncate(course.description, length: 80) %>
               </p>
               <% if current_user.owned_courses.exists?(course.id) %>
-                <%= link_to "Học ngay",
+                <%= link_to t('admin.courses.my_courses.learn_now'),
                     learn_course_path(course),
                     class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
             <% end %>
@@ -31,7 +31,7 @@
       </div>
     <% else %>
       <div class="text-center text-gray-500">
-        Bạn chưa sở hữu khóa học nào.
+        <%= t('admin.courses.my_courses.no_courses') %>
       </div>
     <% end %>
   </div>

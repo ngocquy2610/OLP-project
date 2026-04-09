@@ -17,12 +17,12 @@
   <div class="invoice-box">
     <div class="header">
     <img src="data:image/png;base64,<%= Base64.encode64(File.read(Rails.root.join('app', 'assets', 'images', 'logo-image.png'))) %>" style="width: 150px; height: auto; margin-bottom: 20px;" />
-      <h2>RECEIPT / INVOICE</h2>
-      <p>Order #<%= @order.id %> | <%= @order.created_at.strftime("%B %d, %Y") %></p>
+      <h2><%= t('orders.pdf.title') %></h2>
+      <p><%= t('orders.pdf.order_line', id: @order.id, date: @order.created_at.strftime("%B %d, %Y")) %></p>
     </div>
-    <p><strong>Customer:</strong> <%= @order.user.fullname %></p>
-    <p><strong>Email:</strong> <%= @order.user.email %></p>
-    <p><strong>Status:</strong> <%= @order.status.upcase %></p>
+    <p><strong><%= t('orders.pdf.customer_label') %></strong> <%= @order.user.fullname %></p>
+    <p><strong><%= t('orders.pdf.email_label') %></strong> <%= @order.user.email %></p>
+    <p><strong><%= t('orders.pdf.status_label') %></strong> <%= @order.status.upcase %></p>
 
     <table>
       <thead>
@@ -43,8 +43,8 @@
       </tbody>
     </table>
 
-    <p class="total">Total Paid: <%= total %></p>
-    <p style="text-align: center; margin-top: 50px; color: #777;">Thank you for your business!</p>
+    <p class="total"><%= t('orders.pdf.total_paid', total: total) %></p>
+    <p style="text-align: center; margin-top: 50px; color: #777;"><%= t('orders.pdf.thanks') %></p>
   </div>
 </body>
 </html>

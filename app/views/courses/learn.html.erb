@@ -7,11 +7,11 @@
         <% if @current_lesson&.video&.attached? %>
           <video controls class="w-full h-fit bg-black">
             <source src="<%= url_for(@current_lesson.video) %>" type="video/mp4">
-            Your browser does not support the video tag.
+            <%= t('courses.learn.no_video') %>
           </video>
         <% else %>
           <div class="h-[500px] flex items-center justify-center bg-black text-white">
-            No video available
+            <%= t('courses.learn.no_video') %>
           </div>
         <% end %>
       </div>
@@ -45,14 +45,14 @@
               class: "block px-4 py-3 hover:bg-gray-50",
               data: { turbo_frame: "profile_content" } do %>
               <p class="">
-                📝 Practice of <%= lesson.name %>
+                📝 <%= t('courses.learn.practice_of', lesson: lesson.name) %>
                 <% last_practice = @last_practice_attempts[lesson.id] %>
                 <% if last_practice&.completed %>
-                  <span class="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs">Done</span>
+                  <span class="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs"><%= t('courses.learn.status.done') %></span>
                 <% elsif last_practice %>
-                  <span class="ml-2 px-2 py-1 bg-yellow-500 text-white rounded text-xs">Attempted</span>
+                  <span class="ml-2 px-2 py-1 bg-yellow-500 text-white rounded text-xs"><%= t('courses.learn.status.attempted') %></span>
                 <% else %>
-                  <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded text-xs">New</span>
+                  <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded text-xs"><%= t('courses.learn.status.new') %></span>
                 <% end %>
               </p>
             <% end %>
@@ -62,21 +62,21 @@
             <div class="flex items-center justify-between">
               <% if highest.status == "Passed" %>
                 <div class="p-3">
-                  <%= link_to "Làm lại", exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
+                  <%= link_to t('courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
                 </div>
                 <div class="px-4 py-2 text-sm text-gray-700">
-                  Trạng thái: <span class="font-semibold bg-green-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                  <%= t('courses.learn.status_label') %> <span class="font-semibold bg-green-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
                 </div>
               <% else %>
                 <div class="p-3">
-                  <%= link_to "Làm lại", exam_topic_path(topic), class: "inline-block bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700", data: { turbo_frame: "profile_content" } %>
+                  <%= link_to t('courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700", data: { turbo_frame: "profile_content" } %>
                 </div>
                 <div class="px-4 py-2 text-sm text-gray-700">
-                  Trạng thái: <span class="font-semibold bg-red-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                  <%= t('courses.learn.status_label') %> <span class="font-semibold bg-red-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
                 </div>
               <% end %>
               <div class="px-4 py-2 text-sm text-gray-700">
-                Điểm: <strong><%= highest.score %> %</strong>
+                <%= t('courses.learn.score_label') %> <strong><%= highest.score %> %</strong>
               </div>
             </div>
           <% else %>

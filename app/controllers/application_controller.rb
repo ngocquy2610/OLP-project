@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :configure_permitted_parameters, if: :devise_controller?
+  around_action :switch_locale
 
   def home
     @featured_courses = Course.order(created_at: :asc).limit(3)
@@ -22,12 +23,22 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    flash[:alert] = "Bạn không có quyền thực hiện hành động này."
+    flash[:alert] = I18n.t('flash.not_authorized')
     redirect_to(request.referrer || root_path)
   end
 
   def set_cart_quantity
     return unless user_signed_in?
     @total_quantity = current_user.cart&.cart_items&.count || 0
+  end
+
+  def switch_locale(&action)
+    if params[:locale].present?
+      session[:locale] = params[:locale]
+    end
+
+    locale = session[:locale] || I18n.default_locale
+    
+    I18n.with_locale(locale, &action)
   end
 end

@@ -2,17 +2,15 @@
   <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 items-center">
     <div>
       <h2 class="text-4xl md:text-5xl font-bold leading-tight">
-        Học Kỹ Năng Trực Tuyến <br>
-        Mọi Lúc, Mọi Nơi
+        <%= simple_format(t('home.hero.title')) %>
       </h2>
       <p class="mt-6 text-lg text-blue-100">
-        Tham gia cùng hàng nghìn học viên trên toàn thế giới và nâng cao kỹ năng của bạn
-        với các khóa học trực tuyến chất lượng từ những chuyên gia hàng đầu.
+        <%= t('home.hero.subtitle') %>
       </p>
       <div class="mt-8 space-x-4">
-        <%= link_to "Khám phá khóa học", courses_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
+        <%= link_to t('home.hero.cta_explore'), courses_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
         <% unless user_signed_in? %>
-          <%= link_to "Bắt đầu ngay", new_user_session_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
+          <%= link_to t('home.hero.cta_start'), new_user_session_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
         <% end %>
       </div>
     </div>
@@ -23,27 +21,27 @@
 </section>
 <section class="py-16">
   <div class="max-w-7xl mx-auto px-6 text-center">
-    <h3 class="text-3xl font-bold mb-12">Tại Sao Nên Chọn Nền Tảng Của Chúng Tôi</h3>
+    <h3 class="text-3xl font-bold mb-12"><%= t('home.features.why_title', default: 'Why choose our platform') %></h3>
     <div class="grid md:grid-cols-3 gap-8">
       <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
         <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/book.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
-        <h4 class="text-xl font-semibold mb-2">Khóa Học Chất Lượng</h4>
+        <h4 class="text-xl font-semibold mb-2"><%= t('home.features.quality_courses.title') %></h4>
         <p class="text-gray-600">
-          Học từ các khóa học chất lượng cao được thiết kế bởi những chuyên gia trong ngành.
+          <%= t('home.features.quality_courses.desc') %>
         </p>
       </div>
       <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
         <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/teacher.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
-        <h4 class="text-xl font-semibold mb-2">Giảng Viên Chuyên Nghiệp</h4>
+        <h4 class="text-xl font-semibold mb-2"><%= t('home.features.professional_instructors.title') %></h4>
         <p class="text-gray-600">
-          Tiếp thu kiến thức từ các giảng viên giàu kinh nghiệm trên khắp thế giới.
+          <%= t('home.features.professional_instructors.desc') %>
         </p>
       </div>
       <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
         <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/clock.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
-        <h4 class="text-xl font-semibold mb-2">Học Mọi Lúc</h4>
+        <h4 class="text-xl font-semibold mb-2"><%= t('home.features.learn_anytime.title') %></h4>
         <p class="text-gray-600">
-          Truy cập khóa học của bạn bất cứ lúc nào trên mọi thiết bị.
+          <%= t('home.features.learn_anytime.desc') %>
         </p>
       </div>
     </div>
@@ -51,7 +49,7 @@
 </section>
 <section class="bg-gray-100 py-16">
   <div class="max-w-7xl mx-auto px-6">
-    <h3 class="text-3xl font-bold text-center mb-12">Các Khóa Học Phổ Biến</h3>
+    <h3 class="text-3xl font-bold text-center mb-12"><%= t('home.popular_courses_title') %></h3>
     <div class="grid md:grid-cols-3 gap-8">
       <% if @featured_courses.present? %>
         <% @featured_courses.each do |course| %>
@@ -62,45 +60,43 @@
             <h4 class="font-bold text-gray-800 text-center"><%= course.name %></h4>
             <div class="text-gray-500 text-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
             <div class="text-sm text-black text-center"><%= number_to_currency(course.price, unit: "VNĐ", precision: 0, format: "%n %u") %></div>
-            <%= link_to "Xem chi tiết", course_path(course), class: "text-blue-500 hover:underline" %>
+            <%= link_to t('home.course.view_details'), course_path(course), class: "text-blue-500 hover:underline" %>
             <% if current_user&.owned_courses&.exists?(course.id) %>
-        <%= link_to "Học ngay",
-                    learn_course_path(course),
-                    class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
+          <%= link_to t('home.course.learn_now'),
+                learn_course_path(course),
+                class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
         <% elsif course.user_id == current_user&.id %>
         <% else %>
           <button data-controller="add-to-cart"
                   data-action="click->add-to-cart#add"
                   data-add-to-cart-course-id-value="<%= course.id %>"
                   class="w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer">
-            Add to Cart
+            <%= t('home.course.add_to_cart') %>
           </button>
         <% end %>
           </div>
         <% end %>
       <% else %>
-        <p class="text-center col-span-3 text-gray-500">Hiện chưa có khóa học nào.</p>
+        <p class="text-center col-span-3 text-gray-500"><%= t('home.no_courses') %></p>
       <% end %>
     </div>
   </div>
 </section>
 <section class="py-16">
   <div class="max-w-6xl mx-auto px-6 text-center">
-    <h3 class="text-3xl font-bold mb-12">Học Viên Nói Gì Về Chúng Tôi</h3>
+    <h3 class="text-3xl font-bold mb-12"><%= t('home.testimonials_title') %></h3>
     <div class="grid md:grid-cols-2 gap-8">
       <div class="bg-white p-8 rounded-xl shadow">
         <p class="text-gray-600">
-          "Nền tảng này đã giúp tôi chuyển hướng sang nghề lập trình web.
-          Các khóa học được thiết kế rất rõ ràng và dễ hiểu."
+          "<%= t('home.testimonial_1') %>"
         </p>
-        <div class="mt-4 font-semibold">— Tiến Bob</div>
+        <div class="mt-4 font-semibold"><%= t('home.testimonial_1_author') %></div>
       </div>
       <div class="bg-white p-8 rounded-xl shadow">
         <p class="text-gray-600">
-          "Giảng viên tuyệt vời và nội dung chất lượng cao. 
-          Tôi đã cải thiện kỹ năng lập trình của mình rất nhiều."
+          "<%= t('home.testimonial_2') %>"
         </p>
-        <div class="mt-4 font-semibold">— Mạnh LV</div>
+        <div class="mt-4 font-semibold"><%= t('home.testimonial_2_author') %></div>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="max-w-6xl mx-auto px-4 py-8">
   <div class="flex items-center mb-6 gap-5">
-    <h2 class="text-2xl font-semibold">Your Cart</h2>
+    <h2 class="text-2xl font-semibold"><%= t('cart.title') %></h2>
     <div class="flex items-center">
               <input 
                 type="checkbox"
@@ -39,28 +39,28 @@
                   <p class="font-semibold text-gray-700">
                     <%= number_to_currency(item.course&.price.to_i, unit: "₫", precision: 0, delimiter: ",") %>
                   </p>
-                  <%= link_to "Remove",
+                  <%= link_to t('cart.remove'),
                     cart_item_path(item),
-                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                    data: { turbo_method: :delete, turbo_confirm: t('cart.remove_confirm') },
                     class: "text-red-500 hover:text-red-700 text-sm" %>
                 </div>
               </div>
             <% end %>
             
           <% else %>
-            <p class="text-gray-500">Your cart is empty.</p>
+            <p class="text-gray-500"><%= t('cart.empty') %></p>
           <% end %>
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow-sm border h-fit">
-          <h3 class="text-lg font-semibold mb-4">Summary</h3>
+          <h3 class="text-lg font-semibold mb-4"><%= t('cart.summary') %></h3>
           <div class="space-y-2 text-sm text-gray-600">
             <div class="flex justify-between">
-              <span>Items</span>
+                <span><%= t('cart.items_label') %></span>
               <span><%= @cart.cart_items.count %></span>
             </div>
             <div class="flex justify-between">
-              <span>Total</span>
+                <span><%= t('cart.total_label') %></span>
               <span class="font-semibold text-gray-800">
                 <%= number_to_currency(
                       @cart.cart_items.sum { |i| i.course&.price.to_i },
@@ -71,7 +71,7 @@
               </span>
             </div>
           </div>
-          <%= submit_tag "Checkout",
+            <%= submit_tag t('cart.checkout'),
               class: "w-full mt-6 bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition" %>
         </div>
         
