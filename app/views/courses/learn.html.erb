@@ -45,14 +45,14 @@
               class: "block px-4 py-3 hover:bg-gray-50",
               data: { turbo_frame: "profile_content" } do %>
               <p class="">
-                📝 <%= t('courses.learn.practice_of', lesson: lesson.name) %>
+                📝 <%= t('admin.courses.learn.practice_of', lesson: lesson.name) %>
                 <% last_practice = @last_practice_attempts[lesson.id] %>
                 <% if last_practice&.completed %>
-                  <span class="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs"><%= t('courses.learn.status.done') %></span>
+                  <span class="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs"><%= t('admin.courses.learn.status.done') %></span>
                 <% elsif last_practice %>
-                  <span class="ml-2 px-2 py-1 bg-yellow-500 text-white rounded text-xs"><%= t('courses.learn.status.attempted') %></span>
+                  <span class="ml-2 px-2 py-1 bg-yellow-500 text-white rounded text-xs"><%= t('admin.courses.learn.status.attempted') %></span>
                 <% else %>
-                  <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded text-xs"><%= t('courses.learn.status.new') %></span>
+                  <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded text-xs"><%= t('admin.courses.learn.status.new') %></span>
                 <% end %>
               </p>
             <% end %>
@@ -62,26 +62,26 @@
             <div class="flex items-center justify-between">
               <% if highest.status == "Passed" %>
                 <div class="p-3">
-                  <%= link_to t('courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
+                  <%= link_to t('admin.courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
                 </div>
                 <div class="px-4 py-2 text-sm text-gray-700">
-                  <%= t('courses.learn.status_label') %> <span class="font-semibold bg-green-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                  <%= t('admin.courses.learn.status_label') %> <span class="font-semibold bg-green-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
                 </div>
               <% else %>
                 <div class="p-3">
-                  <%= link_to t('courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700", data: { turbo_frame: "profile_content" } %>
+                  <%= link_to t('admin.courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700", data: { turbo_frame: "profile_content" } %>
                 </div>
                 <div class="px-4 py-2 text-sm text-gray-700">
-                  <%= t('courses.learn.status_label') %> <span class="font-semibold bg-red-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                  <%= t('admin.courses.learn.status_label') %> <span class="font-semibold bg-red-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
                 </div>
               <% end %>
               <div class="px-4 py-2 text-sm text-gray-700">
-                <%= t('courses.learn.score_label') %> <strong><%= highest.score %> %</strong>
+                <%= t('admin.courses.learn.score_label') %> <strong><%= highest.score %> %</strong>
               </div>
             </div>
           <% else %>
             <div class="p-3">
-              <%= link_to "Làm bài kiểm tra", exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
+              <%= link_to t('admin.courses.learn.take_exam'), exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
             </div>
           <% end %>
         </div>
