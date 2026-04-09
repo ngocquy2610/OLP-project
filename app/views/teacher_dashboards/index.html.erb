@@ -31,10 +31,10 @@
 
           <tr class="hover:bg-gray-50 transition duration-150">
             <td class="py-4 px-6 text-sm font-medium text-gray-900"><%= course.name %></td>
-            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= course.price %></td>
+            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= format_vnd(course.price) %></td>
             <td class="py-4 px-6 text-sm text-gray-600 text-center"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><%= quantity %></span></td>
-            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= revenue %></td>
-            <td class="py-4 px-6 text-sm font-bold text-green-600 text-right"><%= actual_receipt %></td>
+            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= format_vnd(revenue) %></td>
+            <td class="py-4 px-6 text-sm font-bold text-green-600 text-right"><%= format_vnd(actual_receipt) %></td>
           </tr>
         <% end %>
       </tbody>
@@ -42,8 +42,8 @@
       <tfoot class="bg-gray-100 border-t-2 border-gray-300">
         <tr>
           <td colspan="3" class="py-4 px-6 text-right font-bold text-gray-800 text-lg"><%= t('admin.teacher_dashboard.table.grand_total') %></td>
-          <td class="py-4 px-6 text-right font-bold text-gray-800 text-lg"><%= total_platform_revenue %></td>
-          <td class="py-4 px-6 text-right font-bold text-green-700 text-xl"><%= total_actual_receipt %></td>
+          <td class="py-4 px-6 text-right font-bold text-gray-800 text-lg"><%= format_vnd(total_platform_revenue) %></td>
+          <td class="py-4 px-6 text-right font-bold text-green-700 text-xl"><%= format_vnd(total_actual_receipt) %></td>
         </tr>
       </tfoot>
     </table>

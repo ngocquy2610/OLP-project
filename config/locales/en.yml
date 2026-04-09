@@ -183,12 +183,12 @@ en:
         delete: "Delete"
         change_role: "Change role"
         confirm: "Are you sure?"
+        edit: "Edit"
+        delete: "Delete"
       errors:
         header: "%{count} errors prevented saving:"
       delete_confirm: "Are you sure?"
-      actions:
-        edit: "Edit"
-        delete: "Delete"
+        
       forms:
         choose_topic: "Choose a topic..."
         choose_course: "Choose a course..."
