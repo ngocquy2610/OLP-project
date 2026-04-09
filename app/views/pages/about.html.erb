@@ -102,10 +102,9 @@
   <h2 class="text-3xl font-bold">
     <%= t('pages.about.cta_title') %>
   </h2>
-  <p class="mt-4 text-blue-100">
+  <p class="mt-4 mb-8 text-blue-100">
     <%= t('pages.about.cta_subtitle') %>
   </p>
-  <button class="mt-8 bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200">
-    <%= link_to t('pages.about.cta_action'), courses_path %>
-  </button>
+    <%= link_to t('pages.about.cta_action'), courses_path, class: "bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
+  
 </section>

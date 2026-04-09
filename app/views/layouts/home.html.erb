@@ -53,7 +53,7 @@
     <div class="grid md:grid-cols-3 gap-8">
         <% if @featured_courses.present? %>
         <% @featured_courses.each do |course| %>
-          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-3 justify-between items-center h-80">
+          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-3 justify-between items-center h-100">
             <div class="w-full h-48 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
               <% if course.course_image.attached? %>
                 <%= image_tag course.course_image, class: "w-full h-full object-cover" %>
