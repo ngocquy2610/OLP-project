@@ -48,16 +48,21 @@ class OrdersController < ApplicationController
   def checkout
     order = current_user.orders.find(params[:id])
 
-    # If total is zero (all free courses), mark as paid and enroll immediately (skip Stripe)
     total_amount = order.order_items.sum(:price).to_i
     if total_amount == 0
       order.update(status: "paid")
 
       order.order_items.each do |item|
         current_user.enrollments.find_or_create_by!(course: item.course)
-        PaymentMailer.student_receipt_email(current_user, item.course, item.price.to_i, order).deliver_later
-        PaymentMailer.teacher_notification_email(item.course.user, current_user, item.course).deliver_later
       end
+
+      # notify each teacher once with the courses sold to them
+      order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
+        PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
+      end
+
+      # send a single receipt email for the whole order
+      PaymentMailer.student_receipt_email(current_user, order).deliver_later
 
       if current_user.cart.present?
         purchased_course_ids = order.order_items.pluck(:course_id)
@@ -99,10 +104,15 @@ class OrdersController < ApplicationController
       amount_paid = item.price.to_i
 
       current_user.enrollments.find_or_create_by!(course: course)
-      
-      PaymentMailer.student_receipt_email(current_user, course, amount_paid, order).deliver_later
-      PaymentMailer.teacher_notification_email(course.user, current_user, course).deliver_later
     end
+
+    # notify each teacher once with the courses sold to them
+    order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
+      PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
+    end
+
+    # send a single receipt email for the whole order
+    PaymentMailer.student_receipt_email(current_user, order).deliver_later
 
     if current_user.cart.present?
       purchased_course_ids = order.order_items.pluck(:course_id)

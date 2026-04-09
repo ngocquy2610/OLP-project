@@ -1,1 +1,8 @@
-<p><%= t('payment_mailer.student_receipt.body', course_name: @course.name) %></p>
+<p><strong>Receipt for Order #<%= @order.id %></strong></p>
+<p>You've purchased the following course(s):</p>
+<ul>
+	<% @courses.each do |c| %>
+		<li><%= c.name %></li>
+	<% end %>
+</ul>
+<p><strong>Total paid:</strong> <%= format_vnd(@amount) %></p>

@@ -1,1 +1,7 @@
-<p><%= @student.email %> has successfully enrolled in <%= @course.name %></p>
+<p><strong><%= @student.email %> has purchased the following course(s):</strong></p>
+<ul>
+	<% @courses.each do |c| %>
+		<li><%= c.name %></li>
+	<% end %>
+</ul>
+<p><strong>Total for you:</strong> <%= format_vnd(@amount) %></p>
