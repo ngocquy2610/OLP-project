@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "profile_content" do %>
   <h2 class="text-xl font-semibold mb-6"><%= t('admin.lessons.practice_title') %></h2>
-  <%= form_with url: submit_practice_lesson_path(@lesson), method: :post do %>
+  <%= form_with url: submit_practice_lesson_path(@lesson), method: :post, data: { controller: 'ensure-complete', 'ensure-complete-message-value': 'Hãy hoàn thành toàn bộ bài kiểm tra trước khi nộp bài.' } do %>
     <% @practices.each_with_index do |p, index| %>
       <div class="mb-6 p-4 border rounded-xl bg-white">
         <p class="font-medium mb-3">

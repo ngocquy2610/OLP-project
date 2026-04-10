@@ -10,6 +10,13 @@ class LessonsController < ApplicationController
     @lesson = Lesson.find(params[:id])
     @practices = @lesson.practices
 
+    answers = params[:answers] || {}
+
+    missing = @practices.map { |p| p.id.to_s } - answers.keys
+    if missing.any?
+      redirect_to practice_lesson_path(@lesson), alert: 'Hãy hoàn thành toàn bộ bài kiểm tra trước khi nộp bài.' and return
+    end
+
     score = 0
 
     attempt = current_user.practice_attempts.create!(
@@ -18,7 +25,7 @@ class LessonsController < ApplicationController
     )
 
     @practices.each do |practice|
-      selected = params[:answers][practice.id.to_s]
+      selected = answers[practice.id.to_s]
       correct  = practice.correct_answers.strip
 
       is_correct = (selected == correct)

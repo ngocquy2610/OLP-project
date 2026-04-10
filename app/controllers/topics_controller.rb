@@ -8,12 +8,19 @@ class TopicsController < ApplicationController
     @topic = Topic.find(params[:id])
     @exams = @topic.exams
 
+    answers = params[:answers] || {}
+
+    missing = @exams.map { |e| e.id.to_s } - answers.keys
+    if missing.any?
+      redirect_to exam_topic_path(@topic), alert: 'Hãy hoàn thành toàn bộ bài kiểm tra trước khi nộp bài.' and return
+    end
+
     score = 0
 
     attempt = current_user.exam_attempts.create!(topic: @topic, score: 0)
 
     @exams.each do |exam|
-      selected = params[:answers][exam.id.to_s]
+      selected = answers[exam.id.to_s]
       correct  = exam.correct_answers.strip
 
       score += 1 if selected == correct
