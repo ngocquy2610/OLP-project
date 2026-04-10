@@ -14,7 +14,7 @@
     <%= form_with url: checkout_cart_path, method: :post, id: "cart-form" do %>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        <div class="lg:col-span-2 space-y-4">
+        <div id="cart-items" class="lg:col-span-2 space-y-4">
           <% if @cart.cart_items.any? %>
           
             
@@ -89,48 +89,48 @@
       }
     }
 
-    function updateSummary() {
-      const itemBoxes = document.querySelectorAll('.js-item-checkbox');
+    function updateSummary(container = document) {
+      const itemBoxes = Array.from(container.querySelectorAll('.js-item-checkbox'));
       const selectedCountEl = document.getElementById('selected_count');
       const selectedTotalEl = document.getElementById('selected_total');
       if (!selectedCountEl || !selectedTotalEl) return;
-      const checked = Array.from(itemBoxes).filter(b => b.checked);
+      const checked = itemBoxes.filter(b => b.checked);
       const total = checked.reduce((sum, b) => sum + Number(b.dataset.price || 0), 0);
       selectedCountEl.textContent = checked.length;
       selectedTotalEl.textContent = formatCurrency(total);
     }
 
-    function initializeCheckAll() {
+    function setupCartHandlers() {
+      const container = document.getElementById('cart-items');
       const checkAllBox = document.getElementById('check_all');
-      const itemBoxes = document.querySelectorAll('.js-item-checkbox');
+      if (!container) return;
+
+      container.addEventListener('change', function(e) {
+        if (e.target && e.target.matches('.js-item-checkbox')) {
+          const itemBoxes = Array.from(container.querySelectorAll('.js-item-checkbox'));
+          if (checkAllBox) checkAllBox.checked = itemBoxes.length > 0 && itemBoxes.every(b => b.checked);
+          updateSummary(container);
+        }
+      });
 
       if (checkAllBox) {
         checkAllBox.addEventListener('change', function() {
-          itemBoxes.forEach(box => {
-            box.checked = this.checked;
-          });
-          updateSummary();
+          const itemBoxes = Array.from(container.querySelectorAll('.js-item-checkbox'));
+          itemBoxes.forEach(box => box.checked = this.checked);
+          updateSummary(container);
         });
       }
 
-      itemBoxes.forEach(box => {
-        box.addEventListener('change', function() {
-          const allChecked = Array.from(itemBoxes).every(b => b.checked);
-          if (checkAllBox) checkAllBox.checked = allChecked;
-          updateSummary();
-        });
-      });
+      updateSummary(container);
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      initializeCheckAll();
-      updateSummary();
-    });
-
-    document.addEventListener('turbo:load', function() {
-      // Re-run for Turbo navigation
-      initializeCheckAll();
-      updateSummary();
+    document.addEventListener('DOMContentLoaded', setupCartHandlers);
+    document.addEventListener('turbo:load', setupCartHandlers);
+    document.addEventListener('turbo:frame-load', function(e) {
+      const frame = e.target;
+      if (frame && frame.querySelector && frame.querySelector('#cart-items')) {
+        setupCartHandlers();
+      }
     });
   </script>
 <% end %>
