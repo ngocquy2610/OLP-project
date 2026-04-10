@@ -146,6 +146,24 @@ vi:
       resend_confirmation: "Không nhận được email xác nhận?"
       resend_unlock: "Không nhận được hướng dẫn mở khóa?"
       back: "Quay lại"
+    errors:
+      email_invalid: "Email hoặc mật khẩu không hợp lệ."
+      unconfirmed: "Bạn phải xác nhận địa chỉ email trước khi tiếp tục."
+      locked: "Tài khoản của bạn đã bị khóa."
+      invalid_token: "Mã token không hợp lệ."
+      password_too_short: "Mật khẩu quá ngắn (tối thiểu 6 ký tự)."
+      password_confirmation_mismatch: "Xác nhận mật khẩu không khớp."
+      not_saved: "Có vấn đề xảy ra trong quá trình đăng ký:"
+      messages:
+        already_confirmed: "đã được xác nhận, vui lòng thử đăng nhập"
+        confirmation_period_expired: "cần được xác nhận trong %{period}, vui lòng yêu cầu một liên kết mới"
+        expired: "đã hết hạn, vui lòng yêu cầu một liên kết mới"
+        not_found: "không tìm thấy"
+        not_locked: "không bị khóa"
+        not_saved:
+          one: "1 lỗi đã ngăn %{resource} này được lưu:"
+          other: "%{count} lỗi đã ngăn %{resource} này được lưu:"
+      
   admin:
     dashboard:
       title: "Tổng quan hệ thống"
