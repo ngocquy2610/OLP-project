@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_13_063050) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_13_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -151,11 +151,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_063050) do
 
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.decimal "discount", precision: 12, scale: 2, default: "0.0", null: false
     t.string "status"
     t.decimal "total"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.bigint "voucher_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+    t.index ["voucher_id"], name: "index_orders_on_voucher_id"
   end
 
   create_table "practice_attempts", force: :cascade do |t|
@@ -210,6 +213,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_063050) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "vouchers", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.integer "discount_percent"
+    t.datetime "expires_at"
+    t.datetime "updated_at", null: false
+    t.integer "usage_limit"
+    t.integer "used_count", default: 0
+    t.index ["code"], name: "index_vouchers_on_code", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "users"
@@ -230,6 +245,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_063050) do
   add_foreign_key "order_items", "courses"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "users"
+  add_foreign_key "orders", "vouchers"
   add_foreign_key "practice_attempts", "lessons"
   add_foreign_key "practice_attempts", "users"
   add_foreign_key "practices", "lessons"

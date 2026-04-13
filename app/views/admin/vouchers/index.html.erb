@@ -1,0 +1,46 @@
+<%= turbo_frame_tag "profile_content" do %>
+    <div class="max-w-7xl mx-auto mt-8 px-4">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+        <h1 class="text-3xl font-bold text-gray-900">Quản lý Mã Giảm Giá</h1>
+        <p class="mt-2 text-sm text-gray-600">Tạo và quản lý các chương trình khuyến mãi.</p>
+        </div>
+        <%= link_to "+ Tạo mã mới", new_admin_voucher_path, class: "bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 font-medium" %>
+    </div>
+
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Mã (Code)</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Giảm giá</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lượt dùng</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Hạn sử dụng</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Trạng thái</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            <% @vouchers.each do |voucher| %>
+            <tr>
+                <td class="px-6 py-4 font-bold text-gray-900"><%= voucher.code %></td>
+                <td class="px-6 py-4 text-emerald-600 font-bold">-<%= voucher.discount_percent %>%</td>
+                <td class="px-6 py-4 text-gray-500">
+                <%= voucher.used_count %> / <%= voucher.usage_limit || '∞' %>
+                </td>
+                <td class="px-6 py-4 text-gray-500">
+                <%= voucher.expires_at ? voucher.expires_at.strftime("%d/%m/%Y %H:%M") : 'Không thời hạn' %>
+                </td>
+                <td class="px-6 py-4">
+                <% if voucher.usable? %>
+                    <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">Đang chạy</span>
+                <% else %>
+                    <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">Hết hạn/Hết lượt</span>
+                <% end %>
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+        </table>
+    </div>
+    </div>
+<% end %>
