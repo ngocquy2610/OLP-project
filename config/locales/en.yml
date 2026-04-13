@@ -216,6 +216,7 @@ en:
             name: "Course Name"
             description: "Description"
             price: "Price"
+            status: "Status"
             actions: "Actions"
         new:
           title: "Create Course"
@@ -334,6 +335,18 @@ en:
       total_label: "Total"
       checkout: "Checkout"
     courses:
+      verify:
+        title: "Manage Courses"
+        subtitle: "Review and approve courses submitted by teachers."
+        pending_approval: "Pending approval"
+        course_name: "Course Name"
+        teacher: "Teacher"
+        price: "Price"
+        actions: "Actions"
+        no_pending: "No courses pending approval."
+        approve: "Approve"
+        details: "Details"
+        reject: "Reject"
       index:
         title: "Course List"
       show:

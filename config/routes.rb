@@ -70,5 +70,12 @@ Rails.application.routes.draw do
     get 'management', to: 'management#index'
     delete 'management/:id', to: 'management#destroy', as: 'management_destroy'
     patch 'management/:id', to: 'management#update', as: 'management_update'
+
+    resources :courses, only: [:index, :show] do
+      member do
+        patch :published
+        patch :rejected
+      end
+    end
   end
 end

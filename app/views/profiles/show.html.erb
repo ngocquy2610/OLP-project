@@ -57,6 +57,9 @@
           <%= link_to admin_management_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition", data: { turbo_frame: "profile_content"} do %>
             <%= t('profiles.sidebar.user_management') %>
           <% end %>
+          <%= link_to admin_courses_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition", data: { turbo_frame: "profile_content"} do %>
+            <%= t('profiles.sidebar.course_approvals') %>
+          <% end %>
         </div>
       <% end %>
     </nav>
