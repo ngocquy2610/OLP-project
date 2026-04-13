@@ -32,18 +32,33 @@
         </tr>
       </thead>
       <tbody>
-        <% total = 0 %>
+        <% subtotal = 0 %>
         <% @order.order_items.each do |item| %>
           <tr>
             <td><%= item.course.name %></td>
             <td style="text-align: right;"><%= format_vnd(item.price) %></td>
           </tr>
-          <% total += item.price %>
+          <% subtotal += item.price.to_f %>
         <% end %>
       </tbody>
     </table>
 
-    <p class="total"><%= t('orders.pdf.total_paid', total: format_vnd(total)) %></p>
+    <table style="margin-top: 20px; width:100%;">
+      <tr>
+        <td style="text-align: right;">Subtotal:</td>
+        <td style="text-align: right;"><%= format_vnd(subtotal) %></td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Discount:</td>
+        <%# show stored discount if present, otherwise compute fallback = subtotal - total %>
+        <% computed_discount = (@order.discount.to_f > 0) ? @order.discount.to_f : (subtotal.to_f - @order.total.to_f).round(0) %>
+        <td style="text-align: right;"><%= format_vnd(computed_discount) %></td>
+      </tr>
+      <tr>
+        <td style="text-align: right; font-weight:bold;">Total:</td>
+        <td style="text-align: right; font-weight:bold;"><%= format_vnd(@order.total) %></td>
+      </tr>
+    </table>
     <p style="text-align: center; margin-top: 50px; color: #777;"><%= t('orders.pdf.thanks') %></p>
   </div>
 </body>

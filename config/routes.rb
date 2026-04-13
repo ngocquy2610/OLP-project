@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   end
   resource :cart do
     post :checkout
+    post :apply_voucher
+    post :remove_voucher
   end
 
   resources :topics do
@@ -76,6 +78,8 @@ Rails.application.routes.draw do
         patch :published
         patch :rejected
       end
+      
     end
+    resources :vouchers
   end
 end
