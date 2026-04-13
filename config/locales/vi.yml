@@ -222,6 +222,7 @@ vi:
             name: "Tên khóa học"
             description: "Mô tả"
             price: "Giá"
+            status: "Trạng thái"
             actions: "Hành động"
         new:
           title: "Tạo khóa học mới"
@@ -340,6 +341,18 @@ vi:
       total_label: "Tổng cộng"
       checkout: "Thanh toán"
     courses:
+      verify:
+        title: "Quản lý khóa học"
+        subtitle: "Xem xét và phê duyệt các khóa học do giảng viên gửi."
+        pending_approval: "Chờ phê duyệt"
+        course_name: "Tên khóa học"
+        teacher: "Giảng viên"
+        price: "Giá"
+        actions: "Hành động"
+        no_pending: "Không có khóa học nào chờ phê duyệt."
+        approve: "Phê duyệt"
+        details: "Chi tiết"
+        reject: "Từ chối"
       index:
         title: "Danh sách khóa học"
       show:

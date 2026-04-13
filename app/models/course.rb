@@ -9,6 +9,8 @@ class Course < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :price_must_be_zero_or_minimum
 
+  enum :status, { pending: 0, published: 1, rejected: 2 }
+
   def price_must_be_zero_or_minimum
     return if price.nil?
     p = price.to_i
