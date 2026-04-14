@@ -83,3 +83,8 @@ gem 'wkhtmltopdf-binary'
 gem "chartkick", "~> 5.2"
 gem "groupdate", "~> 6.7"
 gem "aws-sdk-s3"
+
+gem "kaminari"
+
+gem "elasticsearch"
+gem "searchkiq"

@@ -44,7 +44,9 @@ Rails.application.routes.draw do
   resource :cart do
     post :checkout
     post :apply_voucher
+    post :validate_voucher
     post :remove_voucher
+    delete :remove_voucher
   end
 
   resources :topics do

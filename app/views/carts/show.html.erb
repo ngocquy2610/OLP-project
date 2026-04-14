@@ -22,7 +22,8 @@
                     <input 
                       type="checkbox"
                       name="selected_items[]"
-                      value="<%= item.id %>"
+                        value="<%= item.id %>"
+                        <%= 'checked' if @selected_ids&.include?(item.id.to_s) %>
                       data-price="<%= item.course&.price.to_i %>"
                       class="js-item-checkbox w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
                     >
@@ -59,7 +60,7 @@
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-300">
           <h3 class="text-lg font-semibold mb-4">Mã giảm giá</h3>
           
-          <% if @voucher %>
+            <% if @voucher %>
             <div class="flex items-center justify-between bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
               <div class="flex items-center space-x-2">
                 <span class="text-emerald-800 font-bold bg-emerald-200 px-2 py-1 rounded text-sm"><%= @voucher.code %></span>
@@ -68,7 +69,7 @@
               <%= button_to "Gỡ bỏ", remove_voucher_cart_path, method: :delete, class: "text-red-500 text-sm font-medium hover:underline" %>
             </div>
           <% else %>
-            <%= form_with url: apply_voucher_cart_path, method: :post, class: "flex space-x-2" do |f| %>
+            <%= form_with url: apply_voucher_cart_path, method: :post, local: true, html: { id: 'apply-voucher-form', class: 'flex space-x-2' } do |f| %>
               <%= f.text_field :code, placeholder: "Nhập mã (VD: SALE50)", class: "border border-gray-300 rounded-xl px-4 py-2 w-full uppercase text-sm focus:ring-blue-500 focus:border-blue-500" %>
               <%= f.submit "Áp dụng", class: "bg-gray-800 text-white font-medium px-4 py-2 rounded-xl hover:bg-gray-900 cursor-pointer text-sm whitespace-nowrap" %>
             <% end %>
@@ -179,5 +180,74 @@
         setupCartHandlers();
       }
     });
+
+    // validate voucher against selected items before submitting the apply form
+    (function attachVoucherFormHandler() {
+      const form = document.getElementById('apply-voucher-form');
+      if (!form) return;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // gather selected items
+        const container = document.getElementById('cart-items');
+        if (!container) return;
+        const checked = Array.from(container.querySelectorAll('.js-item-checkbox')).filter(b => b.checked);
+        if (checked.length === 0) {
+          alert('Vui lòng chọn ít nhất một sản phẩm trước khi áp dụng mã giảm giá.');
+          return;
+        }
+
+        const codeInput = form.querySelector('input[name="code"]');
+        const code = codeInput ? codeInput.value.trim() : '';
+        if (!code) {
+          alert('Vui lòng nhập mã giảm giá.');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('code', code);
+        checked.forEach(box => formData.append('selected_items[]', box.value));
+
+        const tokenEl = document.querySelector('meta[name="csrf-token"]');
+        const token = tokenEl ? tokenEl.getAttribute('content') : '';
+
+        fetch('<%= validate_voucher_cart_path %>', {
+          method: 'POST',
+          headers: {
+            'X-CSRF-Token': token,
+            'Accept': 'application/json'
+          },
+          body: formData
+        }).then(async response => {
+          const data = await response.json().catch(() => ({}));
+          if (response.ok && data.allowed) {
+            // append selected items as hidden inputs then submit the original form
+            Array.from(form.querySelectorAll('input[name="selected_items[]"]')).forEach(el => el.remove());
+            checked.forEach(box => {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = 'selected_items[]';
+              input.value = box.value;
+              form.appendChild(input);
+            });
+            form.submit();
+          } else {
+            alert(data.message || 'Mã giảm giá không thể áp dụng cho các sản phẩm đã chọn.');
+          }
+        }).catch(() => {
+          // network error — fallback to submitting so server can validate
+          Array.from(form.querySelectorAll('input[name="selected_items[]"]')).forEach(el => el.remove());
+          checked.forEach(box => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_items[]';
+            input.value = box.value;
+            form.appendChild(input);
+          });
+          form.submit();
+        });
+      });
+    })();
   </script>
 <% end %>

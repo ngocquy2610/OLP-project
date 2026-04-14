@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_13_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_14_062024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -94,6 +94,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_090000) do
     t.string "name", null: false
     t.decimal "price", null: false
     t.integer "status", default: 0
+    t.string "tag"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
@@ -215,6 +216,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_13_090000) do
 
   create_table "vouchers", force: :cascade do |t|
     t.boolean "active", default: true
+    t.decimal "active_price"
     t.string "code"
     t.datetime "created_at", null: false
     t.integer "discount_percent"

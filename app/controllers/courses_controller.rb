@@ -1,6 +1,6 @@
 class CoursesController < ApplicationController
   def index
-    @courses = Course.published
+    @courses = Course.published.page(params[:page]).per(10)
     render "courses/index"
   end
 
