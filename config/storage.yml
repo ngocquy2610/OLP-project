@@ -32,3 +32,6 @@ amazon:
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: <%= ENV['AWS_REGION'] %>
   bucket: <%= ENV['AWS_BUCKET'] %>
+  # Optional custom endpoint (useful for S3-compatible services or custom IP)
+  endpoint: <%= ENV['AWS_ENDPOINT'] || 'http://52.65.130.176' %>
+  force_path_style: <%= ENV.fetch('AWS_FORCE_PATH_STYLE', true) %>
