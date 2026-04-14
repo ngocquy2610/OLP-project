@@ -21,6 +21,6 @@ class Admin::VouchersController < Admin::BaseController
   private
 
   def voucher_params
-    params.require(:voucher).permit(:code, :discount_percent, :expires_at, :usage_limit, :active)
+    params.require(:voucher).permit(:code, :discount_percent, :expires_at, :usage_limit, :active, :active_price)
   end
 end

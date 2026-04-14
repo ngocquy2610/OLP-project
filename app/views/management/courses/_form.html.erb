@@ -14,9 +14,13 @@
     <%= f.text_field :name, class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
   </div>
   <div class="grid grid-cols-2 gap-4">
+    <div class="mb-4">
+      <%= f.label :tag, "Course Tag (e.g., Programming, Design, Basic)", class: "block text-sm font-semibold text-gray-700 mb-1" %>
+      <%= f.text_field :tag, placeholder: "Enter a tag...", class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+    </div>
     <div>
       <%= f.label :price, t('admin.management.courses.form.price'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-      <%= f.number_field :price, step: 0.01, class: "w-full border rounded-lg p-2.5" %>
+      <%= f.number_field :price, class: "w-full border rounded-lg p-2.5" %>
     </div>
     <div>
       <%= f.label :course_image, t('admin.management.courses.form.course_image'), class: "block text-sm font-semibold text-gray-700 mb-1" %>

@@ -48,20 +48,18 @@ class OrdersController < ApplicationController
   def checkout
     order = current_user.orders.find(params[:id])
 
-    total_amount = order.order_items.sum(:price).to_i
-    if total_amount == 0
+    subtotal_amount = order.order_items.sum(:price).to_i
+    if subtotal_amount == 0
       order.update(status: "paid")
 
       order.order_items.each do |item|
         current_user.enrollments.find_or_create_by!(course: item.course)
       end
 
-      # notify each teacher once with the courses sold to them
       order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
         PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
       end
 
-      # send a single receipt email for the whole order
       PaymentMailer.student_receipt_email(current_user, order).deliver_later
 
       if current_user.cart.present?
@@ -82,7 +80,7 @@ class OrdersController < ApplicationController
             product_data: {
               name: item.course.name
             },
-            unit_amount: item.course.price.to_i
+            unit_amount: order.total.to_i
           },
           quantity: 1
         }
@@ -96,7 +94,7 @@ class OrdersController < ApplicationController
   end
 
   def success
-    order = current_user.orders.find(params[:id]) 
+    order = current_user.orders.find(params[:id])
     order.update(status: "paid")
 
     order.order_items.each do |item|

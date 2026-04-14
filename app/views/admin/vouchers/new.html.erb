@@ -25,6 +25,10 @@
             <%= f.number_field :usage_limit, placeholder: "Bỏ trống nếu không giới hạn", class: "w-full border-gray-300 rounded-md shadow-sm" %>
             </div>
             <div>
+            <%= f.label :active_price, "Giá áp dụng", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.number_field :active_price, placeholder: "Bỏ trống nếu không áp dụng", class: "w-full border-gray-300 rounded-md shadow-sm" %>
+            </div>
+            <div>
             <%= f.label :expires_at, "Hạn sử dụng", class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= f.datetime_field :expires_at, class: "w-full border-gray-300 rounded-md shadow-sm" %>
             </div>
