@@ -86,5 +86,5 @@ gem "aws-sdk-s3"
 
 gem "kaminari"
 
-gem "elasticsearch"
-gem "searchkiq"
+gem "elasticsearch", "8.13.0"
+gem "searchkick"

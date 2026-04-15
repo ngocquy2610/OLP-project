@@ -1,12 +1,13 @@
 <%= turbo_frame_tag "profile_content" do %>
-<div class="max-w-7xl mx-auto mt-8 px-4">
-  <div class="mb-8">
+<div class="max-w-7xl mx-auto mt-8 px-4 mb-20">
+  
+  <div class="mb-6">
     <h1 class="text-3xl font-bold text-gray-900"><%= t('admin.courses.verify.title') %></h1>
     <p class="mt-2 text-sm text-gray-600"><%= t('admin.courses.verify.subtitle') %></p>
   </div>
 
   <div class="bg-white rounded-lg shadow overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
       <h2 class="text-lg font-bold text-gray-900"><%= t('admin.courses.verify.pending_approval') %> (<%= @pending_courses.count %>)</h2>
     </div>
 
@@ -28,7 +29,7 @@
           <% @pending_courses.each do |course| %>
             <tr>
               <td class="px-6 py-4 font-medium text-gray-900"><%= course.name %></td>
-                <td class="px-6 py-4 text-gray-500"><%= course.user&.fullname.presence || 'Not available' %></td>
+              <td class="px-6 py-4 text-gray-500"><%= course.user&.fullname.presence || 'Not available' %></td>
               <td class="px-6 py-4 text-gray-500"><%= number_to_currency(course.price) %></td>
               <td class="px-6 py-4 text-right space-x-2 flex justify-center">
                 <%= button_to t('admin.courses.verify.approve'), published_admin_course_path(course), method: :patch, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600 text-sm font-medium" %>

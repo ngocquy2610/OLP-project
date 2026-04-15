@@ -1,5 +1,34 @@
 <%= turbo_frame_tag "profile_content" do %>
   <h1 class="text-2xl text-center font-bold text-gray-800 mt-5"><%= t('admin.courses.index.title') %></h1>
+  
+  <div class="max-w-2xl mx-auto mt-6 px-4">
+    <%= form_with url: request.path, method: :get, 
+          data: { 
+            turbo_frame: "profile_content", 
+            turbo_action: "advance",
+            controller: "search"
+          }, 
+          class: "flex items-center space-x-2" do |f| %>
+      
+      <div class="relative flex-1">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        
+        <%= f.text_field :query, 
+              value: params[:query], 
+              placeholder: "Tìm kiếm khóa học", 
+              data: { action: "input->search#submit" },
+              class: "block w-full p-3.5 pl-10 text-sm text-gray-900 border border-gray-300 rounded-xl bg-white focus:outline-none focus:ring-0 focus:border-blue-500 shadow-sm" %>
+      </div>
+      
+      <%= f.submit "Tìm kiếm", class: "text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-xl text-sm px-5 py-3.5 cursor-pointer transition shadow-sm" %>
+      
+      <% if params[:query].present? %>
+        <%= link_to "Xóa", request.path, class: "text-gray-500 hover:text-gray-700 px-3 py-2 text-sm font-medium whitespace-nowrap" %>
+      <% end %>
+    <% end %>
+  </div>
   <div class="flex flex-wrap gap-4 my-6 justify-center">
     <% @courses.each do |course| %>
       <div class="flex flex-col gap-3 justify-between items-center mt-6 border-1 p-4 rounded-lg bg-gray-50 text-gray-600 w-1/6 h-100">
@@ -16,6 +45,7 @@
 
         <div class="w-full">
           <div class="font-bold text-gray-800 text-center"><%= course.name %></div>
+          <div class="text-blue-500 text-center break-words line-clamp-3 flex items-start justify-center">#<%= course.tag %></div>
           <div class="text-gray-500 text-center break-words line-clamp-3 h-20 flex items-start justify-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
         </div>
 
