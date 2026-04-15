@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     member do
       get :learn
     end
+    resources :feedback_courses, only: [:index, :create, :edit, :update]
   end
 
   resource :cart, only: [ :show ]

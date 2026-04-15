@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_14_062024) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_063944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -93,8 +93,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_062024) do
     t.string "image"
     t.string "name", null: false
     t.decimal "price", null: false
+    t.float "rate"
     t.integer "status", default: 0
     t.string "tag"
+    t.integer "total_rating"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
@@ -129,6 +131,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_062024) do
     t.integer "type", null: false
     t.datetime "updated_at", null: false
     t.index ["topic_id"], name: "index_exams_on_topic_id"
+  end
+
+  create_table "feedback_courses", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.datetime "created_at", null: false
+    t.text "feedback"
+    t.integer "likes_count"
+    t.integer "rate"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["course_id"], name: "index_feedback_courses_on_course_id"
+    t.index ["user_id"], name: "index_feedback_courses_on_user_id"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -243,6 +257,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_14_062024) do
   add_foreign_key "exam_attempts", "topics"
   add_foreign_key "exam_attempts", "users"
   add_foreign_key "exams", "topics"
+  add_foreign_key "feedback_courses", "courses"
+  add_foreign_key "feedback_courses", "users"
   add_foreign_key "lessons", "topics"
   add_foreign_key "order_items", "courses"
   add_foreign_key "order_items", "orders"
