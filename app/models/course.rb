@@ -11,6 +11,16 @@ class Course < ApplicationRecord
 
   enum :status, { pending: 0, published: 1, rejected: 2 }
 
+  searchkick word_middle: [:name, :tag]
+
+  def search_data
+    {
+      name: name,
+      tag: tag,
+      status: status_before_type_cast
+    }
+  end
+
   def price_must_be_zero_or_minimum
     return if price.nil?
     p = price.to_i

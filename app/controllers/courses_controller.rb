@@ -1,14 +1,24 @@
 class CoursesController < ApplicationController
   def index
-    @courses = Course.published.page(params[:page]).per(10)
-    render "courses/index"
+    
+    if params[:query].present?
+      @courses = Course.search(
+        params[:query], 
+        fields: [:name, :tag],
+        where: { status: 1 },
+        page: params[:page], 
+        per_page: 10,
+        match: :word_middle
+      )
+    else
+      @courses = Course.published.page(params[:page]).per(10)
+    end
   end
 
   def show
     @course = Course.find(params[:id])
     @topics = @course.topics.includes(:lessons)
-    render "courses/show"
-
+    
     @owned = current_user&.owned_courses&.exists?(@course.id)
 
     if @owned
@@ -23,6 +33,7 @@ class CoursesController < ApplicationController
       @exams   = []
       @practices = []
     end
+    
   end
 
   def learn
