@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :exam_attempts, dependent: :destroy
   has_many :practice_attempts, dependent: :destroy
   has_one :feedback_courses, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   after_create :create_cart
 
@@ -22,6 +23,10 @@ class User < ApplicationRecord
 
   def admin?
     role == "admin"
+  end
+
+  def liked?(feedback)
+    likes.exists?(feedback_course_id: feedback.id)
   end
 
   protected

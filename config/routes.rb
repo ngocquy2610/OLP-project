@@ -26,6 +26,10 @@ Rails.application.routes.draw do
     resources :feedback_courses, only: [:index, :create, :edit, :update]
   end
 
+  resources :feedback_courses, only: [] do
+    resource :like, only: [:create, :destroy] 
+  end
+
   resource :cart, only: [ :show ]
   resources :cart_items, only: [ :create, :destroy ]
   namespace :management do
@@ -37,8 +41,8 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
-      post :checkout   # create Stripe session
-      get :success     # after payment
+      post :checkout
+      get :success
       get :cancel
     end
   end

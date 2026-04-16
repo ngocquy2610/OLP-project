@@ -71,24 +71,38 @@ class OrdersController < ApplicationController
       return
     end
 
-    session = Stripe::Checkout::Session.create(
-      payment_method_types: [ "card" ],
-      line_items: order.order_items.map do |item|
-        {
-          price_data: {
-            currency: "vnd",
-            product_data: {
-              name: item.course.name
-            },
-            unit_amount: order.total.to_i
-          },
-          quantity: 1
-        }
-      end,
+    # Build Stripe line items using each item's original price
+    stripe_line_items = order.order_items.map do |item|
+      {
+        price_data: {
+          currency: "vnd",
+          product_data: { name: item.course.name },
+          unit_amount: item.price.to_i
+        },
+        quantity: 1
+      }
+    end
+
+    session_params = {
+      payment_method_types: ["card"],
+      line_items: stripe_line_items,
       mode: "payment",
       success_url: success_order_url(order),
       cancel_url: cancel_order_url(order)
-    )
+    }
+
+    # If the order has a discount, create a one-time Stripe coupon so Checkout shows discount
+    if order.discount.to_i > 0
+      coupon = Stripe::Coupon.create(
+        amount_off: order.discount.to_i,
+        currency: 'vnd',
+        duration: 'once'
+      )
+
+      session_params[:discounts] = [{ coupon: coupon.id }]
+    end
+
+    session = Stripe::Checkout::Session.create(session_params)
 
     redirect_to session.url, allow_other_host: true
   end
