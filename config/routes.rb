@@ -23,6 +23,11 @@ Rails.application.routes.draw do
     member do
       get :learn
     end
+    resources :feedback_courses, only: [:index, :create, :edit, :update]
+  end
+
+  resources :feedback_courses, only: [] do
+    resource :like, only: [:create, :destroy] 
   end
 
   resource :cart, only: [ :show ]
@@ -36,8 +41,8 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
-      post :checkout   # create Stripe session
-      get :success     # after payment
+      post :checkout
+      get :success
       get :cancel
     end
   end
