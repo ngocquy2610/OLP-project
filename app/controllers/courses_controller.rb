@@ -18,6 +18,9 @@ class CoursesController < ApplicationController
   def show
     @course = Course.find(params[:id])
     @topics = @course.topics.includes(:lessons)
+    teacher = @course.user
+    @teacher_rating = teacher.rate
+    @teacher_name = teacher.fullname
     
     @owned = current_user&.owned_courses&.exists?(@course.id)
 

@@ -7,6 +7,10 @@
         <span class="text-gray-600"><%= @user.fullname.presence || t('profiles.not_updated') %></span>
       </div>
       <div class="flex border-b pb-2">
+        <span class="font-semibold w-32"><%= "Rating" %></span>
+        <span class="text-gray-600"><%= @user.rate.presence || "No-rating" %></span>
+      </div>
+      <div class="flex border-b pb-2">
         <span class="font-semibold w-32"><%= t('profiles.teacher.phone') %></span>
         <span class="text-gray-600"><%= @user.phone.presence || t('profiles.not_updated') %></span>
       </div>
