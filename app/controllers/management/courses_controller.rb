@@ -1,6 +1,7 @@
 class Management::CoursesController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_course, only: [ :show, :edit, :update, :destroy ]
+  before_action :require_banking_info!, only: [:new, :create]
 
   def index
     @courses = Course.all
@@ -59,5 +60,11 @@ class Management::CoursesController < ApplicationController
 
   def course_params
     params.require(:course).permit(:name, :description, :price, :course_image, :tag)
+  end
+
+  def require_banking_info!
+    unless current_user.can_upload_course?
+      redirect_to edit_user_registration_path, alert: "Bạn cần cập nhật thông tin Tài khoản ngân hàng (để nhận tiền) trước khi đăng bán khóa học!"
+    end
   end
 end
