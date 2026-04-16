@@ -7,8 +7,6 @@
     </div>
     <h1 class="text-2xl text-center font-bold text-gray-800 mb-3"><%= @course.name %></h1>
     <div class="flex items-center gap-2">
-      <span class="font-bold text-gray-800 text-lg"><%= @course.rate || 0.0 %></span>
-
       <div class="relative inline-block text-gray-300 text-xl tracking-widest">
         <span>★★★★★</span>
 
@@ -18,7 +16,18 @@
         </div>
       </div>
     </div>
+    <p>create by: <span class="text-blue-500"><%= @teacher_name || "unknown" %></span></p>
+    <div class="flex items-center gap-2">
+    teacher ranking:
+      <div class="relative inline-block text-gray-300 text-xl tracking-widest">
+        <span>★★★★★</span>
 
+        <div class="absolute top-0 left-0 text-yellow-400 overflow-hidden whitespace-nowrap" 
+            style="width: <%= ((@teacher_rating.to_f || 0) / 5.0) * 100 %>%;">
+          ★★★★★
+        </div>
+      </div>
+    </div>
     <% @topics.each do |topic|%>
       <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
         <h2 class="text-xl font-bold mb-4"><%= topic.name %></h2>

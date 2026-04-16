@@ -27,6 +27,7 @@ class FeedbackCoursesController < ApplicationController
   
     
     CourseRatingService.create_course_rating(@course, @feedback.rate)
+    TeacherRatingService.create_teacher_rating(@course.user, @feedback.rate)
 
   end
 
@@ -42,6 +43,7 @@ class FeedbackCoursesController < ApplicationController
     end
 
     CourseRatingService.update_course_rating(@course, @feedback.rate, old_rate)
+    TeacherRatingService.update_teacher_rating(@course.user, @feedback.rate, old_rate)
   end
 
   def like
