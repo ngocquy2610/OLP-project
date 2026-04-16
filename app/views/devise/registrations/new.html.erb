@@ -46,6 +46,26 @@
               {}, 
               class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %>
           </div>
+          <div id="bank-details" class="hidden mt-6  p-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Thông tin nhận thanh toán (Dành cho Giáo viên)</h3>
+
+            <div class="space-y-4">
+              <div class="field my-5">
+                <p class="mb-2"><%= f.label :bank_name, "Tên ngân hàng (VD: Vietcombank, MB Bank)", class: "text-[24px] text-[#74787f]" %></p>
+                <p><%= f.text_field :bank_name, class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+              </div>
+
+              <div class="field my-5">
+                <p class="mb-2"><%= f.label :bank_account_number, "Số tài khoản", class: "text-[24px] text-[#74787f]" %></p>
+                <p><%= f.text_field :bank_account_number, class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+              </div>
+
+              <div class="field my-5">
+                <p class="mb-2"><%= f.label :bank_account_name, "Tên chủ tài khoản (Viết hoa không dấu)", class: "text-[24px] text-[#74787f]" %></p>
+                <p><%= f.text_field :bank_account_name, class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="actions">
@@ -74,5 +94,25 @@
         </div>
       </div>
     <% end %>
+    <script>
+      document.addEventListener('turbo:load', function () {
+        var roleSelect = document.querySelector('select[name="user[role]"]');
+        var bankDetails = document.getElementById('bank-details');
+        if (!roleSelect || !bankDetails) return;
+
+        function toggleBank() {
+          if (roleSelect.value === 'teacher') {
+            bankDetails.classList.remove('hidden');
+          } else {
+            bankDetails.classList.add('hidden');
+            // clear bank inputs when hidden
+            bankDetails.querySelectorAll('input').forEach(function(i){ i.value = ''; });
+          }
+        }
+
+        roleSelect.addEventListener('change', toggleBank);
+        toggleBank();
+      });
+    </script>
   </div>
 </div>

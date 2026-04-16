@@ -29,6 +29,10 @@ class User < ApplicationRecord
     likes.exists?(feedback_course_id: feedback.id)
   end
 
+  def can_upload_course?
+    bank_name.present? && bank_account_number.present? && bank_account_name.present?
+  end
+
   protected
 
   def send_devise_notification(notification, *args)

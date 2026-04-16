@@ -1,11 +1,9 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="flex h-screen bg-gray-100">
-    <!-- LEFT: Video Player -->
     <div class="flex-1 flex flex-col">
-      <!-- Video -->
       <div class="bg-black">
         <% if @current_lesson&.video&.attached? %>
-          <video controls class="w-full h-fit bg-black">
+          <video controls controlsList="nodownload" preload="metadata" oncontextmenu="return false;" class="w-full h-fit bg-black">
             <source src="<%= url_for(@current_lesson.video) %>" type="video/mp4">
             <%= t('courses.learn.no_video') %>
           </video>
@@ -15,7 +13,6 @@
           </div>
         <% end %>
       </div>
-      <!-- Lesson Info -->
       <div class="p-6 bg-white">
         <h2 class="text-xl font-semibold">
           <%= @current_lesson&.name %>
@@ -25,15 +22,12 @@
         </p>
       </div>
     </div>
-    <!-- RIGHT: Lesson List -->
     <div class="w-100 bg-white border-l overflow-y-auto">
       <% @topics.each do |topic| %>
         <div class="border-b">
-          <!-- Topic Title -->
           <div class="p-4 bg-gray-100 font-semibold">
             <%= topic.name %>
           </div>
-          <!-- Lessons -->
           <% topic.lessons.each do |lesson| %>
             <%= link_to learn_course_path(@course, lesson_id: lesson.id),
               class: "block px-4 py-3 hover:bg-gray-50 #{'bg-blue-100' if lesson == @current_lesson}" do %>

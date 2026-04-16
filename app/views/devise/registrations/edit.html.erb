@@ -26,12 +26,14 @@
         <p class="mb-2"><%= f.label :password_confirmation, t('devise.passwords.password_confirmation'), class: "text-[24px] text-[#74787f]" %></p>
         <p><%= f.password_field :password_confirmation, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
       </div>
+
       <div class="flex gap-5 justify-center">
         <div class="actions">
           <%= f.submit t('devise.registrations.confirm_button', default: 'Confirm'), class: "bg-green-400 border-1 border-green-400 w-fit py-2 px-5 rounded-full text-black hover:bg-white hover:text-black hover:border-1 transition cursor-pointer" %>
         </div>
         <%= link_to t('devise.links.back', default: 'Back'), :back, class: "bg-gray-500 text-white border-1 border-gray-500 px-4 py-2 rounded-full hover:bg-white hover:text-gray-500 hover:border-1" %>
       </div>
+
     <% end %>
   </div>
 <% end %>
