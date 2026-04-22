@@ -2,6 +2,7 @@ class Management::CoursesController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_course, only: [ :show, :edit, :update, :destroy ]
   before_action :require_banking_info!, only: [:new, :create]
+  before_action :require_stripe_connection!, only: [:new, :create]
 
   def index
     @courses = Course.all
@@ -65,6 +66,12 @@ class Management::CoursesController < ApplicationController
   def require_banking_info!
     unless current_user.can_upload_course?
       redirect_to edit_user_registration_path, alert: "Bạn cần cập nhật thông tin Tài khoản ngân hàng (để nhận tiền) trước khi đăng bán khóa học!"
+    end
+  end
+
+  def require_stripe_connection!
+    if current_user.stripe_account_id.blank?
+      redirect_to edit_user_registration_path, alert: "Bạn phải kết nối Stripe Account ID trước khi đăng bán khóa học!"
     end
   end
 end

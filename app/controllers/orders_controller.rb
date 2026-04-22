@@ -29,42 +29,56 @@ class OrdersController < ApplicationController
   def pay
     @order = current_user.orders.find(params[:id])
 
-    @order.update(status: "paid")
+    # Đảm bảo không xử lý lại nếu đã thanh toán
+    unless @order.status == "paid"
+      @order.update(status: "paid")
 
-    @order.order_items.each do |item|
-      Enrollment.find_or_create_by!(
-        user: current_user,
-        course: item.course
-      )
+      @order.order_items.each do |item|
+        Enrollment.find_or_create_by!(
+          user: current_user,
+          course: item.course
+        )
+
+        # CỘNG TIỀN CHO GIÁO VIÊN NẾU THANH TOÁN QUA HÀM NÀY
+        teacher = item.course.user
+        teacher_share = (item.price.to_i * 0.90).to_i
+        teacher.increment!(:balance, teacher_share) if teacher_share > 0
+      end
+
+      current_user.cart.cart_items
+        .where(course_id: @order.order_items.pluck(:course_id))
+        .destroy_all
     end
-
-    current_user.cart.cart_items
-      .where(course_id: @order.order_items.pluck(:course_id))
-      .destroy_all
 
     redirect_to courses_path, notice: "Bạn đã sở hữu khóa học!"
   end
 
   def checkout
     order = current_user.orders.find(params[:id])
-
+    @usd_rate = (JSON.parse(File.read(Rails.root.join('exchange_rate.json')))['rate'] rescue nil)
     subtotal_amount = order.order_items.sum(:price).to_i
+    subtotal_amount_in_usd = (subtotal_amount * @usd_rate * 100).to_i
+    
+    # Xử lý đơn hàng miễn phí (Giá = 0)
     if subtotal_amount == 0
-      order.update(status: "paid")
+      unless order.status == "paid"
+        order.update(status: "paid")
 
-      order.order_items.each do |item|
-        current_user.enrollments.find_or_create_by!(course: item.course)
-      end
+        order.order_items.each do |item|
+          current_user.enrollments.find_or_create_by!(course: item.course)
+          # Tiền = 0 nên không cần cộng ví cho giáo viên ở đây
+        end
 
-      order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
-        PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
-      end
+        order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
+          PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
+        end
 
-      PaymentMailer.student_receipt_email(current_user, order).deliver_later
+        PaymentMailer.student_receipt_email(current_user, order).deliver_later
 
-      if current_user.cart.present?
-        purchased_course_ids = order.order_items.pluck(:course_id)
-        current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
+        if current_user.cart.present?
+          purchased_course_ids = order.order_items.pluck(:course_id)
+          current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
+        end
       end
 
       redirect_to courses_path, notice: "Payment successful! You can now access your courses."
@@ -75,9 +89,9 @@ class OrdersController < ApplicationController
     stripe_line_items = order.order_items.map do |item|
       {
         price_data: {
-          currency: "vnd",
+          currency: "usd",
           product_data: { name: item.course.name },
-          unit_amount: item.price.to_i
+          unit_amount: (item.price.to_i * @usd_rate * 100).to_i
         },
         quantity: 1
       }
@@ -91,11 +105,10 @@ class OrdersController < ApplicationController
       cancel_url: cancel_order_url(order)
     }
 
-    # If the order has a discount, create a one-time Stripe coupon so Checkout shows discount
     if order.discount.to_i > 0
       coupon = Stripe::Coupon.create(
-        amount_off: order.discount.to_i,
-        currency: 'vnd',
+        amount_off: (order.discount.to_i * @usd_rate * 100).to_i,
+        currency: 'usd',
         duration: 'once'
       )
 
@@ -107,29 +120,38 @@ class OrdersController < ApplicationController
     redirect_to session.url, allow_other_host: true
   end
 
+  def gmo_checkout
+    @order = current_user.orders.find(params[:id])
+    # Không redirect gì ở đây cả, Rails sẽ tự động tìm file view gmo_checkout.html.erb để hiển thị
+  end
+
   def success
     order = current_user.orders.find(params[:id])
-    order.update(status: "paid")
 
-    order.order_items.each do |item|
-      course = item.course
-      amount_paid = item.price.to_i
+    unless order.status == "paid"
+      order.update(status: "paid")
 
-      current_user.enrollments.find_or_create_by!(course: course)
-    end
+      order.order_items.each do |item|
+        course = item.course
+        
+        current_user.enrollments.find_or_create_by!(course: course)
 
-    # notify each teacher once with the courses sold to them
-    order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
-      PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
-    end
+        teacher = course.user
+        
+        teacher_share = (item.price.to_i * 0.90).to_i
+        teacher.increment!(:balance, teacher_share) if teacher_share > 0
+      end
 
-    # send a single receipt email for the whole order
-    PaymentMailer.student_receipt_email(current_user, order).deliver_later
+      order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
+        PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
+      end
 
-    if current_user.cart.present?
-      purchased_course_ids = order.order_items.pluck(:course_id)
-      
-      current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
+      PaymentMailer.student_receipt_email(current_user, order).deliver_later
+
+      if current_user.cart.present?
+        purchased_course_ids = order.order_items.pluck(:course_id)
+        current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
+      end
     end
 
     redirect_to courses_path, notice: "Payment successful! You can now access your courses."
@@ -137,5 +159,54 @@ class OrdersController < ApplicationController
 
   def cancel
     redirect_to cart_path, alert: "Payment canceled"
+  end
+
+  # Handle GMO token submission
+  def charge_gmo
+    order = current_user.orders.find(params[:id])
+
+    if order.status == 'paid'
+      redirect_to courses_path, notice: 'Order already paid.' and return
+    end
+
+    token = params[:gmo_token] # Hứng token từ JS
+    if token.blank?
+      redirect_to gmo_checkout_order_path(order), alert: 'Thiếu token thanh toán.' and return
+    end
+
+    # Truyền token vào Service
+    service = GmoPaymentService.new(order, token)
+    result = service.charge_card
+
+    if result[:success]
+      # CHỈ KHI GMO TRẢ VỀ SUCCESS THÌ MỚI ĐƯỢC PHÉP CỘNG TIỀN VÀ GIAO KHÓA HỌC
+      order.update(status: 'paid')
+
+      order.order_items.each do |item|
+        current_user.enrollments.find_or_create_by!(course: item.course)
+
+        teacher = item.course.user
+        teacher_share = (item.price.to_i * 0.90).to_i
+        teacher.increment!(:balance, teacher_share) if teacher_share > 0
+      end
+
+      # Gửi email thông báo
+      order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
+        PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
+      end
+      PaymentMailer.student_receipt_email(current_user, order).deliver_later
+
+      # Xóa giỏ hàng
+      if current_user.cart.present?
+        purchased_course_ids = order.order_items.pluck(:course_id)
+        current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
+      end
+
+      redirect_to courses_path, notice: 'Thanh toán GMO thành công! Bạn đã sở hữu khóa học.'
+    else
+      # NẾU GMO TỪ CHỐI (Thẻ sai, hết hạn, từ chối giao dịch...)
+      # Đá về trang checkout và hiện thông báo lỗi
+      redirect_to gmo_checkout_order_path(order), alert: "Thanh toán thất bại: #{result[:error]}"
+    end
   end
 end

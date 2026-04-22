@@ -58,20 +58,20 @@
       <div class="space-y-6">
         
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-300">
-          <h3 class="text-lg font-semibold mb-4">Mã giảm giá</h3>
+          <h3 class="text-lg font-semibold mb-4"><%= t('cart.voucher_title', default: 'Mã giảm giá') %></h3>
           
             <% if @voucher %>
             <div class="flex items-center justify-between bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
               <div class="flex items-center space-x-2">
                 <span class="text-emerald-800 font-bold bg-emerald-200 px-2 py-1 rounded text-sm"><%= @voucher.code %></span>
-                <span class="text-emerald-600 text-sm font-medium">Giảm <%= @voucher.discount_percent %>%</span>
+                <span class="text-emerald-600 text-sm font-medium"><%= t('cart.voucher_discount', default: 'Giảm %{percent}%', percent: @voucher.discount_percent) %></span>
               </div>
-              <%= button_to "Gỡ bỏ", remove_voucher_cart_path, method: :delete, class: "text-red-500 text-sm font-medium hover:underline" %>
+              <%= button_to t('cart.remove_voucher', default: 'Gỡ bỏ'), remove_voucher_cart_path, method: :delete, class: "text-red-500 text-sm font-medium hover:underline" %>
             </div>
           <% else %>
             <%= form_with url: apply_voucher_cart_path, method: :post, local: true, html: { id: 'apply-voucher-form', class: 'flex space-x-2' } do |f| %>
-              <%= f.text_field :code, placeholder: "Nhập mã (VD: SALE50)", class: "border border-gray-300 rounded-xl px-4 py-2 w-full uppercase text-sm focus:ring-blue-500 focus:border-blue-500" %>
-              <%= f.submit "Áp dụng", class: "bg-gray-800 text-white font-medium px-4 py-2 rounded-xl hover:bg-gray-900 cursor-pointer text-sm whitespace-nowrap" %>
+              <%= f.text_field :code, placeholder: t('cart.voucher_placeholder', default: 'Nhập mã (VD: SALE50)'), class: "border border-gray-300 rounded-xl px-4 py-2 w-full uppercase text-sm focus:ring-blue-500 focus:border-blue-500" %>
+              <%= f.submit t('cart.apply', default: 'Áp dụng'), class: "bg-gray-800 text-white font-medium px-4 py-2 rounded-xl hover:bg-gray-900 cursor-pointer text-sm whitespace-nowrap" %>
             <% end %>
           <% end %>
         </div>
@@ -81,18 +81,18 @@
           
           <div class="space-y-3 text-sm text-gray-600 pb-4 border-b border-gray-200">
             <div class="flex justify-between">
-              <span>Đã chọn (<span id="selected_count">0</span>)</span>
+              <span><%= t('cart.selected_prefix', default: 'Đã chọn') %> (<span id="selected_count">0</span>)</span>
               <span id="sub_total" class="font-medium text-gray-800"><%= format_vnd(0) %></span>
             </div>
             
             <div id="discount_row" class="flex justify-between text-emerald-600 font-medium" style="display: none;">
-              <span>Giảm giá Voucher:</span>
+              <span><%= t('cart.voucher_discount_label', default: 'Giảm giá Voucher:') %></span>
               <span id="discount_amount"><%= format_vnd(0) %></span>
             </div>
           </div>
           
           <div class="flex justify-between mt-4 mb-6">
-            <span class="font-semibold text-gray-800">Tổng cộng:</span>
+            <span class="font-semibold text-gray-800"><%= t('cart.total_label', default: 'Tổng cộng:') %></span>
             <span id="selected_total" class="font-bold text-xl text-blue-600"><%= format_vnd(0) %></span>
           </div>
           
@@ -194,14 +194,14 @@
         if (!container) return;
         const checked = Array.from(container.querySelectorAll('.js-item-checkbox')).filter(b => b.checked);
         if (checked.length === 0) {
-          alert('Vui lòng chọn ít nhất một sản phẩm trước khi áp dụng mã giảm giá.');
+          alert('<%= j t("cart.errors.select_item", default: "Vui lòng chọn ít nhất một sản phẩm trước khi áp dụng mã giảm giá.") %>');
           return;
         }
 
         const codeInput = form.querySelector('input[name="code"]');
         const code = codeInput ? codeInput.value.trim() : '';
         if (!code) {
-          alert('Vui lòng nhập mã giảm giá.');
+          alert('<%= j t("cart.errors.enter_code", default: "Vui lòng nhập mã giảm giá.") %>');
           return;
         }
 
@@ -232,8 +232,8 @@
               form.appendChild(input);
             });
             form.submit();
-          } else {
-            alert(data.message || 'Mã giảm giá không thể áp dụng cho các sản phẩm đã chọn.');
+            } else {
+            alert(data.message || '<%= j t("cart.errors.voucher_not_allowed", default: "Mã giảm giá không thể áp dụng cho các sản phẩm đã chọn.") %>');
           }
         }).catch(() => {
           // network error — fallback to submitting so server can validate

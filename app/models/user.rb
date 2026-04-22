@@ -8,8 +8,8 @@ class User < ApplicationRecord
   has_many :courses
   has_one :cart, dependent: :destroy
   has_many :orders, dependent: :destroy
-  has_many :enrollments
-  has_many :owned_courses, through: :enrollments, source: :course
+  has_many :enrollments, dependent: :destroy
+  has_many :owned_courses, through: :enrollments, source: :course, dependent: :destroy
   has_many :exam_attempts, dependent: :destroy
   has_many :practice_attempts, dependent: :destroy
   has_one :feedback_courses, dependent: :destroy

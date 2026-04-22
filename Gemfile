@@ -88,3 +88,5 @@ gem "kaminari"
 
 gem "elasticsearch", "8.13.0"
 gem "searchkick"
+
+gem "whenever"

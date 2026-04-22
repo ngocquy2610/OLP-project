@@ -41,7 +41,9 @@ Rails.application.routes.draw do
   end
   resources :orders do
     member do
+      get :gmo_checkout
       post :checkout
+      post :charge_gmo
       get :success
       get :cancel
     end
@@ -88,5 +90,13 @@ Rails.application.routes.draw do
       
     end
     resources :vouchers
+  end
+
+  resources :withdrawals, only: [:create]
+  resources :stripe_connects, only: [:create] do
+    collection do
+      get :return
+      get :refresh
+    end
   end
 end
