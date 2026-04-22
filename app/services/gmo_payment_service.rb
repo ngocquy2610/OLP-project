@@ -18,8 +18,8 @@ class GmoPaymentService
       @security_code = security_code.to_s
     end
 
-    @shop_id = ENV['GMO_SHOP_ID'] || 'tshop00076628'
-    @shop_pass = ENV['GMO_SHOP_PASS'] || 'rdu6mrmk' # Ensure env var exists in production
+    @shop_id = ENV['GMO_SHOP_ID']
+    @shop_pass = ENV['GMO_SHOP_PASS']# Ensure env var exists in production
   end
 
   def charge_card
