@@ -163,19 +163,23 @@ class OrdersController < ApplicationController
 
   # Handle GMO token submission
   def charge_gmo
+    
     order = current_user.orders.find(params[:id])
 
     if order.status == 'paid'
-      redirect_to courses_path, notice: 'Order already paid.' and return
+      redirect_to courses_path, notice: 'Đơn hàng này đã được thanh toán.' and return
     end
 
-    token = params[:gmo_token] # Hứng token từ JS
+    # Expect a frontend token. Do NOT accept raw card numbers from the server.
+    token = params[:Token].presence || params[:gmo_token].presence
+
     if token.blank?
-      redirect_to gmo_checkout_order_path(order), alert: 'Thiếu token thanh toán.' and return
+      # If no token, reject and ask user to retry with tokenization enabled
+      redirect_to order_path(order), alert: 'Thiếu token thanh toán. Vui lòng thử lại.' and return
     end
 
-    # Truyền token vào Service
-    service = GmoPaymentService.new(order, token)
+    # Pass token to service (service will use Token instead of raw card fields)
+    service = GmoPaymentService.new(order, token: token)
     result = service.charge_card
 
     if result[:success]

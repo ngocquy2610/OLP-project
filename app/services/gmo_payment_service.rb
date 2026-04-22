@@ -6,15 +6,26 @@ class GmoPaymentService
   ENTRY_URL = "https://pt01.mul-pay.jp/payment/EntryTran.idPass"
   EXEC_URL  = "https://pt01.mul-pay.jp/payment/ExecTran.idPass"
 
-  def initialize(order, token)
+  # Accept either a frontend Token (recommended) or raw card details as fallback.
+  # Prefer calling with token: GmoPaymentService.new(order, token: '...')
+  def initialize(order, token: nil, card_no: nil, expire: nil, security_code: nil)
     @order = order
-    @token = token
-    
-    @shop_id = ENV['GMO_SHOP_ID']
-    @shop_pass = ENV['GMO_SHOP_PASS']
+    @token = token.presence
+
+    if @token.nil?
+      @card_no = card_no.to_s.gsub(/[\s-]/, '') if card_no
+      @expire = expire.to_s
+      @security_code = security_code.to_s
+    end
+
+    @shop_id = ENV['GMO_SHOP_ID'] || 'tshop00076628'
+    @shop_pass = ENV['GMO_SHOP_PASS'] || 'rdu6mrmk' # Ensure env var exists in production
   end
 
   def charge_card
+    
+    binding.pry
+    
     # ==========================================
     # BƯỚC 1: Gọi EntryTran (Khởi tạo giao dịch)
     # ==========================================
@@ -23,7 +34,7 @@ class GmoPaymentService
       'ShopPass' => @shop_pass,
       'OrderID'  => "OLP-#{@order.id}-#{Time.now.to_i}", # Đảm bảo ID không trùng lặp
       'JobCd'    => 'CAPTURE', # Lấy tiền ngay
-      'Amount'   => @order.order_items.sum(:price).to_i.to_s
+      'Amount'   => @order.order_items.sum(:price).to_i #check to_s
     }
     
     entry_response = call_api(ENTRY_URL, entry_params)
@@ -34,15 +45,23 @@ class GmoPaymentService
     end
 
     # ==========================================
-    # BƯỚC 2: Gọi ExecTran (Chốt đơn với Token)
+    # BƯỚC 2: Gọi ExecTran (Chốt đơn) — use Token if available
     # ==========================================
     exec_params = {
       'AccessID'   => entry_response['AccessID'],
       'AccessPass' => entry_response['AccessPass'],
       'OrderID'    => entry_params['OrderID'],
-      'Method'     => '1',
-      'Token'      => @token # Đổi lại thành gửi Token đi
+      'Method'     => '1'
     }
+
+    if @token.present?
+      # Use frontend token (recommended) — do NOT send raw card numbers from server
+      exec_params['Token'] = @token
+    else
+      exec_params['CardNo']       = @card_no
+      exec_params['Expire']       = @expire
+      exec_params['SecurityCode'] = @security_code
+    end
 
     exec_response = call_api(EXEC_URL, exec_params)
 
