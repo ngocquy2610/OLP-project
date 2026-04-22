@@ -23,9 +23,6 @@ class GmoPaymentService
   end
 
   def charge_card
-    
-    binding.pry
-    
     # ==========================================
     # BƯỚC 1: Gọi EntryTran (Khởi tạo giao dịch)
     # ==========================================
