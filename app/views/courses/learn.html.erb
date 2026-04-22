@@ -5,11 +5,11 @@
         <% if @current_lesson&.video&.attached? %>
           <video controls controlsList="nodownload" preload="metadata" oncontextmenu="return false;" class="w-full h-fit bg-black">
             <source src="<%= url_for(@current_lesson.video) %>" type="video/mp4">
-            <%= t('courses.learn.no_video') %>
+            <%= t('admin.courses.learn.no_video') %>
           </video>
         <% else %>
           <div class="h-[500px] flex items-center justify-center bg-black text-white">
-            <%= t('courses.learn.no_video') %>
+            <%= t('admin.courses.learn.no_video') %>
           </div>
         <% end %>
       </div>

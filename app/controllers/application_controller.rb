@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :fullname, :phone, :address, :role, :bank_name, :bank_account_number, :bank_account_name ])
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :fullname, :phone, :address, :role, :bank_name, :bank_account_number, :bank_account_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :fullname, :phone, :address, :role, :bank_name, :bank_account_number, :bank_account_name, :stripe_account_id])
   end
 
   private

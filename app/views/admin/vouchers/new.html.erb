@@ -1,8 +1,8 @@
 <%= turbo_frame_tag "profile_content" do %>
     <div class="max-w-2xl mx-auto mt-8 px-4">
     <div class="mb-6">
-        <%= link_to "← Quay lại", admin_vouchers_path, class: "text-gray-500 hover:text-gray-700" %>
-        <h1 class="text-2xl font-bold text-gray-900 mt-2">Tạo mã giảm giá mới</h1>
+        <%= link_to "← " + t('admin.management.vouchers.new.back'), admin_vouchers_path, class: "text-gray-500 hover:text-gray-700" %>
+        <h1 class="text-2xl font-bold text-gray-900 mt-2"><%= t('admin.management.vouchers.new.title') %></h1>
     </div>
 
     <div class="bg-white rounded-lg shadow p-6">
@@ -10,37 +10,37 @@
         
         <div class="grid grid-cols-2 gap-4">
             <div>
-            <%= f.label :code, "Mã giảm giá (Ví dụ: TET2026)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.label :code, t('admin.management.vouchers.new.code_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= f.text_field :code, required: true, class: "w-full border-gray-300 rounded-md shadow-sm uppercase" %>
             </div>
             <div>
-            <%= f.label :discount_percent, "Phần trăm giảm (1-100)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.label :discount_percent, t('admin.management.vouchers.new.discount_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= f.number_field :discount_percent, required: true, min: 1, max: 100, class: "w-full border-gray-300 rounded-md shadow-sm" %>
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
             <div>
-            <%= f.label :usage_limit, "Giới hạn số lượt dùng", class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.number_field :usage_limit, placeholder: "Bỏ trống nếu không giới hạn", class: "w-full border-gray-300 rounded-md shadow-sm" %>
+            <%= f.label :usage_limit, t('admin.management.vouchers.new.usage_limit_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.number_field :usage_limit, placeholder: t('admin.management.vouchers.new.usage_limit_placeholder'), class: "w-full border-gray-300 rounded-md shadow-sm" %>
             </div>
             <div>
-            <%= f.label :active_price, "Giá áp dụng", class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.number_field :active_price, placeholder: "Bỏ trống nếu không áp dụng", class: "w-full border-gray-300 rounded-md shadow-sm" %>
+            <%= f.label :active_price, t('admin.management.vouchers.new.active_price_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.number_field :active_price, placeholder: t('admin.management.vouchers.new.active_price_placeholder'), class: "w-full border-gray-300 rounded-md shadow-sm" %>
             </div>
             <div>
-            <%= f.label :expires_at, "Hạn sử dụng", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= f.label :expires_at, t('admin.management.vouchers.new.expires_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= f.datetime_field :expires_at, class: "w-full border-gray-300 rounded-md shadow-sm" %>
             </div>
         </div>
 
         <div class="flex items-center">
             <%= f.check_box :active, checked: true, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
-            <%= f.label :active, "Kích hoạt ngay", class: "ml-2 block text-sm text-gray-900" %>
+            <%= f.label :active, t('admin.management.vouchers.new.activate_now'), class: "ml-2 block text-sm text-gray-900" %>
         </div>
 
         <div class="pt-4 border-t">
-            <%= f.submit "Tạo mã giảm giá", class: "w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 cursor-pointer" %>
+            <%= f.submit t('admin.management.vouchers.new.submit'), class: "w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 cursor-pointer" %>
         </div>
         <% end %>
     </div>

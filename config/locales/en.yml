@@ -48,6 +48,17 @@ en:
     items_label: "Items"
     total_label: "Total"
     checkout: "Checkout"
+    voucher_title: "Voucher"
+    voucher_discount: "Discount %{percent}%"
+    remove_voucher: "Remove"
+    voucher_placeholder: "Enter code (e.g. SALE50)"
+    apply: "Apply"
+    selected_prefix: "Selected"
+    voucher_discount_label: "Voucher discount:"
+    errors:
+      select_item: "Please select at least one item before applying a voucher."
+      enter_code: "Please enter a voucher code."
+      voucher_not_allowed: "Voucher cannot be applied to the selected items."
   flash:
     not_authorized: "You are not authorized to perform this action."
   home:
@@ -77,6 +88,33 @@ en:
     testimonial_1_author: "— Tien Bob"
     testimonial_2: "Great instructors and high-quality content. I improved my programming skills a lot."
     testimonial_2_author: "— Manh LV"
+  courses:
+    index:
+      search_placeholder: "Search courses"
+      search_button: "Search"
+      no_reviews: "No reviews yet"
+    show:
+      created_by: "Created by:"
+      unknown: "Unknown"
+      teacher_ranking_label: "Teacher ranking:"
+      reviews_title: "Student Reviews"
+      you_reviewed: "You have reviewed this course."
+      thanks_for_feedback: "Thanks for your feedback!"
+      edit_review: "Edit review"
+      submit_review_title: "Submit your review"
+      no_reviews_yet: "No reviews yet. Be the first to leave a review!"
+      question_prefix: "Q:"
+    learn:
+      no_video: "No video available"
+      practice_of: "Practice of %{lesson}"
+      status:
+        done: "Done"
+        attempted: "Attempted"
+        new: "New"
+      retry: "Retake"
+      status_label: "Status:"
+      score_label: "Score:"
+      take_exam: "Take the exam"
   footer:
     tagline: "Learn skills online anytime, anywhere"
     contact:
@@ -182,6 +220,76 @@ en:
         ytitle: "Courses Sold"
         empty: "No sales data available."
     management:
+      vouchers:
+        index:
+          title: "Voucher Management"
+          subtitle: "Create and manage promotional campaigns."
+          new: "+ New Voucher"
+          table:
+            code: "Code"
+            discount: "Discount"
+            usage: "Usage"
+            active_price: "Active Price"
+            expires: "Expires"
+            status: "Status"
+          not_applied: "Not applied"
+          no_expiry: "No expiry"
+          running: "Running"
+          expired_or_used: "Expired/Used"
+        new:
+          back: "Back"
+          title: "Create Voucher"
+          code_label: "Voucher code (e.g. TET2026)"
+          discount_label: "Discount percent (1-100)"
+          usage_limit_label: "Usage limit"
+          usage_limit_placeholder: "Leave blank for unlimited"
+          active_price_label: "Active price"
+          active_price_placeholder: "Leave blank if not applied"
+          expires_label: "Expires at"
+          activate_now: "Activate now"
+          submit: "Create Voucher"
+      courses:
+        index:
+          search_placeholder: "Search courses"
+          search_button: "Search"
+          no_reviews: "No reviews yet"
+      courses:
+        show:
+          created_by: "Created by:"
+          unknown: "Unknown"
+          teacher_ranking_label: "Teacher ranking:"
+          reviews_title: "Student Reviews"
+          you_reviewed: "You have reviewed this course."
+          thanks_for_feedback: "Thanks for your feedback!"
+          edit_review: "Edit review"
+          submit_review_title: "Submit your review"
+          no_reviews_yet: "No reviews yet. Be the first to leave a review!"
+          question_prefix: "Q:"
+      admin:
+        courses:
+          show:
+            practice_summary: "Practice questions (%{count})"
+            no_practice: "No practice questions for this lesson."
+            exam_summary: "Exam Questions (%{count})"
+            question_prefix: "Q:"
+  feedback:
+    form:
+      rate_label: "Rating (1-5)"
+      feedback_label: "Your review"
+      feedback_placeholder: "How did this course help you?..."
+      submit: "Send review"
+      cancel: "Cancel"
+      update: "Update"
+  admin:
+    feedback:
+      edit:
+        title: "Edit your review"
+        course_label: "Course:"
+      layouts:
+        stripe:
+          not_connected: "You have not connected Stripe! You won't be able to publish courses or withdraw earnings."
+          help_link: "View instructions to get ID"
+          connect_button: "Connect automatically"
       title: "User Management"
       table:
         id: "ID"

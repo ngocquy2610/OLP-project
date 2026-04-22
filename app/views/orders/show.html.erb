@@ -15,6 +15,15 @@
       </div>
       <!-- RIGHT: Payment Summary -->
       <div class="bg-white p-6 rounded-xl border h-fit">
+        <script>
+          // Expose a global function for inline onclick handlers (module scope is isolated)
+          function choosePayment(method) {
+            var gmo = document.getElementById('gmo-container');
+            var stripe = document.getElementById('stripe-container');
+            if (gmo) gmo.style.display = (method === 'gmo') ? '' : 'none';
+            if (stripe) stripe.style.display = (method === 'stripe') ? '' : 'none';
+          }
+        </script>
         <h3 class="font-semibold mb-4"><%= t('orders.show.summary_title') %></h3>
         <div class="flex justify-between mb-2">
           <span><%= t('orders.show.total_label') %></span>
@@ -22,12 +31,117 @@
             <%= format_vnd(@order.total) %>
           </span>
         </div>
-        <!-- Payment Button -->
-        <%= button_to t('orders.show.pay_now'),
-          checkout_order_path(@order),
-          method: :post,
-          data: { turbo: false },
-          class: "w-full mt-4 bg-green-600 text-white py-2 rounded-xl hover:bg-green-700" %>
+        <!-- Payment Method Chooser -->
+        <div class="mt-4">
+          <label class="inline-flex items-center mr-4">
+            <input type="radio" name="payment_method" value="stripe" checked onclick="choosePayment('stripe')" class="mr-2">
+            <span>Thanh toán qua Stripe</span>
+          </label>
+          <label class="inline-flex items-center">
+            <input type="radio" name="payment_method" value="gmo" onclick="choosePayment('gmo')" class="mr-2">
+            <span>Thanh toán bằng thẻ (GMO)</span>
+          </label>
+        </div>
+
+        <div id="stripe-container" class="mt-4">
+          <%= button_to t('orders.show.pay_now'),
+            checkout_order_path(@order),
+            method: :post,
+            data: { turbo: false },
+            class: "w-full bg-green-600 text-white py-2 rounded-xl hover:bg-green-700" %>
+        </div>
+
+        <div id="gmo-container" class="mt-4" style="display:none;">
+          <form id="gmo-payment-form" action="<%= charge_gmo_order_path(@order) %>" method="POST" data-turbo="false">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <!-- Only send the token to the server -->
+            <input type="hidden" id="gmo_token" name="Token" value="">
+
+            <div class="mb-2">
+              <label class="block">Số thẻ:</label>
+              <input type="text" id="cardno" placeholder="4100000000000100" value="4100000000000100" inputmode="numeric" maxlength="19" autocomplete="cc-number" class="w-full border rounded px-2 py-1">
+            </div>
+
+            <div class="mb-2">
+              <label class="block">Ngày hết hạn (YYYYMM):</label>
+              <input type="text" id="expire" placeholder="2812" value="2812" maxlength="6" class="w-full border rounded px-2 py-1">
+            </div>
+
+            <div class="mb-2">
+              <label class="block">Mã bảo mật (CVC):</label>
+              <input type="text" id="securitycode" placeholder="123" value="123" maxlength="4" autocomplete="cc-csc" class="w-full border rounded px-2 py-1">
+            </div>
+
+            <button type="button" id="pay-button" class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">Thanh toán bằng GMO</button>
+          </form>
+        </div>
+
+        <script>
+          // Use the global `Multipayment` provided by the CDN script included in the layout.
+          // This uses the callback-style API (getToken) and avoids module imports.
+          window.choosePayment = function(method) {
+            document.getElementById('gmo-container').style.display = (method === 'gmo') ? '' : 'none';
+            document.getElementById('stripe-container').style.display = (method === 'stripe') ? '' : 'none';
+          };
+
+          const payBtn = document.getElementById('pay-button');
+          if (payBtn) {
+            payBtn.addEventListener('click', function () {
+              const btn = this;
+              btn.disabled = true;
+              btn.innerText = 'Đang mã hóa...';
+
+              const cardData = {
+                cardno: document.getElementById('cardno').value.replace(/[^0-9]/g, ''),
+                expire: document.getElementById('expire').value,
+                securitycode: document.getElementById('securitycode').value,
+                // tokennumber and holdername are optional; tokennumber:1 returns token[0]
+                tokennumber: 1
+              };
+
+              try {
+                if (typeof window.Multipayment === 'undefined' || typeof window.Multipayment.getToken !== 'function') {
+                  throw new Error('Multipayment library is not loaded. Check network or include token.js');
+                }
+
+                // Initialize (shopId is public)
+                try { window.Multipayment.init('<%= ENV["GMO_SHOP_ID"].presence || "tshop00076628" %>'); } catch (e) { /* ignore if already initialized */ }
+
+                window.Multipayment.getToken(cardData, function (response) {
+                  if (!response || response.resultCode !== '000') {
+                    console.error('GMO token error', response);
+                    btn.disabled = false;
+                    btn.innerText = 'Thanh toán bằng GMO';
+                    alert('Lỗi khi tạo token thẻ. Mã: ' + (response && response.resultCode));
+                    return;
+                  }
+
+                  const tokenString = response.tokenObject && response.tokenObject.token && response.tokenObject.token[0];
+                  if (!tokenString) {
+                    console.error('No token in GMO response', response);
+                    btn.disabled = false;
+                    btn.innerText = 'Thanh toán bằng GMO';
+                    alert('Không nhận được token từ GMO.');
+                    return;
+                  }
+
+                  document.getElementById('gmo_token').value = tokenString;
+                  document.getElementById('cardno').value = '';
+                  document.getElementById('expire').value = '';
+                  document.getElementById('securitycode').value = '';
+
+                  btn.innerText = 'Đang chuyển đi...';
+                  document.getElementById('gmo-payment-form').submit();
+                });
+              } catch (err) {
+                console.error('GMO token error:', err);
+                btn.disabled = false;
+                btn.innerText = 'Thanh toán bằng GMO';
+                alert('Lỗi khi tạo token thẻ. Vui lòng kiểm tra console.');
+              }
+            });
+          }
+        </script>
       </div>
     </div>
   </div>

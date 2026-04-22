@@ -46,6 +46,17 @@ vi:
     items_label: "Số mặt hàng"
     total_label: "Tổng cộng"
     checkout: "Thanh toán"
+    voucher_title: "Mã giảm giá"
+    voucher_discount: "Giảm %{percent}%"
+    remove_voucher: "Gỡ bỏ"
+    voucher_placeholder: "Nhập mã (VD: SALE50)"
+    apply: "Áp dụng"
+    selected_prefix: "Đã chọn"
+    voucher_discount_label: "Giảm giá Voucher:"
+    errors:
+      select_item: "Vui lòng chọn ít nhất một sản phẩm trước khi áp dụng mã giảm giá."
+      enter_code: "Vui lòng nhập mã giảm giá."
+      voucher_not_allowed: "Mã giảm giá không thể áp dụng cho các sản phẩm đã chọn."
   flash:
     not_authorized: "Bạn không có quyền thực hiện hành động này."
   home:
@@ -75,6 +86,28 @@ vi:
     testimonial_1_author: "— Tiến Bob"
     testimonial_2: "Giảng viên tuyệt vời và nội dung chất lượng cao. Tôi đã cải thiện kỹ năng lập trình của mình rất nhiều."
     testimonial_2_author: "— Mạnh LV"
+  courses:
+    index:
+      search_placeholder: "Tìm kiếm khóa học"
+      search_button: "Tìm kiếm"
+      no_reviews: "Chưa có đánh giá"
+    show:
+      created_by: "Tạo bởi:"
+      unknown: "Không xác định"
+      teacher_ranking_label: "Xếp hạng giảng viên:"
+      reviews_title: "Đánh giá từ học viên"
+      you_reviewed: "Bạn đã đánh giá khóa học này."
+      thanks_for_feedback: "Cảm ơn bạn đã đóng góp ý kiến!"
+      edit_review: "Sửa đánh giá"
+      submit_review_title: "Gửi nhận xét của bạn"
+      no_reviews_yet: "Chưa có đánh giá nào cho khóa học này. Hãy là người đầu tiên nhận xét!"
+      question_prefix: "Q:"
+  feedback:
+    form:
+      rate_label: "Số sao (1-5)"
+      feedback_label: "Nhận xét của bạn"
+      feedback_placeholder: "Khóa học này giúp ích gì cho bạn?..."
+      submit: "Gửi đánh giá"
   footer:
     tagline: "Học Kỹ Năng Trực Tuyến Mọi Lúc, Mọi Nơi"
     contact:
@@ -188,6 +221,73 @@ vi:
         ytitle: "Số khóa học bán"
         empty: "Không có dữ liệu bán hàng."
     management:
+      vouchers:
+        index:
+          title: "Quản lý Mã Giảm Giá"
+          subtitle: "Tạo và quản lý các chương trình khuyến mãi."
+          new: "+ Tạo mã mới"
+          table:
+            code: "Mã (Code)"
+            discount: "Giảm giá"
+            usage: "Lượt dùng"
+            active_price: "Giá áp dụng"
+            expires: "Hạn sử dụng"
+            status: "Trạng thái"
+          not_applied: "Không áp dụng"
+          no_expiry: "Không thời hạn"
+          running: "Đang chạy"
+          expired_or_used: "Hết hạn/Hết lượt"
+        new:
+          back: "Quay lại"
+          title: "Tạo mã giảm giá mới"
+          code_label: "Mã giảm giá (Ví dụ: TET2026)"
+          discount_label: "Phần trăm giảm (1-100)"
+          usage_limit_label: "Giới hạn số lượt dùng"
+          usage_limit_placeholder: "Bỏ trống nếu không giới hạn"
+          active_price_label: "Giá áp dụng"
+          active_price_placeholder: "Bỏ trống nếu không áp dụng"
+          expires_label: "Hạn sử dụng"
+          activate_now: "Kích hoạt ngay"
+          submit: "Tạo mã giảm giá"
+      courses:
+        index:
+          search_placeholder: "Tìm kiếm khóa học"
+          search_button: "Tìm kiếm"
+          no_reviews: "Chưa có đánh giá"
+        show:
+          created_by: "Tạo bởi:"
+          unknown: "Không xác định"
+          teacher_ranking_label: "Xếp hạng giảng viên:"
+          reviews_title: "Đánh giá từ học viên"
+          you_reviewed: "Bạn đã đánh giá khóa học này."
+          thanks_for_feedback: "Cảm ơn bạn đã đóng góp ý kiến!"
+          edit_review: "Sửa đánh giá"
+          submit_review_title: "Gửi nhận xét của bạn"
+          no_reviews_yet: "Chưa có đánh giá nào cho khóa học này. Hãy là người đầu tiên nhận xét!"
+          question_prefix: "Q:"
+      admin:
+        courses:
+          show:
+            practice_summary: "Câu hỏi thực hành (%{count})"
+            no_practice: "Chưa có câu hỏi thực hành cho bài học này."
+            exam_summary: "Câu hỏi kiểm tra (%{count})"
+            question_prefix: "Q:"
+      feedback:
+        edit:
+          title: "Sửa đánh giá của bạn"
+          course_label: "Khóa học:"
+        form:
+          rate_label: "Số sao (1-5)"
+          feedback_label: "Nhận xét của bạn"
+          feedback_placeholder: "Khóa học này giúp ích gì cho bạn?..."
+          submit: "Gửi đánh giá"
+          cancel: "Hủy"
+          update: "Cập nhật"
+      layouts:
+        stripe:
+          not_connected: "Bạn chưa kết nối Stripe! Bạn sẽ không thể đăng bán khóa học hay rút tiền doanh thu."
+          help_link: "Xem hướng dẫn lấy ID"
+          connect_button: "Kết nối tự động"
       title: "Quản lý người dùng"
       table:
         id: "ID"
@@ -355,6 +455,9 @@ vi:
         reject: "Từ chối"
       index:
         title: "Danh sách khóa học"
+        search_placeholder: "Tìm kiếm khóa học"
+        search_button: "Tìm kiếm"
+        no_reviews: "Chưa có đánh giá"
       show:
         back: "Quay lại danh sách khóa học"
         learn_now: "Học ngay"

@@ -28,7 +28,7 @@
       <div class="w-10">
       <%= form_with url: request.path, method: :get, local: true, class: "language-form " do |f| %>
         <%= f.select :locale, 
-                    [['🇬🇧', 'en'], ['🇻🇳', 'vi']],
+                    [['🇬🇧: English', 'en'], ['🇻🇳: Tiếng Việt', 'vi']],
                     { selected: I18n.locale },
                     { onchange: "this.form.submit();", turbo: "profile_content" } %>
         

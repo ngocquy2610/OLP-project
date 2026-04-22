@@ -1,11 +1,11 @@
 class Course < ApplicationRecord
   belongs_to :user
-  has_one_attached :course_image
+  has_one_attached :course_image, dependent: :destroy
   has_many :topics, dependent: :destroy
-  has_many :cart_items
-  has_many :carts, through: :cart_items
-  has_many :feedback_courses
-  has_many :users, through: :feedback_courses
+  has_many :cart_items, dependent: :destroy
+  has_many :carts, through: :cart_items, dependent: :destroy
+  has_many :feedback_courses, dependent: :destroy
+  has_many :users, through: :feedback_courses, dependent: :destroy
 
   validates :name, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }

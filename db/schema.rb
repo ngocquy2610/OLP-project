@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_080003) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_17_034417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -219,6 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_080003) do
 
   create_table "users", force: :cascade do |t|
     t.text "address"
+    t.integer "balance", default: 0
     t.string "bank_account_name"
     t.string "bank_account_number"
     t.string "bank_name"
@@ -235,6 +236,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_080003) do
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
     t.integer "role", default: 0
+    t.string "stripe_account_id"
     t.integer "total_rating"
     t.string "unconfirmed_email"
     t.datetime "updated_at", null: false
