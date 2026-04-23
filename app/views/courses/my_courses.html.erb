@@ -6,7 +6,14 @@
         <% @courses.each do |course| %>
           <div class="bg-white rounded-2xl shadow-sm border overflow-hidden hover:shadow-md transition">
             <% if course.course_image.attached? %>
-                <%= image_tag(course.course_image, class: "w-full h-40 object-cover") %>
+                <%= optimized_course_image_tag(
+                  course,
+                  alt: course.name,
+                  class_name: "w-full h-40 object-cover",
+                  width: 480,
+                  height: 160,
+                  sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                ) %>
             <% else %>
               <div class="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-400">
                 <%= t('admin.courses.my_courses.no_image') %>

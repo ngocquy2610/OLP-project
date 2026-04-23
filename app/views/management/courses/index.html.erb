@@ -22,7 +22,13 @@
             <td>
               <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
                 <% if course.course_image.attached? %>
-                  <%= image_tag(course.course_image, class: "w-full h-full object-cover") %>
+                  <%= optimized_course_thumb_tag(
+                    course,
+                    alt: course.name,
+                    class_name: "w-full h-full object-cover",
+                    width: 64,
+                    height: 64
+                  ) %>
                 <% else %>
                   <svg class="w-8 h-8 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z" />

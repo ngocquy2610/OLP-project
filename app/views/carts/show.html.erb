@@ -29,7 +29,13 @@
                     >
                     <% if item.course&.course_image&.attached? %>
                       <div class="w-20 h-12 flex-shrink-0">
-                        <%= image_tag item.course.course_image, class: "w-full h-full object-cover rounded-md" %>
+                        <%= optimized_course_thumb_tag(
+                          item.course,
+                          alt: item.course.name,
+                          class_name: "w-full h-full object-cover rounded-md",
+                          width: 80,
+                          height: 48
+                        ) %>
                       </div>
                     <% end %>
                     <div>
