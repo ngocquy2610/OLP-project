@@ -1,13 +1,28 @@
 <div class="max-w-2xl mx-auto mt-10 p-8 bg-white shadow-lg rounded-xl border border-gray-100">
   <h1 class="text-2xl font-bold text-gray-800 mb-6"><%= t('profiles.edit.title') %></h1>
   <%= form_with(model: @user, url: profile_path, method: :patch, class: "space-y-6", local: true, data: { turbo: false }) do |f| %>
+    <% if @user.errors.any? %>
+      <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p class="font-semibold mb-1">Please fix the errors below.</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
     <div>
       <%= f.label :fullname, t('profiles.form.fullname'), class: "block text-sm font-medium text-gray-700" %>
       <%= f.text_field :fullname, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" %>
     </div>
     <div>
       <%= f.label :phone, t('profiles.form.phone'), class: "block text-sm font-medium text-gray-700" %>
-      <%= f.text_field :phone, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" %>
+      <%= f.text_field :phone, maxlength: 11, inputmode: "numeric", pattern: "\\d{10,11}", class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2 border" %>
+      <p class="mt-1 text-xs text-gray-500">Phone must contain 10 to 11 digits.</p>
+      <% if @user.errors[:phone].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= @user.errors.full_messages_for(:phone).join(', ') %></p>
+      <% end %>
     </div>
     <div>
       <%= f.label :address, t('profiles.form.address'), class: "block text-sm font-medium text-gray-700" %>

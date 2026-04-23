@@ -17,9 +17,15 @@ class User < ApplicationRecord
 
   validates :phone,
             presence: true,
+            length: {
+              minimum: 10,
+              maximum: 11,
+              too_short: "must be at least 10 digits",
+              too_long: "must be at most 11 digits"
+            },
             format: {
-              with: /\A\+?[0-9\s\-\(\)]{10,}\z/,
-              message: "invalid phone format"
+              with: /\A\d{10,11}\z/,
+              message: "must contain only digits"
             }
 
   after_create :create_cart
