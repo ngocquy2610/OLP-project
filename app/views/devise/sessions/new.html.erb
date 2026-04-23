@@ -1,24 +1,24 @@
-<div class="flex justify-around items-center mt-10">
-  <div class="w-1/2">
-    <p class="text-[#4F8929] text-5xl font-bold text-center"><%= t('devise.brand.line1') %></p>
-    <p class="text-[#4F8929] text-5xl font-bold text-center mb-7"><%= t('devise.brand.line2') %></p>
+<div class="mx-auto mt-10 flex max-w-7xl flex-col gap-10 px-4 lg:flex-row lg:items-center lg:justify-between">
+  <div class="w-full lg:w-1/2">
+    <p class="text-[#4F8929] text-3xl sm:text-4xl lg:text-5xl font-bold text-center"><%= t('devise.brand.line1') %></p>
+    <p class="text-[#4F8929] text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-7"><%= t('devise.brand.line2') %></p>
     <div><%= image_tag "login-image.png" ,class: "w-full rounded-2xl shadow-lg shadow-black" %></div>
   </div>
-  <div class="w-1/4">
-    <div class="text-[#1877F2] text-3xl text-center font-bold border-b-2 border-[#1877F2] p-6 w-full"><%= t('devise.sessions.title') %></div>
+  <div class="w-full lg:w-[28rem] rounded-2xl border border-gray-200 bg-white p-6 shadow-lg shadow-gray-300/60">
+    <div class="text-[#1877F2] text-2xl sm:text-3xl text-center font-bold border-b-2 border-[#1877F2] p-4 sm:p-6 w-full"><%= t('devise.sessions.title') %></div>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="field my-5">
-        <p class="mb-2"><%= f.label :email, t('devise.sessions.email_label'), class: "text-[24px] text-[#74787f]" %></p>
+        <p class="mb-2"><%= f.label :email, t('devise.sessions.email_label'), class: "text-xl sm:text-2xl text-[#74787f]" %></p>
         <p><%= f.email_field :email, autofocus: false, autocomplete: "off", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
       </div>
       <div class="field my-5">
-        <p class="mb-2"><%= f.label :password, t('devise.sessions.password_label'), class: "text-[24px] text-[#74787f]" %></p>
+        <p class="mb-2"><%= f.label :password, t('devise.sessions.password_label'), class: "text-xl sm:text-2xl text-[#74787f]" %></p>
         <p><%= f.password_field :password, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
       </div>
       <% if devise_mapping.rememberable? %>
-        <div class="field flex gap-5">
+        <div class="field flex items-center gap-3 sm:gap-5">
           <p class="flex items-center"><%= f.check_box :remember_me, class: "w-[20px] h-[20px]" %></p>
-          <p class="flex items-center"><%= f.label :remember_me, t('devise.sessions.remember_me'), class: "text-[20px]" %></p>
+          <p class="flex items-center"><%= f.label :remember_me, t('devise.sessions.remember_me'), class: "text-base sm:text-[20px]" %></p>
         </div>
       <% end %>
       <div class="actions">

@@ -1,15 +1,16 @@
-<div class="bg-[#15a5ff] text-white py-8 px-4 flex justify-around">
-  <div class="w-1/5 flex flex-col items-center gap-4">
+<div class="bg-[#15a5ff] text-white py-8 px-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+  <div class="flex flex-col items-center gap-4">
     <%= image_tag "logo-olp.svg" ,class: "w-[100px] h-[100px] rounded-full" %>
     <div class="text-sm text-gray-300"><em><%= t('footer.tagline') %></em></div>
   </div>
-  <div class="w-1/5 flex flex-col items-center gap-4">
+  <div class="flex flex-col items-center gap-4">
     <%= link_to t('nav.home'), root_path %>
     <%= link_to t('nav.about'), about_path %>
     <%= link_to t('nav.course'), courses_path %>
     <%= link_to t('footer.contact.link_label'), "https://zalo.me/0977692109", target: "_blank", rel: "noopener" %>
   </div>
-  <div class="w-1/5 flex flex-col gap-4">
+  <div class="flex flex-col gap-4">
     <div class="text-sm text-white">
       <%= t('footer.address.line1') %>
     </div>
@@ -23,12 +24,13 @@
       <%= t('footer.contact.phone_label') %>: +84 123 456 789
     </div>
   </div>
-  <div class="w-2/5 flex flex-col items-center gap-4">
+  <div class="hidden xl:flex flex-col items-center gap-4 sm:col-span-2 xl:col-span-1">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.9643455107566!2d105.76271387610298!3d21.034112580616505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31345506c00cce6b%3A0xcb752d789ddf773f!2sLTS%20Group%20-%20IT%20Outsourcing%20Firm%20in%20Vietnam!5e0!3m2!1sen!2s!4v1773996656034!5m2!1sen!2s"
       class="w-full h-full border-0 rounded-xl"
       allowfullscreen=""
       loading="lazy">
   </iframe>
+  </div>
   </div>
 </div>

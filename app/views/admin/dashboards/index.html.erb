@@ -34,19 +34,19 @@
     </div>
 
     <div class="bg-white rounded-lg shadow p-6 mb-8">
-      <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
-          <div class="flex items-center space-x-4">
+      <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6 pb-4 border-b border-gray-100">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
           <h2 class="text-xl font-bold text-gray-900"><%= t('admin.dashboard.sales_performance') %></h2>
           <span class="bg-emerald-100 text-emerald-800 text-sm font-bold px-3 py-1.5 rounded-full">
             <%= t('admin.dashboard.income_label', income: format_vnd(@period_income)) %>
           </span>
         </div>
         
-          <%= form_with url: admin_dashboard_path, method: :get, class: "inline-block" do |f| %>
+          <%= form_with url: admin_dashboard_path, method: :get, class: "w-full sm:w-auto" do |f| %>
           <%= f.select :period, 
                 options_for_select([[t('admin.dashboard.period_options.day'), 'day'], [t('admin.dashboard.period_options.month'), 'month'], [t('admin.dashboard.period_options.year'), 'year']], @period), 
                 {}, 
-                { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 cursor-pointer", 
+                { class: "w-full sm:w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 cursor-pointer", 
                   onchange: "this.form.requestSubmit()" } %>
         <% end %>
       </div>

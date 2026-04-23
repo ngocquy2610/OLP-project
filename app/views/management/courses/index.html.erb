@@ -1,11 +1,11 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="flex justify-between items-center mb-6">
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
     <h1 class="text-2xl font-bold text-gray-800"><%= t('admin.management.courses.index.title') %></h1>
     <%= link_to t('admin.management.courses.index.new'), new_management_course_path, 
         class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm" %>
   </div>
   <div class="overflow-x-auto bg-white rounded-xl border border-gray-200">
-    <table class="min-w-full divide-y divide-gray-200">
+    <table class="min-w-[760px] divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
           <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.courses.index.table.image') %></th>
@@ -47,11 +47,13 @@
               end %>
               <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold <%= status_class %>"><%= course.status.to_s.titleize %></span>
             </td>
-            <td class="px-6 py-4 text-right text-sm font-medium space-x-3 flex">
+            <td class="px-6 py-4 text-right text-sm font-medium">
+              <div class="flex flex-col items-end gap-2 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
                 <%= link_to t('admin.management.actions.edit'), edit_management_course_path(course), class: "text-indigo-600 hover:text-indigo-900",data: { turbo_frame: "profile_content" } %>
                 <%= button_to t('admin.management.actions.delete'), management_course_path(course), method: :delete,
                   form: { data: { turbo_confirm: t('admin.management.delete_confirm') } },
                   class: "inline text-red-600 hover:text-red-900" %>
+              </div>
             </td>
           </tr>
         <% end %>

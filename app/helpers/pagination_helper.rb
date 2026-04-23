@@ -9,13 +9,13 @@ module PaginationHelper
     left = [1, current - window].max
     right = [total, current + window].min
 
-    content_tag :nav, class: "flex items-center justify-center space-x-2 mt-6" do
+    content_tag :nav, class: "flex items-center justify-center space-x-2 my-6" do
       safe_join([
         # Prev
         if paginated.prev_page
-          link_to "‹ Prev", url_for(request.params.merge(params_key => paginated.prev_page)), class: "px-4 py-2 bg-white text-blue-600 border border-blue-600 rounded-xl hover:bg-blue-50"
+          link_to "Prev", url_for(request.params.merge(params_key => paginated.prev_page)), class: "px-4 py-2 bg-white text-blue-600 border border-blue-600 rounded-xl hover:bg-blue-50"
         else
-          content_tag(:span, "‹ Prev", class: "px-4 py-2 text-gray-400 bg-gray-100 rounded-xl")
+          content_tag(:span, "Prev", class: "px-4 py-2 text-gray-400 bg-gray-100 rounded-xl")
         end,
 
         # Left gap
@@ -37,9 +37,9 @@ module PaginationHelper
 
         # Next
         if paginated.next_page
-          link_to "Next ›", url_for(request.params.merge(params_key => paginated.next_page)), class: "px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+          link_to "Next", url_for(request.params.merge(params_key => paginated.next_page)), class: "px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
         else
-          content_tag(:span, "Next ›", class: "px-4 py-2 text-gray-400 bg-gray-100 rounded-xl")
+          content_tag(:span, "Next", class: "px-4 py-2 text-gray-400 bg-gray-100 rounded-xl")
         end
       ].compact)
     end

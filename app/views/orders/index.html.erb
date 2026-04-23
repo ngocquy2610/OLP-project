@@ -1,9 +1,10 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="payment-history-container">
+  <div class="payment-history-container px-2 sm:px-0">
   <h1 class="text-2xl font-bold mb-4"><%= t('orders.index.title') %></h1>
 
   <% if @orders.any? %>
-    <table class="table w-full">
+    <div class="overflow-x-auto">
+    <table class="table w-full min-w-[600px]">
       <thead>
         <tr class="flex items-center justify-between  p-4 border-y">
           <th class="w-1/4 text-left "><%= t('orders.index.table.date') %></th>
@@ -36,6 +37,7 @@
         <% end %>
       </tbody>
     </table>
+      </div>
   <% else %>
     <div class="empty-state">
       <p><%= t('orders.index.empty') %></p>

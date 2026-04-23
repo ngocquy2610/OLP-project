@@ -1,14 +1,11 @@
-<nav class="sticky top-0 w-full h-24 bg-[#15a5ff] z-50">
-  <div class="flex justify-between items-center w-full h-full px-20">
+<nav x-data="{ open: false }" class="sticky top-0 w-full h-24 bg-[#15a5ff] z-50">
+  <div class="flex justify-between items-center w-full h-full xl:px-20 px-5">
     <div class="flex gap-20 items-center w-4/5">
       <a class="w-24 h-24" href="/">
         <%= image_tag "logo-olp.svg", class: "w-24 h-24 rounded-full" %>
       </a>
-      <%# <form action="" class="w-2/3">
-        <input type="text" placeholder="Search for anything" class="border rounded-full w-2/3 h-[40px] px-8 bg-white">
-      </form> %>
     </div>
-    <div class="flex gap-8 items-center text-white">
+    <div class="hidden xl:flex gap-4 items-center text-white !mr-8">
       <a class="no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] whitespace-nowrap" href="/"><%= t('nav.home') %></a>
       <%= link_to t('nav.about'), about_path, class: "no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] whitespace-nowrap" %>
       <a class="no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] whitespace-nowrap" href="<%= courses_path %>"><%= t('nav.course') %></a>
@@ -18,25 +15,58 @@
       <% end %>
       <% if user_signed_in? %>
         <%= link_to current_user.fullname, profile_path, class: "no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] whitespace-nowrap text-[20px]" %>
-        <%= link_to t('nav.logout') , destroy_user_session_path, data: { turbo_method: :delete },
-                    class: "border border-white text-white px-3 py-1 rounded-full text-sm hover:bg-red-600 hover:text-white whitespace-nowrap transition text-[20px] w-fit text-center"
-                    %>
       <% else %>
         <%= link_to t('nav.login') , new_user_session_path,
                             class: "text-white no-underline hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] w-fit whitespace-nowrap" %>
       <% end %>
       <div class="w-10">
-      <%= form_with url: request.path, method: :get, local: true, class: "language-form " do |f| %>
-        <%= f.select :locale, 
-                    [['🇬🇧: English', 'en'], ['🇻🇳: Tiếng Việt', 'vi']],
-                    { selected: I18n.locale },
-                    { onchange: "this.form.submit();", turbo: "profile_content" } %>
-        
-        <% request.query_parameters.except(:locale).each do |key, value| %>
-          <%= hidden_field_tag key, value %>
+        <%= form_with url: request.path, method: :get, local: true, class: "language-form " do |f| %>
+          <%= f.select :locale, 
+                      [['🇬🇧: English', 'en'], ['🇻🇳: Tiếng Việt', 'vi']],
+                      { selected: I18n.locale },
+                      { onchange: "this.form.submit();", turbo: "profile_content", class: "bg-white text-black rounded px-2 py-1" } %>
+          
+          <% request.query_parameters.except(:locale).each do |key, value| %>
+            <%= hidden_field_tag key, value %>
+          <% end %>
         <% end %>
-      <% end %>
       </div>
     </div>
-  </div>
+
+    <div class="relative xl:hidden">
+      <button @click="open = !open" class="text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+
+      <div x-show="open" @click.outside="open = false" x-transition class="absolute right-0 mt-2 w-64 bg-[#15a5ff] text-white shadow z-50 max-h-[80vh] overflow-auto rounded">
+        <div class="p-4 flex flex-col gap-2">
+          <a href="/" class="px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]"> <%= t('nav.home') %> </a>
+          <%= link_to t('nav.about'), about_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]" %>
+          <a href="<%= courses_path %>" class="px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]"> <%= t('nav.course') %> </a>
+          <%= link_to cart_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff] flex items-center justify-between" do %>
+            <span><%= t('nav.cart') %></span>
+            <span id="cart-count-mobile" class="bg-white text-[#15a5ff] text-sm font-bold rounded-full px-2 py-0.5"> <%= user_signed_in? ? (current_user.cart&.cart_items&.count || 0) : 0 %> </span>
+          <% end %>
+          <% if user_signed_in? %>
+            <%= link_to current_user.fullname, profile_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]" %>
+          <% else %>
+            <%= link_to t('nav.login') , new_user_session_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]" %>
+          <% end %>
+          <div class="pt-2">
+            <%= form_with url: request.path, method: :get, local: true, class: "language-form " do |f| %>
+              <%= f.select :locale,
+                          [['🇬🇧: English', 'en'], ['🇻🇳: Tiếng Việt', 'vi']],
+                          { selected: I18n.locale },
+                          { onchange: "this.form.submit();", class: "w-full bg-white text-black rounded px-2 py-1" } %>
+
+              <% request.query_parameters.except(:locale).each do |key, value| %>
+                <%= hidden_field_tag key, value %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
 </nav>

@@ -90,6 +90,7 @@ en:
     testimonial_2_author: "— Manh LV"
   courses:
     index:
+      title: "Course List"
       search_placeholder: "Search courses"
       search_button: "Search"
       no_reviews: "No reviews yet"
@@ -281,6 +282,28 @@ en:
       cancel: "Cancel"
       update: "Update"
   admin:
+    dashboard:
+      title: "Platform Overview"
+      subtitle: "Welcome to the admin panel. Here is how your platform is performing."
+      cards:
+        total_students: "Total Students"
+        total_teachers: "Total Teachers"
+        active_courses: "Active Courses"
+        total_enrollments: "Total Enrollments"
+        gross_revenue: "Gross Revenue"
+      platform_profit: "Platform Profit: %{profit}"
+      sales_performance: "Sales Performance"
+      income_label: "Income: %{income}"
+      period_options:
+        day: "By Day (Last 30 Days)"
+        month: "By Month"
+        year: "By Year"
+      charts:
+        xtitle_year: "Year"
+        xtitle_date: "Date"
+        xtitle_month: "Month"
+        ytitle: "Courses Sold"
+        empty: "No sales data available."
     feedback:
       edit:
         title: "Edit your review"
@@ -290,6 +313,35 @@ en:
           not_connected: "You have not connected Stripe! You won't be able to publish courses or withdraw earnings."
           help_link: "View instructions to get ID"
           connect_button: "Connect automatically"
+    management:
+      vouchers:
+        index:
+          title: "Voucher Management"
+          subtitle: "Create and manage promotional campaigns."
+          new: "+ New Voucher"
+          table:
+            code: "Code"
+            discount: "Discount"
+            usage: "Usage"
+            active_price: "Active Price"
+            expires: "Expires"
+            status: "Status"
+          not_applied: "Not applied"
+          no_expiry: "No expiry"
+          running: "Running"
+          expired_or_used: "Expired/Used"
+        new:
+          back: "Back"
+          title: "Create Voucher"
+          code_label: "Voucher code (e.g. TET2026)"
+          discount_label: "Discount percent (1-100)"
+          usage_limit_label: "Usage limit"
+          usage_limit_placeholder: "Leave blank for unlimited"
+          active_price_label: "Active price"
+          active_price_placeholder: "Leave blank if not applied"
+          expires_label: "Expires at"
+          activate_now: "Activate now"
+          submit: "Create Voucher"
       title: "User Management"
       table:
         id: "ID"
@@ -302,11 +354,10 @@ en:
         change_role: "Change role"
         confirm: "Are you sure?"
         edit: "Edit"
-        delete: "Delete"
       errors:
         header: "%{count} errors prevented saving:"
       delete_confirm: "Are you sure?"
-        
+
       forms:
         choose_topic: "Choose a topic..."
         choose_course: "Choose a course..."
@@ -462,6 +513,10 @@ en:
         learn_now: "Start learning"
         add_to_cart: "Add to Cart"
         view_details: "View details"
+        practice_summary: "Practice questions (%{count})"
+        no_practice: "No practice questions for this lesson."
+        exam_summary: "Exam Questions (%{count})"
+        question_prefix: "Q:"
       learn:
         no_video: "No video available"
         practice_of: "Practice of %{lesson}"
@@ -492,10 +547,15 @@ en:
     teacher_dashboard:
       title: "Teacher Dashboard"
       subtitle: "Manage your courses and track your income."
+      available_balance: "Available Balance"
+      withdraw_button: "Withdraw Now"
+      withdraw_confirm: "Are you sure you want to withdraw %{amount} to your bank account?"
+      no_balance: "No balance available"
+      stripe_note: "* Please link your Stripe account to receive payments"
       table:
         course_name: "Course Name"
         price: "Price"
-        sell_quantity: "Sell Quantity"
+        sell_quantity: "Quantity Sold"
         total_revenue: "Total Revenue"
         actual_receipt: "Actual Receipt (90%)"
         grand_total: "GRAND TOTAL"
@@ -524,6 +584,18 @@ en:
       summary_title: "Order Summary"
       total_label: "Total"
       pay_now: "Pay now"
+      payment_methods: "Payment Method"
+      stripe_label: "Pay via Stripe"
+      gmo_label: "Pay by Card (GMO)"
+      card_number: "Card Number"
+      expire_date: "Expiration Date (YYYYMM)"
+      security_code: "Security Code (CVC)"
+      pay_gmo: "Pay with GMO"
+      processing: "Processing..."
+      redirecting: "Redirecting..."
+      token_error: "Error creating card token. Code: %{code}"
+      token_error_message: "Error creating card token. Please check console."
+      no_token: "No token received from GMO."
     invoice:
       title: "Invoice # %{id}"
       download_pdf: "Download PDF"
@@ -531,6 +603,8 @@ en:
       status_label: "Status:"
       customer_label: "Customer:"
       total_label: "Total"
+      course_header: "Course"
+      price_header: "Price"
     pdf:
       title: "Receipt / Invoice"
       order_line: "Order #%{id} | %{date}"
@@ -539,6 +613,11 @@ en:
       status_label: "Status:"
       total_paid: "Total Paid: %{total}"
       thanks: "Thank you for your business!"
+      course_item_header: "Course Item"
+      price_header: "Price"
+      subtotal_label: "Subtotal:"
+      discount_label: "Discount:"
+      total_label: "Total:"
   pages:
     about:
       hero:
@@ -550,16 +629,23 @@ en:
       vision_text: "To become a leading online learning platform where people can learn, grow, and connect with a global community of knowledge."
       stats_title: "Impressive Numbers"
       team_title: "Our Team"
+      students_label: "Students"
+      courses_label: "Courses"
+      teachers_label: "Teachers"
+      countries_label: "Countries"
       team:
         member_1:
-          name: "Nguyễn Minh"
+          name: "Alex"
           role: "CEO & Founder"
+          description: "Founder with over 10 years of experience in education and technology."
         member_2:
-          name: "Trần Anh"
+          name: "Emilia"
           role: "Head of Education"
+          description: "Responsible for course content and partnerships with instructors worldwide."
         member_3:
-          name: "Lê Hoàng"
+          name: "Bob"
           role: "Lead Developer"
+          description: "Leads development and optimization of the tech platform to deliver the best learning experience."
       cta_title: "Join the Learning Community Today"
       cta_subtitle: "Thousands of learners have already started their skills journey."
       cta_action: "Explore Courses"
@@ -593,6 +679,11 @@ en:
       fullname: "Full name"
       phone: "Phone"
       address: "Address"
+      bank_name: "Bank Name"
+      bank_account_number: "Account Number"
+      bank_account_name: "Account Holder Name"
+      stripe_account_id: "Stripe Account ID"
+      bank_section_title: "Payment Information"
     admin:
       title: "Admin Information"
       fullname: "Full name:"

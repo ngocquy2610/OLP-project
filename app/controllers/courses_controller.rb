@@ -7,16 +7,20 @@ class CoursesController < ApplicationController
         fields: [:name, :tag],
         where: { status: 1 },
         page: params[:page], 
-        per_page: 10,
+        per_page: 12,
         match: :word_middle
       )
     else
-      @courses = Course.published.page(params[:page]).per(10)
+      @courses = Course.published.page(params[:page]).per(12)
     end
   end
 
   def show
-    @course = Course.find(params[:id])
+    @course = Course.find_by(id: params[:id])
+    if @course.nil?
+      redirect_to courses_path, alert: "Khóa học không tồn tại"
+      return
+    end
     @topics = @course.topics.includes(:lessons)
     teacher = @course.user
     @teacher_rating = teacher.rate
@@ -40,7 +44,11 @@ class CoursesController < ApplicationController
   end
 
   def learn
-    @course = Course.find(params[:id])
+    @course = Course.find_by(id: params[:id])
+    if @course.nil?
+      redirect_to courses_path, alert: "Khóa học không tồn tại"
+      return
+    end
 
     unless current_user.owned_courses.exists?(@course.id)
       redirect_to course_path(@course), alert: "Bạn chưa mua khóa học này"

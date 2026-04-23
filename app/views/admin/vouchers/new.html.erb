@@ -8,7 +8,7 @@
     <div class="bg-white rounded-lg shadow p-6">
         <%= form_with model: [:admin, @voucher], local: true, class: "space-y-6" do |f| %>
         
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
             <%= f.label :code, t('admin.management.vouchers.new.code_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= f.text_field :code, required: true, class: "w-full border-gray-300 rounded-md shadow-sm uppercase" %>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
             <%= f.label :usage_limit, t('admin.management.vouchers.new.usage_limit_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
             <%= f.number_field :usage_limit, placeholder: t('admin.management.vouchers.new.usage_limit_placeholder'), class: "w-full border-gray-300 rounded-md shadow-sm" %>
