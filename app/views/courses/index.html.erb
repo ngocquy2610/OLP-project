@@ -34,7 +34,14 @@
       <div class="flex flex-col gap-3 justify-between items-center border p-4 rounded-lg bg-gray-50 text-gray-600 h-120">
         <div class="w-full h-32 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
           <% if course.course_image.attached? %>
-            <%= image_tag(course.course_image, class: "w-full h-full object-cover") %>
+            <%= optimized_course_image_tag(
+              course,
+              alt: course.name,
+              class_name: "w-full h-full object-cover",
+              width: 400,
+              height: 128,
+              sizes: "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            ) %>
           <% else %>
             <svg class="w-16 h-16 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z" />
