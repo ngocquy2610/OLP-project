@@ -15,6 +15,13 @@ class User < ApplicationRecord
   has_one :feedback_courses, dependent: :destroy
   has_many :likes, dependent: :destroy
 
+  validates :phone,
+            presence: true,
+            format: {
+              with: /\A\+?[0-9\s\-\(\)]{10,}\z/,
+              message: "invalid phone format"
+            }
+
   after_create :create_cart
 
   def teacher?

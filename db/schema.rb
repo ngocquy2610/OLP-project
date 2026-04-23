@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_17_034417) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_090000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -244,6 +244,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_17_034417) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_check_constraint "users", "phone IS NOT NULL AND btrim(phone::text) <> ''::text AND phone::text ~ '^\\+?[0-9\\s\\-\\(\\)]{10,}$'::text", name: "users_phone_format_check", validate: false
 
   create_table "vouchers", force: :cascade do |t|
     t.boolean "active", default: true
