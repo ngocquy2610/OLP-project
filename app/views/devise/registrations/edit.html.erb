@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="mx-auto mt-10 w-full max-w-2xl border p-6 sm:p-10 rounded-lg shadow-lg shadow-gray-400">
     <div class="mt-5 text-xl sm:text-[24px] text-[#74787f] font-bold"><%= t('devise.registrations.edit_title', default: 'Change password') %> - <em><%= current_user.fullname %></em></div>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, data: { turbo: false } }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
       <div class="field my-5">
         <p class="mb-2"><%= f.label :email, t('devise.registrations.email_label'), class: "text-xl sm:text-[24px] text-[#74787f]" %></p>

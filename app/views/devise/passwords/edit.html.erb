@@ -1,6 +1,6 @@
 <div class="mx-auto mt-10 w-full max-w-xl border p-6 sm:p-10 rounded-lg shadow-lg shadow-gray-400">
   <div class="mt-5 text-xl sm:text-[24px] text-[#74787f]"><%= t('devise.passwords.reset_title') %></div>
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, data: { turbo: false } }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
     <%= f.hidden_field :reset_password_token %>
     <div class="field my-5">
