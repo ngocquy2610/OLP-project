@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "profile_content" do %>
     <h2 class="text-2xl font-semibold text-gray-800 mb-6"><%= t('admin.management.title') %></h2>
-    <div class="overflow-x-auto"></div>
-        <table class="min-w-full bg-white border border-gray-200">
+    <div class="overflow-x-auto">
+        <table class="min-w-[640px] bg-white border border-gray-200">
             <thead>
             <tr>
                 <th class="py-2 px-4 border-b text-left text-sm font-medium text-gray-600"><%= t('admin.management.table.id') %></th>
@@ -20,11 +20,14 @@
                 <td class="py-2 px-4 border-b"><%= user.role.capitalize %></td>
                 <%# TODO: confirm before delete or update role %>
                 <td class="py-2 px-4 border-b">
-                    <%= button_to t('admin.management.actions.delete'), admin_management_destroy_path(user), method: :delete, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-red-600 hover:text-red-800 bg-transparent border-0 p-0" %>
-                    <%= button_to t('admin.management.actions.change_role'), admin_management_update_path(user), method: :patch, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-blue-600 hover:text-blue-800 bg-transparent border-0 p-0 ml-4" %>
+                    <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
+                    <%= button_to t('admin.management.actions.delete'), admin_management_destroy_path(user), method: :delete, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-red-600 hover:text-red-800 bg-transparent border-0 p-0 text-left" %>
+                    <%= button_to t('admin.management.actions.change_role'), admin_management_update_path(user), method: :patch, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-blue-600 hover:text-blue-800 bg-transparent border-0 p-0 text-left" %>
+                    </div>
                 </td>
                 </tr>
             <% end %>
             </tbody>
         </table>
+        </div>
 <% end %>

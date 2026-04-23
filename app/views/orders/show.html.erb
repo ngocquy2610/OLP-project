@@ -35,11 +35,11 @@
         <div class="mt-4">
           <label class="inline-flex items-center mr-4">
             <input type="radio" name="payment_method" value="stripe" checked onclick="choosePayment('stripe')" class="mr-2">
-            <span>Thanh toán qua Stripe</span>
+            <span><%= t('orders.show.stripe_label') %></span>
           </label>
           <label class="inline-flex items-center">
             <input type="radio" name="payment_method" value="gmo" onclick="choosePayment('gmo')" class="mr-2">
-            <span>Thanh toán bằng thẻ (GMO)</span>
+            <span><%= t('orders.show.gmo_label') %></span>
           </label>
         </div>
 
@@ -58,21 +58,21 @@
             <input type="hidden" id="gmo_token" name="Token" value="">
 
             <div class="mb-2">
-              <label class="block">Số thẻ:</label>
+              <label class="block"><%= t('orders.show.card_number') %>:</label>
               <input type="text" id="cardno" placeholder="4100000000000100" value="4100000000000100" inputmode="numeric" maxlength="19" autocomplete="cc-number" class="w-full border rounded px-2 py-1">
             </div>
 
             <div class="mb-2">
-              <label class="block">Ngày hết hạn (YYYYMM):</label>
+              <label class="block"><%= t('orders.show.expire_date') %>:</label>
               <input type="text" id="expire" placeholder="2812" value="2812" maxlength="6" class="w-full border rounded px-2 py-1">
             </div>
 
             <div class="mb-2">
-              <label class="block">Mã bảo mật (CVC):</label>
+              <label class="block"><%= t('orders.show.security_code') %>:</label>
               <input type="text" id="securitycode" placeholder="123" value="123" maxlength="4" autocomplete="cc-csc" class="w-full border rounded px-2 py-1">
             </div>
 
-            <button type="button" id="pay-button" class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">Thanh toán bằng GMO</button>
+            <button type="button" id="pay-button" class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700"><%= t('orders.show.pay_gmo') %></button>
           </form>
         </div>
 
@@ -89,7 +89,7 @@
             payBtn.addEventListener('click', function () {
               const btn = this;
               btn.disabled = true;
-              btn.innerText = 'Đang mã hóa...';
+              btn.innerText = '<%= t("orders.show.processing") %>';
 
               const cardData = {
                 cardno: document.getElementById('cardno').value.replace(/[^0-9]/g, ''),
@@ -101,7 +101,7 @@
 
               try {
                 if (typeof window.Multipayment === 'undefined' || typeof window.Multipayment.getToken !== 'function') {
-                  throw new Error('Multipayment library is not loaded. Check network or include token.js');
+                  throw new Error('<%= t("orders.show.token_error_message") %>');
                 }
 
                 // Initialize (shopId is public)

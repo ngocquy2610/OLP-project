@@ -8,7 +8,7 @@
 
   <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center justify-between shadow-sm">
     <div>
-      <h2 class="text-sm font-semibold text-blue-800 uppercase tracking-wider mb-1">Số dư khả dụng</h2>
+      <h2 class="text-sm font-semibold text-blue-800 uppercase tracking-wider mb-1"><%= t('admin.teacher_dashboard.available_balance') %></h2>
       <p class="text-4xl font-bold text-blue-600">
         <%= format_vnd(current_user.balance || 0) %>
       </p>
@@ -18,21 +18,21 @@
       <% if current_user.balance.to_i > 0 %>
         <%= button_to withdrawals_path, 
               method: :post, 
-              data: { turbo_confirm: "Bạn xác nhận muốn rút toàn bộ #{format_vnd(current_user.balance)} về tài khoản ngân hàng?" },
+              data: { turbo_confirm: t('admin.teacher_dashboard.withdraw_confirm', amount: format_vnd(current_user.balance)) },
               class: "bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition shadow-md cursor-pointer flex items-center gap-2" do %>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-          Rút tiền ngay
+          <%= t('admin.teacher_dashboard.withdraw_button') %>
         <% end %>
       <% else %>
         <button class="bg-gray-300 text-white px-6 py-3 rounded-lg font-bold cursor-not-allowed flex items-center gap-2" disabled>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-          Chưa có số dư
+          <%= t('admin.teacher_dashboard.no_balance') %>
         </button>
       <% end %>
 
       <% unless current_user.stripe_account_id.present? %>
         <p class="mt-2 text-xs text-red-500 font-medium">
-          * Vui lòng liên kết tài khoản Stripe để nhận tiền
+          <%= t('admin.teacher_dashboard.stripe_note') %>
         </p>
       <% end %>
     </div>

@@ -3,11 +3,10 @@ class CartItemsController < ApplicationController
 
   def create
     cart = current_user.cart
-    course = Course.find(params[:course_id])
+    course = Course.find_by(id: params[:course_id])
 
-    if course.user_id == current_user.id
-      redirect_back fallback_location: root_path,
-        alert: "Bạn không thể mua khóa học của chính mình"
+    if course.nil?
+      redirect_back fallback_location: root_path, alert: "Khóa học không tồn tại"
       return
     end
 
@@ -36,8 +35,12 @@ class CartItemsController < ApplicationController
   end
 
   def destroy
-    item = current_user.cart.cart_items.find(params[:id])
-    item.destroy
-    redirect_to cart_path, notice: "Removed"
+    item = current_user.cart.cart_items.find_by(id: params[:id])
+    if item
+      item.destroy
+      redirect_to cart_path, notice: "Removed"
+    else
+      redirect_to cart_path, alert: "Item not found"
+    end
   end
 end

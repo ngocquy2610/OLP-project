@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <h1 class="text-2xl text-center font-bold text-gray-800 mt-5"><%= t('admin.management.courses.index.title') %></h1>
+  <h1 class="text-2xl text-center font-bold text-gray-800 mt-5"><%= t('courses.index.title') %></h1>
   
   <div class="max-w-2xl mx-auto mt-6 px-4">
     <%= form_with url: request.path, method: :get, 
@@ -29,9 +29,9 @@
       <% end %>
     <% end %>
   </div>
-  <div class="flex flex-wrap gap-4 my-6 justify-center">
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4 px-4 my-6">
     <% @courses.each do |course| %>
-      <div class="flex flex-col gap-3 justify-between items-center mt-6 border-1 p-4 rounded-lg bg-gray-50 text-gray-600 w-1/6 h-120">
+      <div class="flex flex-col gap-3 justify-between items-center border p-4 rounded-lg bg-gray-50 text-gray-600 h-120">
         <div class="w-full h-32 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
           <% if course.course_image.attached? %>
             <%= image_tag(course.course_image, class: "w-full h-full object-cover") %>
@@ -61,7 +61,7 @@
             <% end %>
 
           </div>
-          <div class="text-gray-500 text-center break-words line-clamp-3 h-20 flex items-start justify-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
+          <div class="hidden text-gray-500 text-center break-words line-clamp-3 h-20 md:flex items-start justify-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
         </div>
 
         <div class="w-full text-center">

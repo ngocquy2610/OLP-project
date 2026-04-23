@@ -1,16 +1,18 @@
-<h2><%= t('devise.unlocks.title') %></h2>
+<div class="mx-auto mt-10 w-full max-w-xl border p-6 sm:p-10 rounded-lg shadow-lg shadow-gray-400">
+  <div class="mt-2 text-xl sm:text-[24px] text-[#74787f]"><%= t('devise.unlocks.title') %></div>
 
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+  <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <p><%= f.label :email, t('devise.sessions.email_label') %></p>
-    <p><%= f.email_field :email, autofocus: true, autocomplete: "email" %></p>
-  </div>
+    <div class="field my-5">
+      <p class="mb-2"><%= f.label :email, t('devise.sessions.email_label'), class: "text-xl sm:text-[24px] text-[#74787f]" %></p>
+      <p><%= f.email_field :email, autofocus: true, autocomplete: "email", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+    </div>
 
-  <div class="actions">
-    <%= f.submit t('devise.unlocks.submit') %>
-  </div>
-<% end %>
+    <div class="actions">
+      <%= f.submit t('devise.unlocks.submit'), class: "bg-green-400 border-1 border-green-400 w-fit py-2 px-5 rounded-full text-black hover:bg-white hover:text-black hover:border-1 transition cursor-pointer" %>
+    </div>
+  <% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+</div>
