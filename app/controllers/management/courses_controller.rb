@@ -54,9 +54,10 @@ class Management::CoursesController < ApplicationController
   private
 
   def set_course
-    @course = Course.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to profile_path(current_user), alert: "Không tìm thấy khóa học này."
+    @course = Course.find_by(id: params[:id])
+    unless @course
+      redirect_to profile_path(current_user), alert: "Không tìm thấy khóa học này."
+    end
   end
 
   def course_params

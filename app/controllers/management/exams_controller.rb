@@ -22,7 +22,7 @@ class Management::ExamsController < ApplicationController
   end
 
   def show
-    @exam = Exam.find(params[:id])
+    @exam = Exam.find_by(id: params[:id])
   end
 
   def create
@@ -77,6 +77,6 @@ class Management::ExamsController < ApplicationController
   end
 
   def set_exam
-    @exam = Exam.find(params[:id])
+    @exam = Exam.find_by(id: params[:id])
   end
 end

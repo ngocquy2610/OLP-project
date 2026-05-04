@@ -26,6 +26,6 @@ class LikesController < ApplicationController
   private
 
   def set_feedback
-    @feedback = FeedbackCourse.find(params[:feedback_course_id])
+    @feedback = FeedbackCourse.find_by(id: params[:feedback_course_id])
   end
 end

@@ -5,4 +5,11 @@ class Lesson < ApplicationRecord
 
   validates :name, presence: true
   has_one_attached :video
+  attr_accessor :video_blob_signed_id
+
+  def enqueue_video_attachment
+    return if video_blob_signed_id.blank?
+
+    AttachVideoJob.perform_later(id, video_blob_signed_id)
+  end
 end

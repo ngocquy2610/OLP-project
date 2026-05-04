@@ -11,7 +11,7 @@ class Admin::VouchersController < Admin::BaseController
     @voucher = Voucher.new(voucher_params)
     
     if @voucher.save
-      redirect_to admin_vouchers_path
+      redirect_to admin_vouchers_path, notice: "Voucher was successfully created."
     else
       render :new, status: :unprocessable_entity
     end

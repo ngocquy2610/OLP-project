@@ -18,14 +18,14 @@ class Admin::CoursesController < Admin::BaseController
   end
 
   def show
-    @course = Course.find(params[:id])
+    @course = Course.find_by(id: params[:id])
     @topics = @course.topics.includes(:exams).includes(lessons: [:practices, { video_attachment: :blob }])
 
     @exams_by_topic = @topics.map { |t| [t.id, t.exams] }.to_h
     @practices_by_lesson = @topics.flat_map(&:lessons).map { |l| [l.id, l.practices] }.to_h
 
     if params[:lesson_id]
-      @current_lesson = Lesson.find(params[:lesson_id])
+      @current_lesson = Lesson.find_by(id: params[:lesson_id])
     else
       @current_lesson = @topics.first&.lessons&.first
     end
@@ -34,6 +34,6 @@ class Admin::CoursesController < Admin::BaseController
   private
 
   def set_course
-    @course = Course.find(params[:id])
+    @course = Course.find_by(id: params[:id])
   end
 end

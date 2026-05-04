@@ -77,7 +77,7 @@ class CoursesController < ApplicationController
     end
 
     if params[:lesson_id]
-      @current_lesson = Lesson.find(params[:lesson_id])
+      @current_lesson = Lesson.find_by(id: params[:lesson_id])
     else
       @current_lesson = @topics.first&.lessons&.first
     end

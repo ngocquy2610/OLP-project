@@ -1,11 +1,13 @@
 class ApplicationController < ActionController::Base
+  include LocaleSwitchable
+  include TurboFrameFlashable
+
   before_action :set_cart_quantity
   include Pundit::Authorization
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  around_action :switch_locale
 
   def home
     top_course_ids = Enrollment.group(:course_id)
@@ -34,15 +36,5 @@ class ApplicationController < ActionController::Base
   def set_cart_quantity
     return unless user_signed_in?
     @total_quantity = current_user.cart&.cart_items&.count || 0
-  end
-
-  def switch_locale(&action)
-    if params[:locale].present?
-      session[:locale] = params[:locale]
-    end
-
-    locale = session[:locale] || I18n.default_locale
-    
-    I18n.with_locale(locale, &action)
   end
 end

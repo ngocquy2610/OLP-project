@@ -22,7 +22,7 @@ class Management::PracticesController < ApplicationController
   end
 
   def show
-    @practice = Practice.find(params[:id])
+    @practice = Practice.find_by(id: params[:id])
   end
 
 
@@ -63,7 +63,7 @@ class Management::PracticesController < ApplicationController
   end
 
   def update
-    @practice = Practice.find(params[:id])
+    @practice = Practice.find_by(id: params[:id])
     if @practice.update(practice_params)
       redirect_to profile_path(current_user), notice: "Practice was successfully updated."
     else
@@ -72,7 +72,7 @@ class Management::PracticesController < ApplicationController
   end
 
   def destroy
-    @practice = Practice.find(params[:id])
+    @practice = Practice.find_by(id: params[:id])
     @practice.destroy
     redirect_to profile_path(current_user), notice: "Practice was successfully destroyed."
   end
@@ -84,6 +84,6 @@ class Management::PracticesController < ApplicationController
   end
 
   def set_practice
-    @practice = Practice.find(params[:id])
+    @practice = Practice.find_by(id: params[:id])
   end
 end

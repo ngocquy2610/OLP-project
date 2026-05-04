@@ -29,6 +29,16 @@
 
 vi:
   hello: "Xin chào thế giới"
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d/%m"
+      long: "%d tháng %m, %Y"
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"
+      short: "%d/%m %H:%M"
+      long: "%d tháng %m, %Y %H:%M"
   
   nav:
     home: "Trang chủ"
@@ -678,6 +688,10 @@ vi:
         students_label: "Học Viên"
         courses_label: "Khóa Học"
   orders:
+    statuses:
+      pending: "Đang chờ"
+      paid: "Đã thanh toán"
+      failed: "Thất bại"
     index:
       title: "Lịch sử thanh toán"
       table:
