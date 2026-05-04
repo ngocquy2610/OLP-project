@@ -1,11 +1,11 @@
 class TopicsController < ApplicationController
   def exam
-    @topic = Topic.find(params[:id])
+    @topic = Topic.find_by(id: params[:id])
     @exams = @topic.exams
   end
 
   def submit_exam
-    @topic = Topic.find(params[:id])
+    @topic = Topic.find_by(id: params[:id])
     @exams = @topic.exams
 
     answers = params[:answers] || {}

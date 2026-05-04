@@ -15,7 +15,7 @@
       </div>
     </div>
     <div>
-      <%= image_tag "home/home-image.svg", class: "rounded-xl shadow-lg"%>
+      <%= optimized_static_image_tag("home/home-image.svg", alt: "Home Image", class_name: "rounded-xl shadow-lg", width: 600, height: 400) %>
     </div>
   </div>
 </section>
@@ -24,21 +24,21 @@
     <h3 class="text-3xl font-bold mb-12"><%= t('home.features.why_title', default: 'Why choose our platform') %></h3>
     <div class="grid md:grid-cols-3 gap-8">
       <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
-        <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/book.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
+        <div class="text-4xl mb-4 flex justify-center"><%= optimized_static_image_tag("home/book.svg", alt: "Book Image", class_name: "rounded-xl shadow-lg w-15 h-15", width: 60, height: 60) %></div>
         <h4 class="text-xl font-semibold mb-2"><%= t('home.features.quality_courses.title') %></h4>
         <p class="text-gray-600">
           <%= t('home.features.quality_courses.desc') %>
         </p>
       </div>
       <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
-        <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/teacher.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
+        <div class="text-4xl mb-4 flex justify-center"><%= optimized_static_image_tag("home/teacher.svg", alt: "Teacher Image", class_name: "rounded-xl shadow-lg w-15 h-15", width: 60, height: 60) %></div>
         <h4 class="text-xl font-semibold mb-2"><%= t('home.features.professional_instructors.title') %></h4>
         <p class="text-gray-600">
           <%= t('home.features.professional_instructors.desc') %>
         </p>
       </div>
       <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
-        <div class="text-4xl mb-4 flex justify-center"><%= image_tag "home/clock.svg", class: "rounded-xl shadow-lg w-15 h-15"%></div>
+        <div class="text-4xl mb-4 flex justify-center"><%= optimized_static_image_tag("home/clock.svg", alt: "Clock Image", class_name: "rounded-xl shadow-lg w-15 h-15", width: 60, height: 60) %></div>
         <h4 class="text-xl font-semibold mb-2"><%= t('home.features.learn_anytime.title') %></h4>
         <p class="text-gray-600">
           <%= t('home.features.learn_anytime.desc') %>

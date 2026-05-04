@@ -2,12 +2,12 @@ class LessonsController < ApplicationController
   before_action :set_lesson, only: [ :practice, :submit_practice ]
 
   def practice
-    @lesson = Lesson.find(params[:id])
+    @lesson = Lesson.find_by(id: params[:id])
     @practices = @lesson.practices
   end
 
   def submit_practice
-    @lesson = Lesson.find(params[:id])
+    @lesson = Lesson.find_by(id: params[:id])
     @practices = @lesson.practices
 
     answers = params[:answers] || {}
@@ -46,6 +46,6 @@ class LessonsController < ApplicationController
   private
 
   def set_lesson
-    @lesson = Lesson.find(params[:id])
+    @lesson = Lesson.find_by(id: params[:id])
   end
 end

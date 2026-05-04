@@ -29,6 +29,16 @@
 
 en:
   hello: "Hello world"
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b %d"
+      long: "%B %d, %Y"
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+      short: "%b %d, %H:%M"
+      long: "%B %d, %Y %H:%M"
   
   nav:
     home: "Home"
@@ -569,6 +579,10 @@ en:
         students_label: "Students"
         courses_label: "Courses"
   orders:
+    statuses:
+      pending: "Pending"
+      paid: "Paid"
+      failed: "Failed"
     index:
       title: "Your Payment History"
       table:

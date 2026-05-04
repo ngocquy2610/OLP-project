@@ -45,7 +45,7 @@ class Management::TopicsController < ApplicationController
   private
 
   def set_topic
-    @topic = Topic.find(params[:id])
+    @topic = Topic.find_by(id: params[:id])
   end
 
   def topic_params

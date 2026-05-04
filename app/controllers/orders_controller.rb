@@ -7,11 +7,11 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = current_user.orders.find(params[:id])
+    @order = current_user.orders.find_by(id: params[:id])
   end
 
   def invoice
-    @order = current_user.orders.includes(order_items: :course).find(params[:id])
+    @order = current_user.orders.includes(order_items: :course).find_by(id: params[:id])
 
     respond_to do |format|
       format.html 
@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
   end
 
   def pay
-    @order = current_user.orders.find(params[:id])
+    @order = current_user.orders.find_by(id: params[:id])
 
     # Đảm bảo không xử lý lại nếu đã thanh toán
     unless @order.status == "paid"
@@ -54,7 +54,7 @@ class OrdersController < ApplicationController
   end
 
   def checkout
-    order = current_user.orders.find(params[:id])
+    order = current_user.orders.find_by(id: params[:id])
     @usd_rate = (JSON.parse(File.read(Rails.root.join('exchange_rate.json')))['rate'] rescue nil)
     subtotal_amount = order.order_items.sum(:price).to_i
     subtotal_amount_in_usd = (subtotal_amount * @usd_rate * 100).to_i
@@ -121,12 +121,12 @@ class OrdersController < ApplicationController
   end
 
   def gmo_checkout
-    @order = current_user.orders.find(params[:id])
+    @order = current_user.orders.find_by(id: params[:id])
     # Không redirect gì ở đây cả, Rails sẽ tự động tìm file view gmo_checkout.html.erb để hiển thị
   end
 
   def success
-    order = current_user.orders.find(params[:id])
+    order = current_user.orders.find_by(id: params[:id])
 
     unless order.status == "paid"
       order.update(status: "paid")
@@ -164,7 +164,7 @@ class OrdersController < ApplicationController
   # Handle GMO token submission
   def charge_gmo
     
-    order = current_user.orders.find(params[:id])
+    order = current_user.orders.find_by(id: params[:id])
 
     if order.status == 'paid'
       redirect_to courses_path, notice: 'Đơn hàng này đã được thanh toán.' and return

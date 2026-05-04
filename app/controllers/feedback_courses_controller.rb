@@ -47,7 +47,7 @@ class FeedbackCoursesController < ApplicationController
   end
 
   def like
-    @feedback = @course.feedback_courses.find(params[:id])
+    @feedback = @course.feedback_courses.find_by(id: params[:id])
     @feedback.increment!(:likes_count)
     redirect_to @course, notice: "Bạn đã thích đánh giá này!"
   end
@@ -55,11 +55,11 @@ class FeedbackCoursesController < ApplicationController
   private
 
   def set_course
-    @course = Course.find(params[:course_id])
+    @course = Course.find_by(id: params[:course_id])
   end
 
   def set_feedback
-    @feedback = @course.feedback_courses.find(params[:id])
+    @feedback = @course.feedback_courses.find_by(id: params[:id])
   end
 
   def authorize_user!

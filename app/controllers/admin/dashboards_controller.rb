@@ -1,6 +1,6 @@
 class Admin::DashboardsController < ApplicationController
   before_action :authenticate_user!
-  
+
   def index
     @student_count = User.where(role: 'student').count
     @teacher_count = User.where(role: 'teacher').count

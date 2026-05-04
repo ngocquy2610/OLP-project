@@ -19,7 +19,7 @@
         <% @orders.each do |order| %>
           <tr class="flex items-center justify-between  p-4 border-t">
             
-            <td class="w-1/4 text-left"><%= order.created_at.strftime("%B %d, %Y") %></td>
+            <td class="w-1/4 text-left"><%= l(order.created_at.to_date, format: :long) %></td>
             <td class="w-1/4 text-left">
               <ul>
                 <% order.order_items.each do |item| %>
@@ -28,7 +28,7 @@
               </ul>
             </td>
 
-            <td class="w-1/4 text-left"><span class="badge"><%= order.status.capitalize %></span></td>
+            <td class="w-1/4 text-left"><span class="badge"><%= t("orders.statuses.#{order.status}", default: order.status.humanize) %></span></td>
             <td class="w-1/4 text-left">
               <%= link_to t('orders.index.download_invoice'), invoice_order_path(order, format: :pdf), target: "_blank", class: "bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition cursor-pointer" %>
             </td>

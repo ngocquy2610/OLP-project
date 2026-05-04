@@ -2,7 +2,7 @@
   <div class="w-full lg:w-1/3">
     <p class="text-[#4F8929] text-3xl sm:text-4xl lg:text-5xl font-bold text-center"><%= t('devise.brand.line1') %></p>
     <p class="text-[#4F8929] text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-7"><%= t('devise.brand.line2') %></p>
-    <div><%= image_tag "login-image.png" ,class: "w-full rounded-2xl shadow-lg shadow-black" %></div>
+    <div><%= optimized_static_image_tag("login-image.png", alt: "Login Image", class_name: "w-full rounded-2xl shadow-lg shadow-black", width: 600, height: 400) %></div>
   </div>
   <div class="w-full lg:w-3/5 rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-lg shadow-gray-300/60">
     <div class="text-[#1877F2] text-2xl sm:text-3xl text-center font-bold border-b-2 border-[#1877F2] p-4 sm:p-6 w-full"><%= t('devise.registrations.title') %></div>

@@ -6,7 +6,7 @@ class Admin::ManagementController < ApplicationController
     end
 
     def destroy
-        @user = User.find(params[:id])
+        @user = User.find_by(id: params[:id])
         if @user.destroy
             flash[:notice] = "User deleted successfully."
         else
@@ -16,7 +16,7 @@ class Admin::ManagementController < ApplicationController
     end
 
     def update
-        @user = User.find(params[:id])
+        @user = User.find_by(id: params[:id])
         if params[:user].present?
             if @user.update(user_params)
                 flash[:notice] = "User updated successfully."
@@ -24,7 +24,6 @@ class Admin::ManagementController < ApplicationController
                 flash[:alert] = "Failed to update user."
             end
         else
-            # No form params sent — toggle role between 'admin' and 'user'
             new_role = @user.role == 'student' ? 'teacher' : 'student'
             if @user.update(role: new_role)
                 flash[:notice] = "User role updated to #{new_role}."
