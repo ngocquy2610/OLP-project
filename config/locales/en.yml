@@ -529,6 +529,7 @@ en:
         question_prefix: "Q:"
       learn:
         no_video: "No video available"
+        loading_video: "Video is loading, please wait..."
         practice_of: "Practice of %{lesson}"
         status:
           done: "Done"

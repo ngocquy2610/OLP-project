@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="flex flex-col lg:flex-row min-h-screen bg-gray-100" x-data="{ sidebarOpen: false }">
+  <div class="flex flex-col lg:flex-row min-h-screen bg-gray-100" x-data="{ sidebarOpen: false, videoLoading: true, videoError: false }">
     <!-- Mobile sidebar toggle -->
     <div class="lg:hidden flex items-center justify-between bg-gray-800 text-white px-4 py-2">
       <span class="font-semibold text-sm"><%= @current_lesson&.name %></span>
@@ -9,12 +9,33 @@
       </button>
     </div>
     <div class="flex-1 flex flex-col min-w-0">
-      <div class="bg-black">
+      <div class="relative bg-black min-h-[280px] lg:min-h-[420px] flex items-center justify-center">
         <% if @current_lesson&.video&.attached? %>
-          <video controls controlsList="nodownload" preload="metadata" oncontextmenu="return false;" class="w-full h-fit bg-black">
+          <video
+            controls
+            controlsList="nodownload"
+            preload="metadata"
+            oncontextmenu="return false;"
+            @loadstart="videoLoading = true; videoError = false"
+            @waiting="videoLoading = true"
+            @stalled="videoLoading = true"
+            @canplay="videoLoading = false"
+            @playing="videoLoading = false"
+            @error="videoLoading = false; videoError = true"
+            class="w-full h-full max-h-[70vh] bg-black"
+          >
             <source src="<%= url_for(@current_lesson.video) %>" type="video/mp4">
             <%= t('admin.courses.learn.no_video') %>
           </video>
+
+          <div x-show="videoLoading" class="absolute inset-0 bg-black/70 flex flex-col items-center justify-center text-white gap-3">
+            <div class="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <p class="text-sm font-medium"><%= t('admin.courses.learn.loading_video', default: 'Video is loading, please wait...') %></p>
+          </div>
+
+          <div x-show="videoError" class="absolute inset-0 bg-black/70 flex items-center justify-center text-white px-6 text-center">
+            <p class="text-sm font-medium"><%= t('admin.courses.learn.video_load_failed', default: 'Video cannot be loaded right now. Please refresh or try again later.') %></p>
+          </div>
         <% else %>
           <div class="h-[500px] flex items-center justify-center bg-black text-white">
             <%= t('admin.courses.learn.no_video') %>
