@@ -486,6 +486,7 @@ vi:
         view_details: "Xem chi tiết"
       learn:
         no_video: "Không có video"
+        loading_video: "Video đang tải, vui lòng chờ..."
         practice_of: "Luyện tập của %{lesson}"
         status:
           done: "Hoàn thành"
