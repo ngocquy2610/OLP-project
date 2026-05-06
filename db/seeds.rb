@@ -6,6 +6,22 @@ ActiveRecord::Base.transaction do
 	# sample tags to assign to seeded courses
 	@sample_tags = %w[ruby rails javascript stimulus web beginner advanced testing deployment]
 
+	# small helpers for seeding user data (only applied if columns exist)
+	@first_names = %w[An Binh Chi Dung Em Giang Huy Khoa Linh Mai Nam Oanh Phuong Quang]
+	@last_names = %w[Nguyen Tran Le Pham Vu Hoang Dang]
+	@sample_addresses = [
+		"123 Le Loi, District 1, Ho Chi Minh City",
+		"456 Tran Phu, Ba Dinh, Hanoi",
+		"789 Ly Tu Trong, District 3, Ho Chi Minh City",
+		"10 Hai Ba Trung, District 1, Ho Chi Minh City",
+		"22 Nguyen Trai, Thanh Xuan, Hanoi"
+	]
+	@bank_names = ["Vietcombank", "BIDV", "Techcombank", "ACB", "Sacombank", "MB Bank"]
+
+	generate_fullname = -> { "#{@last_names.sample} #{@first_names.sample}" }
+	generate_phone = -> { "09#{rand(10_000_000..99_999_999)}" }
+	generate_bank_account = -> { rand(10_000_000_000..99_999_999_999).to_s }
+
 	# Users: create 10 teachers and one student
 	teachers = (1..10).map do |i|
 		email = "teacher#{i}@gmail.com"
@@ -14,6 +30,36 @@ ActiveRecord::Base.transaction do
 		u.password_confirmation = "123456"
 		u.role = :teacher
 		u.confirmed_at ||= Time.current
+
+		# optional fields: fullname, address, phone
+		if User.column_names.include?("fullname")
+			u.fullname ||= generate_fullname.call
+		elsif User.column_names.include?("full_name")
+			u.full_name ||= generate_fullname.call
+		end
+
+		if User.column_names.include?("address")
+			u.address ||= @sample_addresses.sample
+		end
+
+		if User.column_names.include?("phone")
+			u.phone ||= generate_phone.call
+		end
+
+		# teacher-specific bank fields (if present)
+		if User.column_names.include?("bank_name")
+			u.bank_name ||= @bank_names.sample
+		end
+
+		if User.column_names.include?("bank_account_name")
+			u.bank_account_name ||= (u.fullname || email.split("@").first)
+		elsif User.column_names.include?("bank_account_owner")
+			u.bank_account_owner ||= (u.fullname || email.split("@").first)
+		end
+
+		if User.column_names.include?("bank_account_number")
+			u.bank_account_number ||= generate_bank_account.call
+		end
 		u.save!
 		u
 	end
@@ -23,6 +69,21 @@ ActiveRecord::Base.transaction do
 	student.password_confirmation = "123456"
 	student.role = :student
 	student.confirmed_at ||= Time.current
+
+	# optional student profile fields
+	if User.column_names.include?("fullname")
+		student.fullname ||= generate_fullname.call
+	elsif User.column_names.include?("full_name")
+		student.full_name ||= generate_fullname.call
+	end
+
+	if User.column_names.include?("address")
+		student.address ||= @sample_addresses.sample
+	end
+
+	if User.column_names.include?("phone")
+		student.phone ||= generate_phone.call
+	end
 	student.save!
 
 	# Admin user (idempotent) with known password
@@ -33,6 +94,21 @@ ActiveRecord::Base.transaction do
 		admin.password_confirmation = "123456"
 		admin.role = :admin
 		admin.confirmed_at ||= Time.current
+
+		# optional admin profile fields
+		if User.column_names.include?("fullname")
+			admin.fullname ||= generate_fullname.call
+		elsif User.column_names.include?("full_name")
+			admin.full_name ||= generate_fullname.call
+		end
+
+		if User.column_names.include?("address")
+			admin.address ||= @sample_addresses.sample
+		end
+
+		if User.column_names.include?("phone")
+			admin.phone ||= generate_phone.call
+		end
 		admin.save!
 		puts "Created admin user: #{admin_email} (password: 123456)"
 	else
