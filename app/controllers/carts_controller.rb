@@ -1,18 +1,18 @@
 class CartsController < ApplicationController
   before_action :authenticate_user!
-  
+
   def show
     @cart = current_user.cart
     @cart_items = @cart.cart_items.includes(:course)
     @total_quantity = @cart_items.count
-    
+
     @subtotal = @cart_items.sum { |item| item.course.price.to_i }
     @selected_ids = session[:selected_items] || []
-    
+
     @discount = 0
     if session[:voucher_id]
       @voucher = Voucher.find_by(id: session[:voucher_id])
-      
+
       if @voucher&.usable?
         @discount = (@subtotal * @voucher.discount_percent / 100.0).round
       else
