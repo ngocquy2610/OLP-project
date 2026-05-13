@@ -1,15 +1,12 @@
 class CoursesController < ApplicationController
   def index
-    
     if params[:query].present?
-      @courses = Course.search(
-        params[:query], 
-        fields: [:name, :tag],
-        where: { status: 1 },
-        page: params[:page], 
-        per_page: 12,
-        match: :word_middle
-      )
+      query = "%#{ActiveRecord::Base.sanitize_sql_like(params[:query].strip)}%"
+      @courses = Course.published
+                       .where("name ILIKE :query OR tag ILIKE :query", query: query)
+                       .order(created_at: :desc)
+                       .page(params[:page])
+                       .per(12)
     else
       @courses = Course.published.page(params[:page]).per(12)
     end
@@ -18,14 +15,14 @@ class CoursesController < ApplicationController
   def show
     @course = Course.find_by(id: params[:id])
     if @course.nil?
-      redirect_to courses_path, alert: "Khóa học không tồn tại"
+      redirect_to courses_path, alert: I18n.t("messages.courses.not_found")
       return
     end
     @topics = @course.topics.includes(:lessons)
     teacher = @course.user
     @teacher_rating = teacher.rate
     @teacher_name = teacher.fullname
-    
+
     @owned = current_user&.owned_courses&.exists?(@course.id)
 
     if @owned
@@ -40,18 +37,17 @@ class CoursesController < ApplicationController
       @exams   = []
       @practices = []
     end
-    
   end
 
   def learn
     @course = Course.find_by(id: params[:id])
     if @course.nil?
-      redirect_to courses_path, alert: "Khóa học không tồn tại"
+      redirect_to courses_path, alert: I18n.t("messages.courses.not_found")
       return
     end
 
     unless current_user.owned_courses.exists?(@course.id)
-      redirect_to course_path(@course), alert: "Bạn chưa mua khóa học này"
+      redirect_to course_path(@course), alert: I18n.t("messages.courses.not_purchased")
       return
     end
 

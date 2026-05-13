@@ -14,12 +14,12 @@ class OrdersController < ApplicationController
     @order = current_user.orders.includes(order_items: :course).find_by(id: params[:id])
 
     respond_to do |format|
-      format.html 
-      
+      format.html
+
       format.pdf do
         render pdf: "Invoice_#{@order.id}",
                template: "orders/pdf_invoice",
-               formats: [:html],
+               formats: [ :html ],
                layout: false,
                margin: { top: 15, bottom: 15, left: 15, right: 15 }
       end
@@ -50,15 +50,15 @@ class OrdersController < ApplicationController
         .destroy_all
     end
 
-    redirect_to courses_path, notice: "Bạn đã sở hữu khóa học!"
+    redirect_to courses_path, notice: I18n.t("messages.orders.already_owned")
   end
 
   def checkout
     order = current_user.orders.find_by(id: params[:id])
-    @usd_rate = (JSON.parse(File.read(Rails.root.join('exchange_rate.json')))['rate'] rescue nil)
+    @usd_rate = (JSON.parse(File.read(Rails.root.join("exchange_rate.json")))["rate"] rescue nil)
     subtotal_amount = order.order_items.sum(:price).to_i
     subtotal_amount_in_usd = (subtotal_amount * @usd_rate * 100).to_i
-    
+
     # Xử lý đơn hàng miễn phí (Giá = 0)
     if subtotal_amount == 0
       unless order.status == "paid"
@@ -81,7 +81,7 @@ class OrdersController < ApplicationController
         end
       end
 
-      redirect_to courses_path, notice: "Payment successful! You can now access your courses."
+      redirect_to courses_path, notice: I18n.t("messages.orders.payment_success")
       return
     end
 
@@ -98,7 +98,7 @@ class OrdersController < ApplicationController
     end
 
     session_params = {
-      payment_method_types: ["card"],
+      payment_method_types: [ "card" ],
       line_items: stripe_line_items,
       mode: "payment",
       success_url: success_order_url(order),
@@ -108,11 +108,11 @@ class OrdersController < ApplicationController
     if order.discount.to_i > 0
       coupon = Stripe::Coupon.create(
         amount_off: (order.discount.to_i * @usd_rate * 100).to_i,
-        currency: 'usd',
-        duration: 'once'
+        currency: "usd",
+        duration: "once"
       )
 
-      session_params[:discounts] = [{ coupon: coupon.id }]
+      session_params[:discounts] = [ { coupon: coupon.id } ]
     end
 
     session = Stripe::Checkout::Session.create(session_params)
@@ -133,11 +133,11 @@ class OrdersController < ApplicationController
 
       order.order_items.each do |item|
         course = item.course
-        
+
         current_user.enrollments.find_or_create_by!(course: course)
 
         teacher = course.user
-        
+
         teacher_share = (item.price.to_i * 0.90).to_i
         teacher.increment!(:balance, teacher_share) if teacher_share > 0
       end
@@ -154,20 +154,19 @@ class OrdersController < ApplicationController
       end
     end
 
-    redirect_to courses_path, notice: "Payment successful! You can now access your courses."
+    redirect_to courses_path, notice: I18n.t("messages.orders.payment_success")
   end
 
   def cancel
-    redirect_to cart_path, alert: "Payment canceled"
+    redirect_to cart_path, alert: I18n.t("messages.orders.payment_canceled")
   end
 
   # Handle GMO token submission
   def charge_gmo
-    
     order = current_user.orders.find_by(id: params[:id])
 
-    if order.status == 'paid'
-      redirect_to courses_path, notice: 'Đơn hàng này đã được thanh toán.' and return
+    if order.status == "paid"
+      redirect_to courses_path, notice: I18n.t("messages.orders.already_paid") and return
     end
 
     # Expect a frontend token. Do NOT accept raw card numbers from the server.
@@ -175,7 +174,7 @@ class OrdersController < ApplicationController
 
     if token.blank?
       # If no token, reject and ask user to retry with tokenization enabled
-      redirect_to order_path(order), alert: 'Thiếu token thanh toán. Vui lòng thử lại.' and return
+      redirect_to order_path(order), alert: I18n.t("messages.orders.missing_token") and return
     end
 
     # Pass token to service (service will use Token instead of raw card fields)
@@ -184,7 +183,7 @@ class OrdersController < ApplicationController
 
     if result[:success]
       # CHỈ KHI GMO TRẢ VỀ SUCCESS THÌ MỚI ĐƯỢC PHÉP CỘNG TIỀN VÀ GIAO KHÓA HỌC
-      order.update(status: 'paid')
+      order.update(status: "paid")
 
       order.order_items.each do |item|
         current_user.enrollments.find_or_create_by!(course: item.course)
@@ -206,11 +205,11 @@ class OrdersController < ApplicationController
         current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
       end
 
-      redirect_to courses_path, notice: 'Thanh toán GMO thành công! Bạn đã sở hữu khóa học.'
+      redirect_to courses_path, notice: I18n.t("messages.orders.gmo_success")
     else
       # NẾU GMO TỪ CHỐI (Thẻ sai, hết hạn, từ chối giao dịch...)
       # Đá về trang checkout và hiện thông báo lỗi
-      redirect_to gmo_checkout_order_path(order), alert: "Thanh toán thất bại: #{result[:error]}"
+      redirect_to gmo_checkout_order_path(order), alert: I18n.t("messages.orders.gmo_failed", error: result[:error])
     end
   end
 end

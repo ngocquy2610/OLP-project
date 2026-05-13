@@ -11,7 +11,7 @@
       <h2 class="text-lg font-bold text-gray-900"><%= t('admin.courses.verify.pending_approval') %> (<%= @pending_courses.count %>)</h2>
     </div>
 
-    <table class="min-w-[600px] divide-y divide-gray-200">
+    <table class="min-w-[877px] xl:min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
           <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"><%= t('admin.courses.verify.course_name') %></th>
@@ -29,8 +29,8 @@
           <% @pending_courses.each do |course| %>
             <tr>
               <td class="px-6 py-4 font-medium text-gray-900"><%= course.name %></td>
-              <td class="px-6 py-4 text-gray-500"><%= course.user&.fullname.presence || 'Not available' %></td>
-              <td class="px-6 py-4 text-gray-500"><%= number_to_currency(course.price) %></td>
+              <td class="px-6 py-4 text-gray-500"><%= course.user&.fullname.presence || t('messages.common.not_available') %></td>
+              <td class="px-6 py-4 text-gray-500"><%= format_vnd(course.price) %></td>
               <td class="px-6 py-4 text-right">
                 <div class="flex flex-wrap gap-2 justify-center sm:justify-end">
                 <%= button_to t('admin.courses.verify.approve'), published_admin_course_path(course), method: :patch, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600 text-sm font-medium" %>
@@ -44,5 +44,8 @@
       </tbody>
     </table>
   </div>
+</div>
+<div class="mt-8 flex justify-center">
+  <%= pagination_links(@pending_courses) %>
 </div>
 <% end %>

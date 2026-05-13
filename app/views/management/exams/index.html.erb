@@ -1,9 +1,9 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
+  <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mb-6">
     <h1 class="text-2xl font-bold text-gray-800"><%= t('admin.management.exams.index.title') %></h1>
-    <div class="flex w-full sm:w-auto flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-      <%= form_with url: management_exams_path, method: :get, local: false, data: { turbo_frame: 'profile_content' }, class: "flex w-full sm:w-auto flex-col sm:flex-row sm:items-center gap-2" do %>
-        <%= label_tag :topic_id, t('admin.management.exams.index.filter_by_topic'), class: "text-sm font-medium text-gray-700" %>
+    <div class="flex w-full lg:w-auto flex-col lg:flex-row lg:items-center gap-3 sm:gap-4">
+      <%= form_with url: management_exams_path, method: :get, local: false, data: { turbo_frame: 'profile_content' }, class: "flex w-full lg:w-auto flex-col lg:flex-row lg:items-center gap-2" do %>
+        <%= label_tag :topic_id, t('admin.management.exams.index.filter_by_topic'), class: "hidden lg:flex text-sm font-medium text-gray-700" %>
         <%= select_tag :topic_id, options_from_collection_for_select(@topics, :id, :name, @selected_topic&.id), include_blank: false, class: "border rounded-lg p-2 bg-white", onchange: 'if(this.form.requestSubmit){this.form.requestSubmit()}else{this.form.dispatchEvent(new Event("submit", {bubbles:true,cancelable:true}))}' %>
       <% end %>
       <%= link_to t('admin.management.exams.index.new'), new_management_exam_path, 
@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="overflow-x-auto bg-white rounded-xl border border-gray-200">
-    <table class="min-w-[900px] divide-y divide-gray-200">
+    <table class="min-w-[877px] xl:min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
           <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.exams.index.table.topic') %></th>

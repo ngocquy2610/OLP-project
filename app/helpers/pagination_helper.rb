@@ -6,8 +6,8 @@ module PaginationHelper
     total = paginated.total_pages
 
     window = 2
-    left = [1, current - window].max
-    right = [total, current + window].min
+    left = [ 1, current - window ].max
+    right = [ total, current + window ].min
 
     content_tag :nav, class: "flex items-center justify-center space-x-2 my-6" do
       safe_join([

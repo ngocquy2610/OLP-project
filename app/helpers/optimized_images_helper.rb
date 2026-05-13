@@ -34,7 +34,6 @@ module OptimizedImagesHelper
   end
 
   def optimized_static_image_tag(image, alt:, class_name:, width:, height:)
-
     file_path = Rails.root.join("app/assets/images/#{image}")
     return unless File.exist?(file_path)
 
@@ -44,7 +43,7 @@ module OptimizedImagesHelper
       content_type: determine_content_type(file_path)
     )
 
-    if File.extname(file_path).downcase == '.svg'
+    if File.extname(file_path).downcase == ".svg"
       image_url = image
     else
       image_url = blob.variant(format: :webp, saver: { quality: 80 }).processed
@@ -64,16 +63,16 @@ module OptimizedImagesHelper
   private
 
   def determine_content_type(image_path)
-    extension = File.extname(image_path).downcase.delete('.')
-    
+    extension = File.extname(image_path).downcase.delete(".")
+
     content_types = {
-      'jpg' => 'image/jpeg',
-      'jpeg' => 'image/jpeg',
-      'png' => 'image/png',
-      'svg' => 'image/svg+xml',
-      'webp' => 'image/webp',
+      "jpg" => "image/jpeg",
+      "jpeg" => "image/jpeg",
+      "png" => "image/png",
+      "svg" => "image/svg+xml",
+      "webp" => "image/webp"
     }
-    
-    content_types[extension] || 'image/jpeg'
+
+    content_types[extension] || "image/jpeg"
   end
 end

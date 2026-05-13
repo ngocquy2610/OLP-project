@@ -7,12 +7,12 @@ class TeacherDashboardsController < ApplicationController
     course_ids = @courses.pluck(:id)
 
     @sell_quantities = OrderItem.joins(:order)
-                                .where(course_id: course_ids, orders: { status: 'paid' })
+                                .where(course_id: course_ids, orders: { status: "paid" })
                                 .group(:course_id)
                                 .count
 
     @revenues = OrderItem.joins(:order)
-                         .where(course_id: course_ids, orders: { status: 'paid' })
+                         .where(course_id: course_ids, orders: { status: "paid" })
                          .group(:course_id)
                          .sum(:price)
   end

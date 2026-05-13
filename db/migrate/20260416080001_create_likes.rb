@@ -6,7 +6,7 @@ class CreateLikes < ActiveRecord::Migration[7.1] # Số phiên bản có thể k
 
       t.timestamps
     end
-    
-    add_index :likes, [:user_id, :feedback_course_id], unique: true
+
+    add_index :likes, [ :user_id, :feedback_course_id ], unique: true
   end
 end

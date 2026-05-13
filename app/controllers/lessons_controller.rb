@@ -14,7 +14,7 @@ class LessonsController < ApplicationController
 
     missing = @practices.map { |p| p.id.to_s } - answers.keys
     if missing.any?
-      redirect_to practice_lesson_path(@lesson), alert: 'Hãy hoàn thành toàn bộ bài kiểm tra trước khi nộp bài.' and return
+      redirect_to practice_lesson_path(@lesson), alert: I18n.t("messages.assessments.complete_before_submit") and return
     end
 
     score = 0
@@ -40,7 +40,7 @@ class LessonsController < ApplicationController
     )
 
     redirect_to learn_course_path(@lesson.topic.course),
-      notice: "Practice score: #{percentage}%"
+      notice: I18n.t("messages.assessments.practice_score", percentage: percentage)
   end
 
   private

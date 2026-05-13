@@ -13,21 +13,21 @@ class ProfilesController < ApplicationController
     if @user.update(profile_params)
       respond_to do |format|
         format.turbo_stream do
-          flash.now[:notice] = "Cập nhật hồ sơ thành công!"
+          flash.now[:notice] = I18n.t("messages.profile.update_success")
           render turbo_stream: [
-            turbo_stream.replace('profile_content', partial: 'profiles/profile_content', locals: { user: @user }),
-            turbo_stream.replace('flash_messages', partial: 'layouts/flash')
+            turbo_stream.replace("profile_content", partial: "profiles/profile_content", locals: { user: @user }),
+            turbo_stream.replace("flash_messages", partial: "layouts/flash")
           ]
         end
-        format.html { redirect_to profile_path, notice: "Cập nhật hồ sơ thành công!" }
+        format.html { redirect_to profile_path, notice: I18n.t("messages.profile.update_success") }
       end
     else
       respond_to do |format|
         format.turbo_stream do
-          flash.now[:alert] = @user.errors.full_messages.join(', ')
+          flash.now[:alert] = @user.errors.full_messages.join(", ")
           render turbo_stream: [
-            turbo_stream.replace('profile_content', partial: 'profiles/profile_content', locals: { user: @user }),
-            turbo_stream.replace('flash_messages', partial: 'layouts/flash')
+            turbo_stream.replace("profile_content", partial: "profiles/profile_content", locals: { user: @user }),
+            turbo_stream.replace("flash_messages", partial: "layouts/flash")
           ], status: :unprocessable_entity
         end
         format.html { render :edit, status: :unprocessable_entity }

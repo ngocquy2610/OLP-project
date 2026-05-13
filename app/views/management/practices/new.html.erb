@@ -3,7 +3,7 @@
   <%= form_with url: management_practices_path, local: true do %>
     <div class="mb-4">
       <label class="block text-sm font-semibold text-gray-700 mb-1"><%= t('admin.management.practices.form.lesson') %></label>
-      <%= select_tag :lesson_id, options_from_collection_for_select(Lesson.all, :id, :name, @practice&.lesson_id), include_blank: t('admin.management.forms.choose_lesson'), class: "w-full border rounded-lg p-2.5 bg-white" %>
+      <%= select_tag :lesson_id, options_from_collection_for_select(@lessons, :id, :name, @practice&.lesson_id), include_blank: t('admin.management.forms.choose_lesson'), class: "w-full border rounded-lg p-2.5 bg-white" %>
     </div>
     <div id="questions">
       <div class="question-row mb-4 p-4 border rounded-lg">

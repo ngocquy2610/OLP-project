@@ -12,7 +12,7 @@ class TopicsController < ApplicationController
 
     missing = @exams.map { |e| e.id.to_s } - answers.keys
     if missing.any?
-      redirect_to exam_topic_path(@topic), alert: 'Hãy hoàn thành toàn bộ bài kiểm tra trước khi nộp bài.' and return
+      redirect_to exam_topic_path(@topic), alert: I18n.t("messages.assessments.complete_before_submit") and return
     end
 
     score = 0
@@ -27,7 +27,7 @@ class TopicsController < ApplicationController
     end
 
     redirect_to learn_course_path(@topic.course),
-      notice: "Your score: #{score}/#{@exams.count}"
+      notice: I18n.t("messages.assessments.exam_score", score: score, total: @exams.count)
     @score = score/@exams.count.to_f
     @score = (@score * 100).round(2)
     attempt.update(score: @score)

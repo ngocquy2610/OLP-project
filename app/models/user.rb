@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :owned_courses, through: :enrollments, source: :course, dependent: :destroy
   has_many :exam_attempts, dependent: :destroy
   has_many :practice_attempts, dependent: :destroy
-  has_one :feedback_courses, dependent: :destroy
+  has_many :feedback_courses, dependent: :destroy
   has_many :likes, dependent: :destroy
 
   validates :phone,
