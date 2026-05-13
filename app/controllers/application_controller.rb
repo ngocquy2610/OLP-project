@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
 
   def home
     top_course_ids = Enrollment.group(:course_id)
-                           .order(Arel.sql('COUNT(course_id) DESC'))
+                           .order(Arel.sql("COUNT(course_id) DESC"))
                            .limit(3)
                            .count
     @featured_courses = Course.where(id: top_course_ids.keys).order(created_at: :asc).limit(3)
@@ -23,13 +23,13 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :fullname, :phone, :address, :role, :bank_name, :bank_account_number, :bank_account_name ])
-    devise_parameter_sanitizer.permit(:account_update, keys: [ :fullname, :phone, :address, :role, :bank_name, :bank_account_number, :bank_account_name, :stripe_account_id])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :fullname, :phone, :address, :role, :bank_name, :bank_account_number, :bank_account_name, :stripe_account_id ])
   end
 
   private
 
   def user_not_authorized
-    flash[:alert] = I18n.t('flash.not_authorized')
+    flash[:alert] = I18n.t("flash.not_authorized")
     redirect_to(request.referrer || root_path)
   end
 

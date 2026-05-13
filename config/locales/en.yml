@@ -207,6 +207,100 @@ en:
         not_saved:
           one: "1 error prohibited this %{resource} from being saved:"
           other: "%{count} errors prohibited this %{resource} from being saved:"
+  messages:
+    common:
+      not_available: "Not available"
+    profile:
+      update_success: "Profile updated successfully."
+    courses:
+      not_found: "Course not found."
+      not_purchased: "You need to purchase this course first."
+    assessments:
+      complete_before_submit: "Please answer all questions before submitting."
+      exam_score: "Exam submitted. You got %{score}/%{total}."
+      practice_score: "Practice submitted. Your score: %{percentage}%"
+    stripe:
+      connect_error: "Stripe connection failed: %{error}"
+      connected: "Stripe account connected successfully!"
+      session_expired: "Connection session expired."
+    cart:
+      voucher_applied: "Voucher applied successfully."
+      voucher_invalid: "Invalid voucher code."
+      select_items: "Please select at least one item."
+      voucher_invalid_or_expired: "Voucher is invalid or expired."
+      min_total_after_voucher: "Total after voucher must be at least %{min_price}."
+      voucher_removed: "Voucher removed."
+      no_valid_courses: "No valid courses selected."
+    cart_items:
+      course_not_found: "Course not found."
+      already_in_cart: "This course is already in your cart."
+      added: "Course added to cart."
+      removed: "Item removed from cart."
+      item_not_found: "Cart item not found."
+    orders:
+      already_owned: "You already own all selected courses."
+      payment_success: "Payment successful!"
+      payment_canceled: "Payment was canceled."
+      already_paid: "This order has already been paid."
+      missing_token: "Missing payment token."
+      gmo_success: "Payment successful!"
+      gmo_failed: "Payment failed: %{error}"
+    withdrawals:
+      stripe_required: "Please connect Stripe first."
+      zero_balance: "No available balance to withdraw."
+      stripe_receive_required: "Your Stripe account cannot receive transfers yet."
+      transfer_description: "Withdrawal for teacher %{teacher}"
+      success: "Withdrawal successful!"
+      payment_error: "Withdrawal failed: %{error}"
+    feedback:
+      purchase_required: "You need to purchase this course before leaving feedback."
+      created: "Feedback submitted successfully."
+      create_error: "Unable to submit feedback."
+      updated: "Feedback updated successfully."
+      liked: "Feedback liked."
+      edit_forbidden: "You are not allowed to edit this feedback."
+    management:
+      courses:
+        created: "Course created successfully."
+        updated: "Course updated successfully."
+        destroyed: "Course deleted successfully."
+        not_found: "Course not found."
+        banking_required: "Please update your bank information before creating a course."
+        stripe_required: "Please connect Stripe before creating a course."
+      topics:
+        created: "Topic created successfully."
+        updated: "Topic updated successfully."
+        destroyed: "Topic deleted successfully."
+      lessons:
+        created: "Lesson created successfully."
+        updated: "Lesson updated successfully."
+        destroyed: "Lesson deleted successfully."
+      exams:
+        bulk_created: "%{count} exam questions were created successfully."
+        created: "Exam created successfully."
+        updated: "Exam updated successfully."
+        destroyed: "Exam deleted successfully."
+      practices:
+        bulk_created: "%{count} practice questions were created successfully."
+        created: "Practice created successfully."
+        updated: "Practice updated successfully."
+        destroyed: "Practice deleted successfully."
+    admin:
+      access_denied: "You are not authorized to access this page."
+      courses:
+        published: "Course published successfully."
+        rejected: "Course rejected."
+      vouchers:
+        created: "Voucher created successfully."
+        updated: "Voucher updated successfully."
+        deleted: "Voucher deleted successfully."
+      management:
+        user_deleted: "User deleted successfully."
+        user_delete_failed: "Failed to delete user."
+        user_updated: "User updated successfully."
+        user_update_failed: "Failed to update user."
+        user_role_updated: "User role updated to %{role}."
+        user_role_update_failed: "Failed to update user role."
   admin:
     dashboard:
       title: "Platform Overview"
@@ -336,6 +430,7 @@ en:
             active_price: "Active Price"
             expires: "Expires"
             status: "Status"
+            actions: "Actions"
           not_applied: "Not applied"
           no_expiry: "No expiry"
           running: "Running"

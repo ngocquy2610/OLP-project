@@ -1,6 +1,7 @@
 class Management::PracticesController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_practice, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_owned_lessons, only: [ :new, :create, :edit, :update ]
   def index
     if current_user&.teacher?
       @lessons = Lesson.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id)))
@@ -33,8 +34,11 @@ class Management::PracticesController < ApplicationController
         params[:practices].each do |q|
           next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank?
 
+          lesson_id = (q[:lesson_id].presence || params[:lesson_id].presence)
+          next unless @lessons.exists?(id: lesson_id)
+
           created << Practice.create!(
-            lesson_id: (q[:lesson_id].presence || params[:lesson_id].presence),
+            lesson_id: lesson_id,
             question: q[:question],
             answers: q[:answers],
             correct_answers: q[:correct_answers],
@@ -43,11 +47,11 @@ class Management::PracticesController < ApplicationController
         end
       end
 
-      redirect_to management_practices_path, notice: "Tạo #{created.size} câu hỏi thành công"
+      redirect_to management_practices_path, notice: I18n.t("messages.management.practices.bulk_created", count: created.size)
     else
       @practice = Practice.new(practice_params)
-      if @practice.save
-        redirect_to profile_path(current_user), notice: "Practice was successfully created."
+      if owned_lesson_selected? && @practice.save
+        redirect_to profile_path(current_user), notice: I18n.t("messages.management.practices.created")
       else
         render :new
       end
@@ -64,8 +68,8 @@ class Management::PracticesController < ApplicationController
 
   def update
     @practice = Practice.find_by(id: params[:id])
-    if @practice.update(practice_params)
-      redirect_to profile_path(current_user), notice: "Practice was successfully updated."
+    if owned_lesson_selected? && @practice.update(practice_params)
+      redirect_to profile_path(current_user), notice: I18n.t("messages.management.practices.updated")
     else
       render :edit
     end
@@ -74,7 +78,7 @@ class Management::PracticesController < ApplicationController
   def destroy
     @practice = Practice.find_by(id: params[:id])
     @practice.destroy
-    redirect_to profile_path(current_user), notice: "Practice was successfully destroyed."
+    redirect_to profile_path(current_user), notice: I18n.t("messages.management.practices.destroyed")
   end
 
   private
@@ -85,5 +89,16 @@ class Management::PracticesController < ApplicationController
 
   def set_practice
     @practice = Practice.find_by(id: params[:id])
+  end
+
+  def set_owned_lessons
+    @lessons = Lesson.joins(topic: :course).where(courses: { user_id: current_user.id })
+  end
+
+  def owned_lesson_selected?
+    return true if @lessons.exists?(id: @practice.lesson_id)
+
+    @practice.errors.add(:lesson_id, :invalid)
+    false
   end
 end

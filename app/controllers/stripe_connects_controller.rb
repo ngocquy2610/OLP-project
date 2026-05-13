@@ -7,8 +7,8 @@ class StripeConnectsController < ApplicationController
     begin
       if user.stripe_account_id.blank?
         account = Stripe::Account.create({
-          type: 'standard',
-          email: user.email,
+          type: "standard",
+          email: user.email
         })
 
         user.update!(stripe_account_id: account.id)
@@ -18,21 +18,21 @@ class StripeConnectsController < ApplicationController
         account: user.stripe_account_id,
         refresh_url: refresh_stripe_connects_url,
         return_url: return_stripe_connects_url,
-        type: 'account_onboarding',
+        type: "account_onboarding"
       })
 
       redirect_to account_link.url, allow_other_host: true
 
     rescue Stripe::StripeError => e
-      redirect_to edit_user_registration_path, alert: "Lỗi kết nối Stripe: #{e.message}"
+      redirect_to edit_user_registration_path, alert: I18n.t("messages.stripe.connect_error", error: e.message)
     end
   end
 
   def return
-    redirect_to edit_user_registration_path, notice: "Tuyệt vời! Tài khoản Stripe của bạn đã được kết nối thành công. Giờ bạn có thể bán khóa học và rút tiền."
+    redirect_to edit_user_registration_path, notice: I18n.t("messages.stripe.connected")
   end
 
   def refresh
-    redirect_to edit_user_registration_path, alert: "Phiên đăng ký đã hết hạn. Vui lòng bấm 'Kết nối ngay' lại một lần nữa."
+    redirect_to edit_user_registration_path, alert: I18n.t("messages.stripe.session_expired")
   end
 end

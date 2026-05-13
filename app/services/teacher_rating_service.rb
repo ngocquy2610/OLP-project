@@ -1,5 +1,5 @@
 module TeacherRatingService
-  def self.create_teacher_rating(teacher, new_rate)    
+  def self.create_teacher_rating(teacher, new_rate)
     current_rate = teacher.rate || 0.0
     current_total_rating = teacher.total_rating || 0
 

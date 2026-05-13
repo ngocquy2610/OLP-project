@@ -20,7 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 # config/schedule.rb
 
-env :PATH, '/home/quynn/.rbenv/shims:/home/quynn/.rbenv/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+env :PATH, "/home/quynn/.rbenv/shims:/home/quynn/.rbenv/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 set :job_template, "/bin/bash -l -c ':job'"
 
@@ -28,6 +28,6 @@ set :output, "log/cron_log.log"
 
 set :environment, "development"
 
-every 1.day, at: '08:00' do
+every 1.day, at: "08:00" do
   rake "exchange_rate:update"
 end

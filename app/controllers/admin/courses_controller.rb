@@ -1,28 +1,26 @@
 class Admin::CoursesController < Admin::BaseController
-  before_action :set_course, only: [:published, :rejected]
+  before_action :set_course, only: [ :published, :rejected ]
 
   def index
-    @pending_courses = Course.pending.order(created_at: :desc)
-    @published_courses = Course.published.order(created_at: :desc)
-    @rejected_courses = Course.rejected.order(created_at: :desc)
+    @pending_courses = Course.pending.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def published
     @course.published!
-    redirect_to admin_courses_path, notice: 'Course has been published.'
+    redirect_to admin_courses_path, notice: I18n.t("messages.admin.courses.published")
   end
 
   def rejected
     @course.rejected!
-    redirect_to admin_courses_path, notice: 'Course has been rejected.'
+    redirect_to admin_courses_path, notice: I18n.t("messages.admin.courses.rejected")
   end
 
   def show
     @course = Course.find_by(id: params[:id])
-    @topics = @course.topics.includes(:exams).includes(lessons: [:practices, { video_attachment: :blob }])
+    @topics = @course.topics.includes(:exams).includes(lessons: [ :practices, { video_attachment: :blob } ])
 
-    @exams_by_topic = @topics.map { |t| [t.id, t.exams] }.to_h
-    @practices_by_lesson = @topics.flat_map(&:lessons).map { |l| [l.id, l.practices] }.to_h
+    @exams_by_topic = @topics.map { |t| [ t.id, t.exams ] }.to_h
+    @practices_by_lesson = @topics.flat_map(&:lessons).map { |l| [ l.id, l.practices ] }.to_h
 
     if params[:lesson_id]
       @current_lesson = Lesson.find_by(id: params[:lesson_id])

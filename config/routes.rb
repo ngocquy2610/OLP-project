@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get "about", to: "pages#about", as: "about"
   get "show",  to: "profiles#show"
   get "cart_items", to: "cart_items#create", as: "add_to_cart"
-  get 'teacher/dashboard', to: 'teacher_dashboards#index', as: :teacher_dashboard
+  get "teacher/dashboard", to: "teacher_dashboards#index", as: :teacher_dashboard
   devise_for :users, controllers: { passwords: "users/passwords", registrations: "users/registrations" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -23,11 +23,11 @@ Rails.application.routes.draw do
     member do
       get :learn
     end
-    resources :feedback_courses, only: [:index, :create, :edit, :update]
+    resources :feedback_courses, only: [ :index, :create, :edit, :update ]
   end
 
   resources :feedback_courses, only: [] do
-    resource :like, only: [:create, :destroy] 
+    resource :like, only: [ :create, :destroy ]
   end
 
   resource :cart, only: [ :show ]
@@ -70,30 +70,29 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :orders, only: [:index, :show] do
+  resources :orders, only: [ :index, :show ] do
     member do
-      get :invoice #invoice_order_path
+      get :invoice # invoice_order_path
     end
   end
 
   namespace :admin do
-    get 'dashboard', to: 'dashboards#index'
-    get 'management', to: 'management#index'
-    delete 'management/:id', to: 'management#destroy', as: 'management_destroy'
-    patch 'management/:id', to: 'management#update', as: 'management_update'
+    get "dashboard", to: "dashboards#index"
+    get "management", to: "management#index"
+    delete "management/:id", to: "management#destroy", as: "management_destroy"
+    patch "management/:id", to: "management#update", as: "management_update"
 
-    resources :courses, only: [:index, :show] do
+    resources :courses, only: [ :index, :show ] do
       member do
         patch :published
         patch :rejected
       end
-      
     end
     resources :vouchers
   end
 
-  resources :withdrawals, only: [:create]
-  resources :stripe_connects, only: [:create] do
+  resources :withdrawals, only: [ :create ]
+  resources :stripe_connects, only: [ :create ] do
     collection do
       get :return
       get :refresh

@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "profile_content" do %>
 <div class="container mx-auto m-6">
   <h2 class="text-xl font-semibold mb-6"><%= t('admin.topics.exam.title', topic: @topic.name) %></h2>
-  <%= form_with url: submit_exam_topic_path(@topic), method: :post, data: { controller: 'ensure-complete', 'ensure-complete-message-value': 'Hãy hoàn thành toàn bộ bài kiểm tra trước khi nộp bài.' } do %>
+  <%= form_with url: submit_exam_topic_path(@topic), method: :post, data: { controller: 'ensure-complete', 'ensure-complete-message-value': t('messages.assessments.complete_before_submit') } do %>
     <% @exams.each_with_index do |exam, index| %>
       <div class="mb-6 p-4 border rounded-xl bg-white">
         <p class="font-medium mb-3">

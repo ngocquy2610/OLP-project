@@ -1,6 +1,5 @@
 module CourseRatingService
   def self.create_course_rating(course, new_rate)
-
     current_rate = course.rate || 0.0
     current_total_rating = course.total_rating || 0
 
@@ -10,7 +9,6 @@ module CourseRatingService
   end
 
   def self.update_course_rating(course, new_rate, old_rate)
-
     current_rate = course.rate || 0.0
     current_total_rating = course.total_rating || 0
 

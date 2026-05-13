@@ -2,26 +2,30 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
   <div class="flex flex-col items-center gap-4">
     <%= optimized_static_image_tag("logo-olp.svg", alt: "Logo OLP", class_name: "w-[100px] h-[100px] rounded-full", width: 100, height: 100) %>
-    <div class="text-sm text-gray-300"><em><%= t('footer.tagline') %></em></div>
+    <div class="hidden sm:flex text-sm text-gray-300"><em><%= t('footer.tagline') %></em></div>
   </div>
-  <div class="flex flex-col items-center gap-4">
-    <%= link_to t('nav.home'), root_path %>
-    <%= link_to t('nav.about'), about_path %>
-    <%= link_to t('nav.course'), courses_path %>
-    <%= link_to t('footer.contact.link_label'), "https://zalo.me/0977692109", target: "_blank", rel: "noopener" %>
+  <div class="flex flex-col items-center justify-center gap-4">
+    <div class="flex flex-col gap-2">
+      <%= link_to t('nav.home'), root_path %>
+      <%= link_to t('nav.about'), about_path %>
+      <%= link_to t('nav.course'), courses_path %>
+      <%= link_to t('footer.contact.link_label'), "https://zalo.me/0977692109", target: "_blank", rel: "noopener" %>
+    </div>
   </div>
-  <div class="flex flex-col gap-4">
-    <div class="text-sm text-white">
-      <%= t('footer.address.line1') %>
-    </div>
-    <div class="text-sm text-white">
-      <%= t('footer.address.line2') %>
-    </div>
-    <div class="text-sm text-white">
-      <%= t('footer.contact.email_label') %>: support@onlinelearningplatform.com
-    </div>
-    <div class="text-sm text-white">
-      <%= t('footer.contact.phone_label') %>: +84 123 456 789
+  <div class="hidden xl:flex xl:flex-col items-center justify-center gap-4">
+    <div class="flex flex-col gap-4">
+      <div class="text-sm text-white">
+        <%= t('footer.address.line1') %>
+      </div>
+      <div class="text-sm text-white">
+        <%= t('footer.address.line2') %>
+      </div>
+      <div class="text-sm text-white">
+        <%= t('footer.contact.email_label') %>: support@onlinelearningplatform.com
+      </div>
+      <div class="text-sm text-white">
+        <%= t('footer.contact.phone_label') %>: +84 123 456 789
+      </div>
     </div>
   </div>
   <div class="hidden xl:flex flex-col items-center gap-4 sm:col-span-2 xl:col-span-1">

@@ -9,4 +9,3 @@ pin "chartkick", to: "https://cdn.jsdelivr.net/npm/chartkick@5/dist/chartkick.js
 pin "Chart.bundle", to: "https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.js"
 pin "chartjs-adapter-date-fns", to: "https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3/dist/chartjs-adapter-date-fns.bundle.min.js"
 pin "@mul-pay/mptoken-js", to: "@mul-pay--mptoken-js.js" # @1.0.3
-

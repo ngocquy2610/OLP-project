@@ -39,7 +39,7 @@ class Course < ApplicationRecord
 
   enum :status, { pending: 0, published: 1, rejected: 2 }
 
-  searchkick word_middle: [:name, :tag]
+  searchkick word_middle: [ :name, :tag ]
 
   def search_data
     {

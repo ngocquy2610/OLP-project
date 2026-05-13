@@ -214,6 +214,100 @@ vi:
         not_saved:
           one: "1 lỗi đã ngăn %{resource} này được lưu:"
           other: "%{count} lỗi đã ngăn %{resource} này được lưu:"
+  messages:
+    common:
+      not_available: "Không có"
+    profile:
+      update_success: "Cập nhật hồ sơ thành công."
+    courses:
+      not_found: "Không tìm thấy khóa học."
+      not_purchased: "Bạn cần mua khóa học này trước."
+    assessments:
+      complete_before_submit: "Vui lòng trả lời tất cả câu hỏi trước khi nộp."
+      exam_score: "Đã nộp bài kiểm tra. Bạn đạt %{score}/%{total}."
+      practice_score: "Đã nộp bài luyện tập. Điểm của bạn: %{percentage}%"
+    stripe:
+      connect_error: "Kết nối Stripe thất bại: %{error}"
+      connected: "Kết nối tài khoản Stripe thành công!"
+      session_expired: "Phiên kết nối đã hết hạn."
+    cart:
+      voucher_applied: "Áp dụng mã giảm giá thành công."
+      voucher_invalid: "Mã giảm giá không hợp lệ."
+      select_items: "Vui lòng chọn ít nhất một mục."
+      voucher_invalid_or_expired: "Mã giảm giá không hợp lệ hoặc đã hết hạn."
+      min_total_after_voucher: "Tổng tiền sau giảm phải ít nhất %{min_price}."
+      voucher_removed: "Đã xóa mã giảm giá."
+      no_valid_courses: "Không có khóa học hợp lệ được chọn."
+    cart_items:
+      course_not_found: "Không tìm thấy khóa học."
+      already_in_cart: "Khóa học này đã có trong giỏ hàng."
+      added: "Đã thêm khóa học vào giỏ hàng."
+      removed: "Đã xóa mục khỏi giỏ hàng."
+      item_not_found: "Không tìm thấy mục trong giỏ hàng."
+    orders:
+      already_owned: "Bạn đã sở hữu tất cả khóa học đã chọn."
+      payment_success: "Thanh toán thành công!"
+      payment_canceled: "Thanh toán đã bị hủy."
+      already_paid: "Đơn hàng này đã được thanh toán."
+      missing_token: "Thiếu token thanh toán."
+      gmo_success: "Thanh toán thành công!"
+      gmo_failed: "Thanh toán thất bại: %{error}"
+    withdrawals:
+      stripe_required: "Vui lòng kết nối Stripe trước."
+      zero_balance: "Không có số dư để rút."
+      stripe_receive_required: "Tài khoản Stripe của bạn chưa thể nhận chuyển khoản."
+      transfer_description: "Rút tiền cho giảng viên %{teacher}"
+      success: "Rút tiền thành công!"
+      payment_error: "Rút tiền thất bại: %{error}"
+    feedback:
+      purchase_required: "Bạn cần mua khóa học này trước khi đánh giá."
+      created: "Gửi đánh giá thành công."
+      create_error: "Không thể gửi đánh giá."
+      updated: "Cập nhật đánh giá thành công."
+      liked: "Đã thích đánh giá."
+      edit_forbidden: "Bạn không có quyền chỉnh sửa đánh giá này."
+    management:
+      courses:
+        created: "Tạo khóa học thành công."
+        updated: "Cập nhật khóa học thành công."
+        destroyed: "Xóa khóa học thành công."
+        not_found: "Không tìm thấy khóa học."
+        banking_required: "Vui lòng cập nhật thông tin ngân hàng trước khi tạo khóa học."
+        stripe_required: "Vui lòng kết nối Stripe trước khi tạo khóa học."
+      topics:
+        created: "Tạo chủ đề thành công."
+        updated: "Cập nhật chủ đề thành công."
+        destroyed: "Xóa chủ đề thành công."
+      lessons:
+        created: "Tạo bài học thành công."
+        updated: "Cập nhật bài học thành công."
+        destroyed: "Xóa bài học thành công."
+      exams:
+        bulk_created: "Đã tạo thành công %{count} câu hỏi kiểm tra."
+        created: "Tạo bài kiểm tra thành công."
+        updated: "Cập nhật bài kiểm tra thành công."
+        destroyed: "Xóa bài kiểm tra thành công."
+      practices:
+        bulk_created: "Đã tạo thành công %{count} câu hỏi thực hành."
+        created: "Tạo bài thực hành thành công."
+        updated: "Cập nhật bài thực hành thành công."
+        destroyed: "Xóa bài thực hành thành công."
+    admin:
+      access_denied: "Bạn không có quyền truy cập trang này."
+      courses:
+        published: "Đăng khóa học thành công."
+        rejected: "Đã từ chối khóa học."
+      vouchers:
+        created: "Tạo mã giảm giá thành công."
+        updated: "Cập nhật mã giảm giá thành công."
+        deleted: "Xóa mã giảm giá thành công."
+      management:
+        user_deleted: "Xóa người dùng thành công."
+        user_delete_failed: "Xóa người dùng thất bại."
+        user_updated: "Cập nhật người dùng thành công."
+        user_update_failed: "Cập nhật người dùng thất bại."
+        user_role_updated: "Cập nhật vai trò người dùng thành %{role}."
+        user_role_update_failed: "Cập nhật vai trò người dùng thất bại."
   admin:
     dashboard:
       title: "Tổng quan hệ thống"
@@ -250,6 +344,7 @@ vi:
             active_price: "Giá áp dụng"
             expires: "Hạn sử dụng"
             status: "Trạng thái"
+            actions: "Hành động"
           not_applied: "Không áp dụng"
           no_expiry: "Không thời hạn"
           running: "Đang chạy"

@@ -1,6 +1,7 @@
 class Management::LessonsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_lesson, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_owned_topics, only: [ :new, :create, :edit, :update ]
   def index
     @lessons = Lesson.all
     @lessons = @lessons.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id))) if current_user&.teacher?
@@ -15,13 +16,12 @@ class Management::LessonsController < ApplicationController
     @lesson = Lesson.new(lesson_params)
     @lesson.video_blob_signed_id = build_video_blob_signed_id
 
-    if @lesson.save
-      redirect_to new_management_practice_path, notice: "Lesson was successfully created."
+    if owned_topic_selected? && @lesson.save
+      redirect_to new_management_practice_path, notice: I18n.t("messages.management.lessons.created")
       @lesson.enqueue_video_attachment
     else
       render :new
     end
-
   end
 
   def new
@@ -33,9 +33,9 @@ class Management::LessonsController < ApplicationController
     Rails.logger.debug "[LessonsController#update] params[:lesson]=#{params[:lesson].inspect}"
     @lesson.video_blob_signed_id = build_video_blob_signed_id
 
-    if @lesson.update(lesson_params)
+    if owned_topic_selected? && @lesson.update(lesson_params)
       @lesson.enqueue_video_attachment
-      redirect_to management_lessons_path(current_user), notice: "Lesson was successfully updated."
+      redirect_to management_lessons_path(current_user), notice: I18n.t("messages.management.lessons.updated")
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class Management::LessonsController < ApplicationController
   def destroy
     @lesson = Lesson.find_by(id: params[:id])
     @lesson.destroy
-    redirect_to management_lessons_path(current_user), notice: "Lesson was successfully destroyed."
+    redirect_to management_lessons_path(current_user), notice: I18n.t("messages.management.lessons.destroyed")
   end
 
   private
@@ -70,4 +70,14 @@ class Management::LessonsController < ApplicationController
     blob.signed_id
   end
 
+  def set_owned_topics
+    @topics = Topic.joins(:course).where(courses: { user_id: current_user.id })
+  end
+
+  def owned_topic_selected?
+    return true if @topics.exists?(id: @lesson.topic_id)
+
+    @lesson.errors.add(:topic_id, :invalid)
+    false
+  end
 end

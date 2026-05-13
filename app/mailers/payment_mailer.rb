@@ -1,5 +1,5 @@
 class PaymentMailer < ApplicationMailer
-    default from: 'no-reply@yourdomain.com'
+    default from: "no-reply@yourdomain.com"
     helper ApplicationHelper
     def student_receipt_email(student, order)
         @student = student
@@ -19,7 +19,7 @@ class PaymentMailer < ApplicationMailer
 
                 if pdf_file.present? && pdf_file.bytesize.positive?
                     attachments["Invoice_#{@order.id}.pdf"] = {
-                        mime_type: 'application/pdf',
+                        mime_type: "application/pdf",
                         content: pdf_file
                     }
                 else

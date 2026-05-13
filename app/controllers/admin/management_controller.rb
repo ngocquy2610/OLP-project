@@ -2,42 +2,27 @@ class Admin::ManagementController < ApplicationController
     before_action :authenticate_user!
 
     def index
-        @users = User.where.not(role: 'admin').order(:id)
+        @users = User.where.not(role: "admin").order(:id)
     end
 
     def destroy
         @user = User.find_by(id: params[:id])
         if @user.destroy
-            flash[:notice] = "User deleted successfully."
+            flash[:notice] = I18n.t("messages.admin.management.user_deleted")
         else
-            flash[:alert] = "Failed to delete user."
+            flash[:alert] = I18n.t("messages.admin.management.user_delete_failed")
         end
         redirect_to admin_management_path
     end
 
     def update
         @user = User.find_by(id: params[:id])
-        if params[:user].present?
-            if @user.update(user_params)
-                flash[:notice] = "User updated successfully."
-            else
-                flash[:alert] = "Failed to update user."
-            end
+        new_role = @user.role == "student" ? "teacher" : "student"
+        if @user.update(role: new_role)
+            flash[:notice] = I18n.t("messages.admin.management.user_role_updated", role: new_role)
         else
-            new_role = @user.role == 'student' ? 'teacher' : 'student'
-            if @user.update(role: new_role)
-                flash[:notice] = "User role updated to #{new_role}."
-            else
-                flash[:alert] = "Failed to update user role."
-            end
+            flash[:alert] = I18n.t("messages.admin.management.user_role_update_failed")
         end
         redirect_to admin_management_path
     end
-
-    private
-
-    def user_params
-        params.require(:user).permit(:fullname, :email, :role)
-    end
-
 end

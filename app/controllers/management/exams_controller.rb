@@ -1,6 +1,7 @@
 class Management::ExamsController < ApplicationController
   before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_exam, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_owned_topics, only: [ :new, :create, :edit, :update ]
   def index
     if current_user&.teacher?
       @topics = Topic.where(course_id: Course.where(user_id: current_user.id))
@@ -32,8 +33,11 @@ class Management::ExamsController < ApplicationController
         params[:exams].each do |q|
           next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank?
 
+          topic_id = (q[:topic_id].presence || params[:topic_id].presence)
+          next unless @topics.exists?(id: topic_id)
+
           created << Exam.create!(
-            topic_id: (q[:topic_id].presence || params[:topic_id].presence),
+            topic_id: topic_id,
             question: q[:question],
             answers: q[:answers],
             correct_answers: q[:correct_answers],
@@ -42,11 +46,11 @@ class Management::ExamsController < ApplicationController
         end
       end
 
-      redirect_to new_management_lesson_path, notice: "Tạo #{created.size} câu hỏi thành công"
+      redirect_to new_management_lesson_path, notice: I18n.t("messages.management.exams.bulk_created", count: created.size)
     else
       @exam = Exam.new(exam_params)
-      if @exam.save
-        redirect_to new_management_lesson_path, notice: "Exam was successfully created."
+      if owned_topic_selected? && @exam.save
+        redirect_to new_management_lesson_path, notice: I18n.t("messages.management.exams.created")
       else
         render :new
       end
@@ -58,8 +62,8 @@ class Management::ExamsController < ApplicationController
   end
 
   def update
-    if @exam.update(exam_params)
-      redirect_to profile_path(current_user), notice: "Exam was successfully updated."
+    if owned_topic_selected? && @exam.update(exam_params)
+      redirect_to profile_path(current_user), notice: I18n.t("messages.management.exams.updated")
     else
       render :edit
     end
@@ -67,7 +71,7 @@ class Management::ExamsController < ApplicationController
 
   def destroy
     @exam.destroy
-    redirect_to profile_path(current_user), notice: "Exam was successfully destroyed."
+    redirect_to profile_path(current_user), notice: I18n.t("messages.management.exams.destroyed")
   end
 
   private
@@ -78,5 +82,16 @@ class Management::ExamsController < ApplicationController
 
   def set_exam
     @exam = Exam.find_by(id: params[:id])
+  end
+
+  def set_owned_topics
+    @topics = Topic.joins(:course).where(courses: { user_id: current_user.id })
+  end
+
+  def owned_topic_selected?
+    return true if @topics.exists?(id: @exam.topic_id)
+
+    @exam.errors.add(:topic_id, :invalid)
+    false
   end
 end
