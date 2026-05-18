@@ -8,7 +8,7 @@ class Lesson < ApplicationRecord
   attr_accessor :video_blob_signed_id
 
   def enqueue_video_attachment
-    return if video_blob_signed_id.blank?
+    return if video_blob_signed_id.blank? # if there is no new video uploaded, do not enqueue the job.
 
     AttachVideoJob.perform_later(id, video_blob_signed_id)
   end

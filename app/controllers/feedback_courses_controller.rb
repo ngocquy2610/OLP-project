@@ -12,6 +12,9 @@ class FeedbackCoursesController < ApplicationController
 
   def create
     @feedback = @course.feedback_courses.build(feedback_params)
+    # using build --> create a new feedback and associate it with the course, but not save it to database yet.
+    # using build instead of new --> automatically set the course_id of feedback to @course.id
+    # using build instead of create --> we want to check if the feedback is valid before saving, if not, we can show error message without creating a new feedback in database.
     @feedback.user = current_user
 
     unless current_user.owned_courses.exists?(@course.id)
@@ -24,7 +27,6 @@ class FeedbackCoursesController < ApplicationController
     else
       redirect_to @course, alert: I18n.t("messages.feedback.create_error")
     end
-
 
     CourseRatingService.create_course_rating(@course, @feedback.rate)
     TeacherRatingService.create_teacher_rating(@course.user, @feedback.rate)

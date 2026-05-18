@@ -29,7 +29,6 @@ class OrdersController < ApplicationController
   def pay
     @order = current_user.orders.find_by(id: params[:id])
 
-    # Đảm bảo không xử lý lại nếu đã thanh toán
     unless @order.status == "paid"
       @order.update(status: "paid")
 
@@ -39,7 +38,7 @@ class OrdersController < ApplicationController
           course: item.course
         )
 
-        # CỘNG TIỀN CHO GIÁO VIÊN NẾU THANH TOÁN QUA HÀM NÀY
+        # Calculate the teacher income and add to teacher balance
         teacher = item.course.user
         teacher_share = (item.price.to_i * 0.90).to_i
         teacher.increment!(:balance, teacher_share) if teacher_share > 0
@@ -56,17 +55,19 @@ class OrdersController < ApplicationController
   def checkout
     order = current_user.orders.find_by(id: params[:id])
     @usd_rate = (JSON.parse(File.read(Rails.root.join("exchange_rate.json")))["rate"] rescue nil)
+    # File.read --> read all file content and return as string.
+    # JSON.parse --> parse the string to JSON object and return it as hash.
+    # take the "rate" in that hash
+ 
     subtotal_amount = order.order_items.sum(:price).to_i
     subtotal_amount_in_usd = (subtotal_amount * @usd_rate * 100).to_i
 
-    # Xử lý đơn hàng miễn phí (Giá = 0)
     if subtotal_amount == 0
       unless order.status == "paid"
         order.update(status: "paid")
 
         order.order_items.each do |item|
           current_user.enrollments.find_or_create_by!(course: item.course)
-          # Tiền = 0 nên không cần cộng ví cho giáo viên ở đây
         end
 
         order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|

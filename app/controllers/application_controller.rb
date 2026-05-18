@@ -11,11 +11,10 @@ class ApplicationController < ActionController::Base
 
   def home
     top_course_ids = Enrollment.group(:course_id)
-                           .order(Arel.sql("COUNT(course_id) DESC"))
+                           .order(Arel.sql("COUNT(course_id) DESC")) # Arel: ActiveRecord SQL helper to avoid SQL injection
                            .limit(3)
                            .count
     @featured_courses = Course.where(id: top_course_ids.keys).order(created_at: :asc).limit(3)
-    puts "DEBUG: Found #{@featured_courses.count} courses"
     render "layouts/home"
   end
 

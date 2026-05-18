@@ -12,13 +12,12 @@ class Management::LessonsController < ApplicationController
   end
 
   def create
-    Rails.logger.debug "[LessonsController#create] params[:lesson]=#{params[:lesson].inspect}"
     @lesson = Lesson.new(lesson_params)
-    @lesson.video_blob_signed_id = build_video_blob_signed_id
+    @lesson.video_blob_signed_id = build_video_blob_signed_id # assign the signed id of the new uploaded video to lesson.
 
     if owned_topic_selected? && @lesson.save
       redirect_to new_management_practice_path, notice: I18n.t("messages.management.lessons.created")
-      @lesson.enqueue_video_attachment
+      @lesson.enqueue_video_attachment # run the background job.
     else
       render :new
     end
@@ -32,9 +31,10 @@ class Management::LessonsController < ApplicationController
     @lesson = Lesson.find_by(id: params[:id])
     Rails.logger.debug "[LessonsController#update] params[:lesson]=#{params[:lesson].inspect}"
     @lesson.video_blob_signed_id = build_video_blob_signed_id
+    # if there is a new video uploaded, create a new blob and assign the signed id to lesson, if not, keep the old video.
 
     if owned_topic_selected? && @lesson.update(lesson_params)
-      @lesson.enqueue_video_attachment
+      @lesson.enqueue_video_attachment # run the background job.
       redirect_to management_lessons_path(current_user), notice: I18n.t("messages.management.lessons.updated")
     else
       render :edit
@@ -59,9 +59,12 @@ class Management::LessonsController < ApplicationController
 
   def build_video_blob_signed_id
     video_param = params.dig(:lesson, :video)
+    # come into the hash (params) by the key [:lesson][:video], if the key is not exist, return nil instead of error.
     return if video_param.blank?
 
     blob = ActiveStorage::Blob.create_and_upload!(
+      # !: raise exeption instead of returning false if the record is invalid
+      # CREATE a new blob record and UPLOAD the file to storage, return the blob record
       io: video_param,
       filename: video_param.original_filename,
       content_type: video_param.content_type
