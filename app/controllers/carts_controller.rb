@@ -110,7 +110,6 @@ class CartsController < ApplicationController
       total: final_total,
       discount: discount
     }
-    # binding.pry
     order_attrs[:voucher_id] = voucher.id if voucher.present?
 
     order = current_user.orders.create!(order_attrs)

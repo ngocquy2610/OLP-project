@@ -58,7 +58,7 @@ class OrdersController < ApplicationController
     # File.read --> read all file content and return as string.
     # JSON.parse --> parse the string to JSON object and return it as hash.
     # take the "rate" in that hash
- 
+
     subtotal_amount = order.order_items.sum(:price).to_i
     subtotal_amount_in_usd = (subtotal_amount * @usd_rate * 100).to_i
 

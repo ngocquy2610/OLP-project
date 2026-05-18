@@ -47,7 +47,6 @@ class Admin::CoursesController < Admin::BaseController
     # using flat_map to take just a single array include all lessons of all topics.
     # If use map, it will return an array of array of lessons.
 
-
     if params[:lesson_id]
       @current_lesson = Lesson.find_by(id: params[:lesson_id])
     else

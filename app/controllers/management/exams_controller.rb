@@ -60,7 +60,7 @@ class Management::ExamsController < ApplicationController
     flash.now[:alert] = e.message
     @exam = Exam.new
     render :new
-  # raise exception
+    # raise exception
   end
 
   def new

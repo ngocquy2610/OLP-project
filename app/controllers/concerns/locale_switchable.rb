@@ -12,7 +12,7 @@ module LocaleSwitchable
       session[:locale] = params[:locale] # set the session locale follow by params locale
     end
 
-    locale = session[:locale] || I18n.default_locale #set the locale follow by session locale or default (En)
+    locale = session[:locale] || I18n.default_locale # set the locale follow by session locale or default (En)
 
     I18n.with_locale(locale, &action) # translation
   end
