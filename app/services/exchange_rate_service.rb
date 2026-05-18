@@ -35,7 +35,6 @@ class ExchangeRateService
         response = http.request(request)
       end
     rescue OpenSSL::SSL::SSLError => e
-      Rails.logger.warn "SSL error fetching exchange rates: #{e.message}; retrying with VERIFY_NONE"
       Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
         request = Net::HTTP::Get.new(uri)
         response = http.request(request)

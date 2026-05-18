@@ -29,12 +29,13 @@ class Management::ExamsController < ApplicationController
   def create
     if params[:exams].present?
       created = []
-      ActiveRecord::Base.transaction do
+      ActiveRecord::Base.transaction do # working if all function inside transaction block is successful, otherwise rollback
         params[:exams].each do |q|
-          next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank?
+          next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank? # skip if all fields are blank
 
           topic_id = (q[:topic_id].presence || params[:topic_id].presence)
-          next unless @topics.exists?(id: topic_id)
+          # if topic_id is present in question params, use it, otherwise use topic_id from main params
+          next unless @topics.exists?(id: topic_id) # skip if topic_id is not in owned topics
 
           created << Exam.create!(
             topic_id: topic_id,
@@ -55,6 +56,11 @@ class Management::ExamsController < ApplicationController
         render :new
       end
     end
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:alert] = e.message
+    @exam = Exam.new
+    render :new
+  # raise exception
   end
 
   def new
@@ -85,13 +91,13 @@ class Management::ExamsController < ApplicationController
   end
 
   def set_owned_topics
-    @topics = Topic.joins(:course).where(courses: { user_id: current_user.id })
+    @topics = Topic.joins(:course).where(courses: { user_id: current_user.id }) # get topics that belong to courses owned by current user
   end
 
   def owned_topic_selected?
-    return true if @topics.exists?(id: @exam.topic_id)
+    return true if @topics.exists?(id: @exam.topic_id) # check if the selected topic is in owned topics, if true return true
 
-    @exam.errors.add(:topic_id, :invalid)
+    @exam.errors.add(:topic_id, :invalid) # add error to topic_id field if the selected topic is not in owned topics
     false
   end
 end

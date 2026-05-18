@@ -34,7 +34,6 @@ class WithdrawalsController < ApplicationController
 
     rescue Stripe::StripeError => e
       redirect_to profile_path, alert: I18n.t("messages.withdrawals.payment_error", error: e.message)
-      Rails.logger.error "Stripe Transfer Error for User #{teacher.id} (#{teacher.email}): #{e.message}"
     end
   end
 end

@@ -9,20 +9,22 @@ class Admin::VouchersController < Admin::BaseController
     @voucher = Voucher.new
   end
 
-  def edit; end
+  def edit; end #action edit. render form edit.
 
   def create
     @voucher = Voucher.new(voucher_params)
     @voucher.active_price = calculate_active_price(@voucher.discount_percent)
 
     if @voucher.save
-      respond_to do |format|
-        format.turbo_stream do
+      respond_to do |format| #respond_to block to handle different response formats (HTML, Turbo Stream)
+        format.turbo_stream do # If the request is a Turbo Stream request, we want to update a part instead of full page reload
           @vouchers = Voucher.order(created_at: :desc)
           flash.now[:notice] = I18n.t("messages.admin.vouchers.created")
-          render turbo_stream: [
-            turbo_stream.replace("profile_content", template: "admin/vouchers/index"),
-            turbo_stream.update("flash_messages", partial: "layouts/flash")
+          # flash[:key]: save at session. --> appear when render or redirect
+          # flash.now[:key]: save at current request, only for turbo stream, not for html. --> appear immediately
+          render turbo_stream: [ #render the turbo_stream response (format.turbo_stream)
+            turbo_stream.replace("profile_content", template: "admin/vouchers/index"), #replace all container
+            turbo_stream.update("flash_messages", partial: "layouts/flash") #update flash message container (inner html)
           ]
         end
         format.html { redirect_to admin_vouchers_path, notice: I18n.t("messages.admin.vouchers.created") }
@@ -42,8 +44,8 @@ class Admin::VouchersController < Admin::BaseController
   end
 
   def update
-    @voucher.assign_attributes(voucher_params)
-    @voucher.active_price = calculate_active_price(@voucher.discount_percent)
+    @voucher.assign_attributes(voucher_params) #method of Rails --> assign attribute but not save.
+    @voucher.active_price = calculate_active_price(@voucher.discount_percent) #take the discount percent to calculate active price
 
     if @voucher.save
       respond_to do |format|
@@ -93,6 +95,7 @@ class Admin::VouchersController < Admin::BaseController
     return nil if discount_percent.blank? || discount_percent.to_i <= 0
 
     20000 / discount_percent.to_f * 100
+    # minimum price is 20k so this mathematic calculate the active price base on the minimum price
   end
 
   def set_voucher
