@@ -1,4 +1,4 @@
-module ApplicationHelper #use for many file
+module ApplicationHelper # use for many file
   def format_vnd(amount)
     amount = (amount || 0).to_i
     "#{number_with_delimiter(amount, delimiter: ',')} VNĐ"

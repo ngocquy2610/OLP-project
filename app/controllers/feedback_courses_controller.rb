@@ -11,6 +11,8 @@ class FeedbackCoursesController < ApplicationController
   end
 
   def create
+    # instant valuable --> @
+
     @feedback = @course.feedback_courses.build(feedback_params)
     # using build --> create a new feedback and associate it with the course, but not save it to database yet.
     # using build instead of new --> automatically set the course_id of feedback to @course.id

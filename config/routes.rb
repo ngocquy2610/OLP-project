@@ -17,10 +17,10 @@ Rails.application.routes.draw do
   root "application#home"
   resource :profile, only: [ :show, :edit, :update ]
   resources :courses, only: [ :index, :show ] do
-    collection do #don't have id - return list objects
+    collection do # don't have id - return list objects
       get :my_courses
     end
-    member do #include id - return a single object
+    member do # include id - return a single object
       get :learn
     end
     resources :feedback_courses, only: [ :index, :create, :edit, :update ]

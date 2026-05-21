@@ -33,15 +33,15 @@ class CoursesController < ApplicationController
                    .flat_map(&:lessons)
                    .flat_map(&:practices)
 
-# .compact() - remove nil value from array
-# .floor() - rounds a number down
-# .to - convert the type of a variable to another type. to_i: to integer, to_f: to float, to_s: to string
-# a = {} - not work
-# a = Hash.new() do |hash, value| - still work
-#   hash["a"]
-# end
-# .sum - sum
-# .size: flexible between count and length --- .count: like a normal SQL --- .length: save in a mem
+    # .compact() - remove nil value from array
+    # .floor() - rounds a number down
+    # .to - convert the type of a variable to another type. to_i: to integer, to_f: to float, to_s: to string
+    # a = {} - not work
+    # a = Hash.new() do |hash, value| - still work
+    #   hash["a"]
+    # end
+    # .sum - sum
+    # .size: flexible between count and length --- .count: like a normal SQL --- .length: save in a mem
 
     else
       @lessons = @course.topics.includes(:lessons).flat_map(&:lessons)

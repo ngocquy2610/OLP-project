@@ -123,7 +123,6 @@ class OrdersController < ApplicationController
 
   def gmo_checkout
     @order = current_user.orders.find_by(id: params[:id])
-    # Không redirect gì ở đây cả, Rails sẽ tự động tìm file view gmo_checkout.html.erb để hiển thị
   end
 
   def success
@@ -183,7 +182,6 @@ class OrdersController < ApplicationController
     result = service.charge_card
 
     if result[:success]
-      # CHỈ KHI GMO TRẢ VỀ SUCCESS THÌ MỚI ĐƯỢC PHÉP CỘNG TIỀN VÀ GIAO KHÓA HỌC
       order.update(status: "paid")
 
       order.order_items.each do |item|
@@ -194,13 +192,11 @@ class OrdersController < ApplicationController
         teacher.increment!(:balance, teacher_share) if teacher_share > 0
       end
 
-      # Gửi email thông báo
       order.order_items.includes(course: :user).group_by { |oi| oi.course.user }.each do |teacher, items|
         PaymentMailer.teacher_notification_email(teacher, current_user, order).deliver_later
       end
       PaymentMailer.student_receipt_email(current_user, order).deliver_later
 
-      # Xóa giỏ hàng
       if current_user.cart.present?
         purchased_course_ids = order.order_items.pluck(:course_id)
         current_user.cart.cart_items.where(course_id: purchased_course_ids).destroy_all
@@ -208,8 +204,6 @@ class OrdersController < ApplicationController
 
       redirect_to courses_path, notice: I18n.t("messages.orders.gmo_success")
     else
-      # NẾU GMO TỪ CHỐI (Thẻ sai, hết hạn, từ chối giao dịch...)
-      # Đá về trang checkout và hiện thông báo lỗi
       redirect_to gmo_checkout_order_path(order), alert: I18n.t("messages.orders.gmo_failed", error: result[:error])
     end
   end
