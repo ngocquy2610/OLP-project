@@ -42,6 +42,7 @@ class Management::CoursesController < ApplicationController
   def update
     authorize @course
     if @course.update(course_params)
+      @course.pending!
       redirect_to profile_path(current_user), notice: I18n.t("messages.management.courses.updated")
     else
       render :edit, status: :unprocessable_entity

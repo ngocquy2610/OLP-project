@@ -37,10 +37,10 @@ class FeedbackCoursesController < ApplicationController
 
   def update
     old_rate = @feedback.rate || 0.0
-    if @feedback.update(feedback_params)
+    if @feedback.update(feedback_params) # update --> check validation. while update_attribute --> skip validation. update_column --> skip validation and callbacks, only update the column in database.
       redirect_to @course, notice: I18n.t("messages.feedback.updated")
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity # only render 7 function
     end
 
     CourseRatingService.update_course_rating(@course, @feedback.rate, old_rate)

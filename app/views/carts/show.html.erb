@@ -15,48 +15,7 @@
       <div class="lg:col-span-2 space-y-4">
         <%= form_with url: checkout_cart_path, method: :post, id: "cart-form" do %>
           <div id="cart-items" class="space-y-4">
-            <% if @cart.cart_items.any? %>
-              <% @cart.cart_items.each do |item| %>
-                <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-300">
-                  <div class="flex items-center gap-4">
-                    <input 
-                      type="checkbox"
-                      name="selected_items[]"
-                        value="<%= item.id %>"
-                        <%= 'checked' if @selected_ids&.include?(item.id.to_s) %>
-                      data-price="<%= item.course&.price.to_i %>"
-                      class="js-item-checkbox w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
-                    >
-                    <% if item.course&.course_image&.attached? %>
-                      <div class="w-20 h-12 flex-shrink-0">
-                        <%= optimized_course_thumb_tag(
-                          item.course,
-                          alt: item.course.name,
-                          class_name: "w-full h-full object-cover rounded-md",
-                          width: 80,
-                          height: 48
-                        ) %>
-                      </div>
-                    <% end %>
-                    <div>
-                      <p class="font-medium text-gray-800"><%= item.course&.name %></p>
-                    </div>
-                  </div>
-                  
-                  <div class="flex items-center gap-4">
-                    <p class="font-semibold text-gray-700"><%= format_vnd(item.course&.price) %></p>
-                    <%= link_to t('cart.remove', default: 'Xóa'),
-                      cart_item_path(item),
-                      data: { turbo_method: :delete, turbo_confirm: t('cart.remove_confirm', default: 'Bạn chắc chắn muốn xóa?') },
-                      class: "text-red-500 hover:text-red-700 text-sm font-medium" %>
-                  </div>
-                </div>
-              <% end %>
-            <% else %>
-              <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-300 text-center">
-                <p class="text-gray-500"><%= t('cart.empty', default: 'Giỏ hàng của bạn đang trống.') %></p>
-              </div>
-            <% end %>
+            <%= render "cart_items", cart: @cart, selected_ids: @selected_ids %>
           </div>
         <% end %>
       </div>

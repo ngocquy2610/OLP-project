@@ -23,7 +23,7 @@ class CartItemsController < ApplicationController
       if item.save
         respond_to do |format|
           format.html { redirect_to cart_path, notice: I18n.t("messages.cart_items.added") }
-          format.json { render json: { success: true, count: cart.cart_items.count } }
+          format.json { render json: { success: true, message: I18n.t("messages.cart_items.added"), count: cart.cart_items.count } }
         end
       else
         respond_to do |format|
@@ -38,9 +38,18 @@ class CartItemsController < ApplicationController
     item = current_user.cart.cart_items.find_by(id: params[:id])
     if item
       item.destroy
-      redirect_to cart_path, notice: I18n.t("messages.cart_items.removed")
+      respond_to do |format|
+        format.html { redirect_to cart_path, notice: I18n.t("messages.cart_items.removed") }
+        format.turbo_stream do
+          @cart = current_user.cart
+          @selected_ids = session[:selected_items] || []
+        end
+      end
     else
-      redirect_to cart_path, alert: I18n.t("messages.cart_items.item_not_found")
+      respond_to do |format|
+        format.html { redirect_to cart_path, alert: I18n.t("messages.cart_items.item_not_found") }
+        format.turbo_stream { head :not_found }
+      end
     end
   end
 end

@@ -47,6 +47,17 @@ class Management::ExamsController < ApplicationController
         end
       end
 
+      # transaction
+      # - save all or nothing
+      # - the database is always in a valid state
+      # - other transactions cannot see its uncommitted changes
+      # - Saved means saved
+      # after_commit - after the transaction is committed, execute the block
+      # after_save - still inside the transaction. run after SQL, but not committed yet.
+      # MVC - interaction --> routes --> controller --> model --> database --> controller --> view.
+      # schema - the summary of database structure.
+      # config
+
       redirect_to new_management_lesson_path, notice: I18n.t("messages.management.exams.bulk_created", count: created.size)
     else
       @exam = Exam.new(exam_params)

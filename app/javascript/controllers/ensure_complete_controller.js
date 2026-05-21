@@ -20,7 +20,7 @@ export default class extends Controller {
     for (const name of names) {
       if (!form.querySelector(`input[name="${name}"]:checked`)) {
         e.preventDefault()
-        const msg = this.messageValue || 'Hãy hoàn thành toàn bộ bài kiểm tra trước khi nộp bài.'
+        const msg = this.messageValue
         alert(msg)
         return
       }

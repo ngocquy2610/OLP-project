@@ -29,6 +29,22 @@
 
 vi:
   hello: "Xin chào thế giới"
+  tasks:
+    exchange_rate:
+      update:
+        desc: "Cập nhật tỷ giá VND/USD từ API và lưu vào file JSON"
+        done: "--- Đã cập nhật tỷ giá lúc %{time} in %{file_path} ---"
+  mailers:
+    payment_mailer:
+      invoice_filename: "HoaDon_%{order_id}.pdf"
+      student_receipt:
+        subject:
+          one: "Biên nhận: Bạn đã đăng ký thành công khóa học %{course_name}"
+          other: "Biên nhận: Bạn đã đăng ký thành công %{count} khóa học"
+      teacher_notification:
+        subject:
+          one: "Đăng ký mới: %{student_email} đã đăng ký khóa học %{course_name} của bạn"
+          other: "Đăng ký mới: %{student_email} đã mua %{count} khóa học của bạn"
   date:
     formats:
       default: "%d/%m/%Y"
@@ -217,6 +233,7 @@ vi:
   messages:
     common:
       not_available: "Không có"
+      unexpected_error: "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại."
     profile:
       update_success: "Cập nhật hồ sơ thành công."
     courses:
@@ -855,7 +872,7 @@ vi:
       team:
         member_1:
           name: "Alex"
-          role: "CEO & Founder"
+          role: "CEO"
           description: "Người sáng lập với hơn 10 năm kinh nghiệm trong lĩnh vực giáo dục và công nghệ."
         member_2:
           name: "Emilia"

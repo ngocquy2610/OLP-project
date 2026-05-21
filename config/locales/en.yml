@@ -29,6 +29,22 @@
 
 en:
   hello: "Hello world"
+  tasks:
+    exchange_rate:
+      update:
+        desc: "Update VND/USD exchange rate from API and save to JSON file"
+        done: "--- Exchange rate updated at %{time} in %{file_path} ---"
+  mailers:
+    payment_mailer:
+      invoice_filename: "Invoice_%{order_id}.pdf"
+      student_receipt:
+        subject:
+          one: "Receipt: You've successfully enrolled in %{course_name}"
+          other: "Receipt: You've successfully enrolled in %{count} courses"
+      teacher_notification:
+        subject:
+          one: "New Enrollment: %{student_email} has enrolled in your course %{course_name}"
+          other: "New Enrollments: %{student_email} purchased %{count} of your courses"
   date:
     formats:
       default: "%Y-%m-%d"
@@ -210,6 +226,7 @@ en:
   messages:
     common:
       not_available: "Not available"
+      unexpected_error: "An unexpected error occurred. Please try again."
     profile:
       update_success: "Profile updated successfully."
     courses:
@@ -746,7 +763,7 @@ en:
       team:
         member_1:
           name: "Alex"
-          role: "CEO & Founder"
+          role: "CEO"
           description: "Founder with over 10 years of experience in education and technology."
         member_2:
           name: "Emilia"

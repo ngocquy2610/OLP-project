@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static values = { text: String }
+
   connect() {
-    this.element.textContent = "Hello World!"
+    if (this.hasTextValue) this.element.textContent = this.textValue
   }
 }

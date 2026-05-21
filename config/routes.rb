@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   get "carts/show"
-  get "about", to: "pages#about", as: "about"
+  get "about", to: "pages#about", as: :about
   get "show",  to: "profiles#show"
-  get "cart_items", to: "cart_items#create", as: "add_to_cart"
+  get "cart_items", to: "cart_items#create"
   get "teacher/dashboard", to: "teacher_dashboards#index", as: :teacher_dashboard
   devise_for :users, controllers: { passwords: "users/passwords", registrations: "users/registrations" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -17,10 +17,10 @@ Rails.application.routes.draw do
   root "application#home"
   resource :profile, only: [ :show, :edit, :update ]
   resources :courses, only: [ :index, :show ] do
-    collection do
+    collection do #don't have id - return list objects
       get :my_courses
     end
-    member do
+    member do #include id - return a single object
       get :learn
     end
     resources :feedback_courses, only: [ :index, :create, :edit, :update ]

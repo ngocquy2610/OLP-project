@@ -37,6 +37,8 @@ class Course < ApplicationRecord
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :price_must_be_zero_or_minimum
 
+  # scope :published, -> { where(status: "published") }
+
   enum :status, { pending: 0, published: 1, rejected: 2 }
 
   searchkick word_middle: [ :name, :tag ]
@@ -67,3 +69,6 @@ class Course < ApplicationRecord
     course_image.variant(:webp_large).processed
   end
 end
+
+# Scope - using in model. ex: scope :published, -> { where(status: "published") }
+# create! --> raise exception

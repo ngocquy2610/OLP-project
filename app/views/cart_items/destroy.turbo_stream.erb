@@ -1,0 +1,17 @@
+<%= turbo_stream.replace "cart-items" do %>
+  <div id="cart-items" class="space-y-4">
+    <%= render "carts/cart_items", cart: @cart, selected_ids: @selected_ids %>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "cart-count-frame" do %>
+  <%= turbo_frame_tag "cart-count-frame" do %>
+    <span id="cart-count" class="bg-white text-[#15a5ff] text-sm font-bold rounded-full px-2 py-0.5"><%= user_signed_in? ? (current_user.cart&.cart_items&.count || 0) : 0 %></span>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace "cart-count-mobile-frame" do %>
+  <%= turbo_frame_tag "cart-count-mobile-frame" do %>
+    <span id="cart-count-mobile" class="bg-white text-[#15a5ff] text-sm font-bold rounded-full px-2 py-0.5"><%= user_signed_in? ? (current_user.cart&.cart_items&.count || 0) : 0 %></span>
+  <% end %>
+<% end %>

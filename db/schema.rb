@@ -15,6 +15,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_000000) do
   enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
+    # force: :cascade - if the table already exists, drop it and create a new one
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.string "name", null: false

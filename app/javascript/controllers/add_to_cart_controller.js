@@ -1,7 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { courseId: Number }
+  static values = {
+    courseId: Number,
+    addedMessage: String,
+    failedMessage: String,
+    errorMessage: String
+  }
 
   add(event) {
     event.preventDefault()
@@ -21,16 +26,18 @@ export default class extends Controller {
       .then(response => response.json())
       .then(data => {
         if (data && data.success) {
-          this.showToast('Đã thêm vào giỏ hàng')
+          const successMessage = data.message || this.addedMessageValue
+          if (successMessage) this.showToast(successMessage)
           const badge = document.getElementById('cart-count')
           if (badge) badge.textContent = data.count
         } else {
-          this.showToast(data.error || 'Không thể thêm vào giỏ hàng', true)
+          const failedMessage = data?.error || this.failedMessageValue || this.errorMessageValue
+          if (failedMessage) this.showToast(failedMessage, true)
         }
       })
       .catch(err => {
         console.error(err)
-        this.showToast('Lỗi khi thêm vào giỏ hàng', true)
+        if (this.errorMessageValue) this.showToast(this.errorMessageValue, true)
       })
   }
 
