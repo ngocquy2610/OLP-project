@@ -560,6 +560,88 @@ vi:
           description: "Mô tả chủ đề"
           submit: "Lưu chủ đề"
           cancel: "Hủy bỏ"
+  missing_i18n:
+    common:
+      edit: "Sửa"
+      delete: "Xóa"
+      clear: "Xóa"
+      show: "Hiện"
+      hide: "Ẩn"
+      time_ago: "%{time} trước"
+    admin:
+      vouchers:
+        edit_title: "Chỉnh sửa mã giảm giá"
+        update_button: "Cập nhật mã giảm giá"
+        delete_confirm: "Bạn có chắc muốn xóa mã giảm giá này không?"
+    devise:
+      min_chars: "tối thiểu %{count} ký tự"
+      teacher_bank_info_title: "Thông tin nhận thanh toán (Dành cho Giáo viên)"
+      bank_name_hint: "Tên ngân hàng (VD: Vietcombank, MB Bank)"
+      bank_account_name_hint: "Tên chủ tài khoản (Viết hoa không dấu)"
+      security_settings_description_html: "Mục điều chỉnh thông tin bảo mật của <span class='text-primary-fixed-dim font-bold'>%{name}</span>"
+    profiles:
+      fix_errors: "Vui lòng sửa các lỗi bên dưới."
+      phone_hint: "Số điện thoại phải từ 10 đến 11 chữ số"
+    courses:
+      index:
+        secure_directory: "SECURE_DIRECTORY"
+        subtitle: "Các mô-đun học tập khả dụng trong hệ thống đồng bộ cục bộ."
+        secure_node: "SECURE_NODE"
+        price_credit: "GIÁ"
+        instructor: "GIẢNG VIÊN"
+      show:
+        secure_node_specification: "SECURE_NODE_SPECIFICATION"
+        course_rating: "Đánh giá khóa học:"
+        anonymous_student: "Học viên ẩn danh"
+    orders:
+      index:
+        no_transactions: "Chưa có giao dịch"
+      pdf:
+        invoice_title: "Hóa đơn #%{id}"
+    pages:
+      about:
+        core_system: "CORE_SYSTEM: INTEL"
+        protocol_initiated: "PROTOCOL_INITIATED: 100%"
+        stats_subtitle: "Dữ liệu đo lường thực nghiệm từ các nút học tập của chúng tôi."
+        team_subtitle: "Đội ngũ giảng dạy nòng cốt và điều phối giao thức học tập."
+    devise_mailer:
+      greeting: "Xin chào %{email}!"
+      welcome: "Chào mừng %{email}!"
+      reset_password_intro: "Có người đã yêu cầu liên kết để đổi mật khẩu của bạn. Bạn có thể thực hiện qua liên kết bên dưới."
+      change_password_link: "Đổi mật khẩu"
+      reset_password_ignore: "Nếu bạn không yêu cầu thao tác này, vui lòng bỏ qua email này."
+      reset_password_outro: "Mật khẩu của bạn sẽ không thay đổi cho đến khi bạn truy cập liên kết trên và tạo mật khẩu mới."
+      confirmation_intro: "Bạn có thể xác nhận email tài khoản qua liên kết bên dưới:"
+      confirm_account_link: "Xác nhận tài khoản"
+      password_changed_notice: "Chúng tôi gửi email này để thông báo mật khẩu của bạn đã được thay đổi."
+      email_changing_to: "Chúng tôi gửi email này để thông báo email của bạn đang được đổi thành %{email}."
+      email_changed_to: "Chúng tôi gửi email này để thông báo email của bạn đã được đổi thành %{email}."
+      unlock_intro: "Tài khoản của bạn đã bị khóa do đăng nhập sai quá nhiều lần."
+      unlock_instruction: "Nhấn vào liên kết bên dưới để mở khóa tài khoản:"
+      unlock_account_link: "Mở khóa tài khoản"
+    payment_mailer:
+      student_receipt:
+        title: "Biên nhận đơn hàng #%{id}"
+        purchased_courses: "Bạn đã mua các khóa học sau:"
+        total_paid_label: "Tổng đã thanh toán:"
+      teacher_notification:
+        purchased_courses: "%{email} đã mua các khóa học sau:"
+        total_for_you_label: "Tổng bạn nhận được:"
+    home:
+      system_status: "TRẠNG THÁI HỆ THỐNG: HOẠT ĐỘNG"
+      active_units_synced: "đơn vị học tập đang hoạt động"
+      synapse_load: "TẢI TRỌNG SYNAPSE: 98%"
+      why_title: "Tại sao chọn nền tảng của chúng tôi?"
+      why_subtitle: "Được thiết kế chính xác cho việc truyền tải kiến thức hiệu quả."
+      popular_subtitle: "Các mô-đun học tập thế hệ mới đang trong giai đoạn triển khai."
+      view_archive: "XEM DANH SÁCH KHOÁ HỌC"
+      secure_node: "NÚT BẢO MẬT"
+      price_credit: "GIÁ"
+      instructor: "GIẢNG VIÊN"
+      course_module_pending: "ĐANG CHỜ NẠP MÔ-ĐUN KHÓA HỌC"
+      testimonial_subtitle: "Phản hồi đã được xác thực từ cộng đồng học viên."
+      testimonial_1_title: "Kỹ sư phần mềm @ PROTO_CORP"
+      testimonial_2_title: "Kiến trúc sư hệ thống @ NEXUS_LABS"
     cart:
       title: "Giỏ hàng của bạn"
       remove: "Xóa"

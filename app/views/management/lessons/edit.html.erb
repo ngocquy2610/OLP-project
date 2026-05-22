@@ -1,4 +1,4 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <h1 class="text-2xl font-bold mb-6"><%= t('admin.management.lessons.edit.title', name: @lesson.name) %></h1>
+  <h1 class="text-2xl font-bold text-white font-headline-sm mb-6"><%= t('admin.management.lessons.edit.title', name: @lesson.name) %></h1>
   <%= render "form", lesson: @lesson %>
 <% end %>

@@ -1,32 +1,40 @@
 <%= turbo_frame_tag "profile_content" do %>
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6"><%= t('admin.management.title') %></h2>
-    <div class="overflow-x-auto w-full">
-        <table class="min-w-[877px] xl:min-w-full bg-white border border-gray-200">
-            <thead>
-            <tr>
-                <th class="py-2 px-4 border-b text-left text-sm font-medium text-gray-600"><%= t('admin.management.table.id') %></th>
-                <th class="py-2 px-4 border-b text-left text-sm font-medium text-gray-600"><%= t('admin.management.table.name') %></th>
-                <th class="py-2 px-4 border-b text-left text-sm font-medium text-gray-600"><%= t('admin.management.table.email') %></th>
-                <th class="py-2 px-4 border-b text-left text-sm font-medium text-gray-600"><%= t('admin.management.table.role') %></th>
-                <th class="py-2 px-4 border-b text-center text-sm font-medium text-gray-600"><%= t('admin.management.table.actions') %></th>
+  <div class="max-w-7xl mx-auto mt-8 px-4 pb-12">
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold text-white font-headline-sm"><%= t('admin.management.title') %></h2>
+    </div>
+    <div class="glass-card-no-hover rounded-xl overflow-x-auto">
+      <table class="min-w-[877px] xl:min-w-full">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="py-3 px-5 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.table.id') %></th>
+            <th class="py-3 px-5 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.table.name') %></th>
+            <th class="py-3 px-5 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.table.email') %></th>
+            <th class="py-3 px-5 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.table.role') %></th>
+            <th class="py-3 px-5 text-center text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.table.actions') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+              <td class="py-3 px-5 text-slate-400 text-sm"><%= user.id %></td>
+              <td class="py-3 px-5 text-white font-medium text-sm"><%= user.fullname %></td>
+              <td class="py-3 px-5 text-slate-300 text-sm"><%= user.email %></td>
+              <td class="py-3 px-5 text-sm">
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold font-label-tech <%= user.role == 'admin' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : user.role == 'teacher' ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' %>">
+                  <%= user.role.capitalize %>
+                </span>
+              </td>
+              <td class="py-3 px-5 text-center">
+                <div class="flex gap-2 items-center justify-center">
+                  <%= button_to t('admin.management.actions.delete'), admin_management_destroy_path(user), method: :delete, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-red-400 hover:text-red-300 text-xs font-label-tech bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 transition px-3 py-1 rounded-full cursor-pointer" %>
+                  <%= button_to t('admin.management.actions.change_role'), admin_management_update_path(user), method: :patch, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-sky-400 hover:text-sky-300 text-xs font-label-tech bg-sky-500/10 border border-sky-500/20 hover:bg-sky-500/20 transition px-3 py-1 rounded-full cursor-pointer" %>
+                </div>
+              </td>
             </tr>
-            </thead>
-            <tbody>
-            <% @users.each do |user| %>
-                <tr class="hover:bg-gray-50">
-                <td class="py-2 px-4 border-b"><%= user.id %></td>
-                <td class="py-2 px-4 border-b"><%= user.fullname %></td>
-                <td class="py-2 px-4 border-b"><%= user.email %></td>
-                <td class="py-2 px-4 border-b"><%= user.role.capitalize %></td>
-                <td class="py-2 px-4 border-b text-center">
-                    <div class="flex gap-2 sm:items-center justify-center">
-                    <%= button_to t('admin.management.actions.delete'), admin_management_destroy_path(user), method: :delete, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-red-600 hover:text-red-800 bg-transparent border-0 p-0 text-center" %>
-                    <%= button_to t('admin.management.actions.change_role'), admin_management_update_path(user), method: :patch, form: { class: "inline" }, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "text-blue-600 hover:text-blue-800 bg-transparent border-0 p-0 text-center" %>
-                    </div>
-                </td>
-                </tr>
-            <% end %>
-            </tbody>
-        </table>
-        </div>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 <% end %>

@@ -17,6 +17,8 @@
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
@@ -24,18 +26,129 @@
     <%= javascript_importmap_tags %>
     <!-- GMO token script (test environment). Use the ext/token.js path — not the old mp-token.js -->
     <script src="https://stg.static.mul-pay.jp/ext/js/token.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Geist:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <style type="text/css">
+      @theme {
+        --color-primary: #c3f5ff;
+        --color-on-primary: #00363d;
+        --color-primary-container: #00e5ff;
+        --color-on-primary-container: #00626e;
+        --color-secondary: #a6c8ff;
+        --color-on-secondary: #00315f;
+        --color-secondary-container: #004e92;
+        --color-on-secondary-container: #99c1ff;
+        --color-tertiary: #ffeac0;
+        --color-on-tertiary: #3e2e00;
+        --color-tertiary-container: #fec931;
+        --color-on-tertiary-container: #6f5500;
+        --color-background: #0f131c;
+        --color-on-background: #dfe2ef;
+        --color-surface: #0f131c;
+        --color-on-surface: #dfe2ef;
+        --color-surface-variant: #31353f;
+        --color-on-surface-variant: #bac9cc;
+        --color-outline: #849396;
+        --color-outline-variant: #3b494c;
+        --color-error: #ffb4ab;
+        --color-on-error: #690005;
+        --color-error-container: #93000a;
+        --color-on-error-container: #ffdad6;
+        --color-surface-dim: #0f131c;
+        --color-surface-bright: #353943;
+        --color-surface-container-lowest: #0a0e17;
+        --color-surface-container-low: #181b25;
+        --color-surface-container: #1c1f29;
+        --color-surface-container-high: #262a34;
+        --color-surface-container-highest: #31353f;
+        --color-deep-navy: #000428;
+        --color-electric-blue: #2979FF;
+        --color-slate-text: #94A3B8;
+        --color-glow-cyan: rgba(0, 229, 255, 0.3);
+        --color-surface-glass: rgba(15, 23, 42, 0.6);
+
+        --font-family-display-lg: "Geist";
+        --font-family-headline-md: "Geist";
+        --font-family-headline-sm: "Geist";
+        --font-family-body-lg: "Inter";
+        --font-family-body-md: "Inter";
+        --font-family-label-tech: "JetBrains Mono";
+      }
+
+      body {
+        background-color: #0f131c !important;
+        color: #dfe2ef !important;
+        font-family: 'Inter', sans-serif;
+      }
+
+      .bg-grid-pattern {
+        background-image: radial-gradient(circle, rgba(59, 73, 76, 0.25) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      .glass-card {
+        background: rgba(28, 31, 41, 0.6) !important;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(0, 229, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .glass-card:hover {
+        border-color: rgba(0, 229, 255, 0.4);
+        box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+        transform: translateY(-4px);
+      }
+
+      .glass-card-no-hover {
+        background: rgba(28, 31, 41, 0.6) !important;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(0, 229, 255, 0.1);
+      }
+
+      .glow-button {
+        background: linear-gradient(90deg, #00626e, #00daf3) !important;
+        color: #001f24 !important;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .glow-button:hover {
+        box-shadow: 0 0 15px rgba(0, 218, 243, 0.4);
+        filter: brightness(1.1);
+      }
+
+      .cyber-border {
+        position: relative;
+      }
+
+      .cyber-border::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #00daf3, transparent);
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    </style>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
 
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col bg-background text-on-background bg-grid-pattern">
     <%= render "layouts/header" %>
     <% if user_signed_in? && current_user.teacher? && current_user.stripe_account_id.blank? %>
-      <div class="bg-red-50 border-b border-red-200 px-4 py-3 sm:px-6 lg:px-8 shadow-sm">
+      <div class="bg-red-500/10 border-b border-red-500/30 px-4 py-3 sm:px-6 lg:px-8 shadow-sm">
         <div class="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
           <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-            <p class="text-sm text-red-800 font-medium">
+            <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <p class="text-sm text-red-200 font-medium font-body-md">
               <%= t('admin.feedback.layouts.stripe.not_connected') %>
             </p>
           </div>
@@ -46,7 +159,7 @@
         </div>
       </div>
     <% end %>
-    <div class="flex-1 bg-gray-50">
+    <div class="flex-1">
       <div id="flash_messages">
         <%= render 'layouts/flash' %>
       </div>

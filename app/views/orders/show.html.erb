@@ -1,20 +1,20 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="max-w-5xl mx-auto py-10 px-4">
-    <h2 class="text-2xl font-semibold mb-6"><%= t('orders.show.title') %></h2>
+    <h2 class="text-2xl font-bold text-white font-headline-sm mb-6"><%= t('orders.show.title') %></h2>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <!-- LEFT: Order Items -->
       <div class="lg:col-span-2 space-y-4">
         <% @order.order_items.each do |item| %>
-          <div class="flex justify-between bg-white p-4 rounded-xl border">
-            <p class="font-medium"><%= item.course.name %></p>
-            <p class="font-semibold">
+          <div class="flex justify-between bg-surface-container-high/40 p-4 rounded-xl border border-white/10">
+            <p class="font-medium text-white"><%= item.course.name %></p>
+            <p class="font-semibold text-primary-fixed-dim">
               <%= format_vnd(item.price) %>
             </p>
           </div>
         <% end %>
       </div>
       <!-- RIGHT: Payment Summary -->
-      <div class="bg-white p-6 rounded-xl border h-fit">
+      <div class="bg-surface-container-high/40 p-6 rounded-xl border border-white/10 h-fit">
         <script>
           // Expose a global function for inline onclick handlers (module scope is isolated)
           function choosePayment(method) {
@@ -24,22 +24,22 @@
             if (stripe) stripe.style.display = (method === 'stripe') ? '' : 'none';
           }
         </script>
-        <h3 class="font-semibold mb-4"><%= t('orders.show.summary_title') %></h3>
+        <h3 class="font-semibold text-white mb-4"><%= t('orders.show.summary_title') %></h3>
         <div class="flex justify-between mb-2">
-          <span><%= t('orders.show.total_label') %></span>
-          <span class="font-semibold">
+          <span class="text-slate-300"><%= t('orders.show.total_label') %></span>
+          <span class="font-semibold text-primary-fixed-dim">
             <%= format_vnd(@order.total) %>
           </span>
         </div>
         <!-- Payment Method Chooser -->
-        <div class="mt-4">
-          <label class="inline-flex items-center mr-4">
-            <input type="radio" name="payment_method" value="stripe" checked onclick="choosePayment('stripe')" class="mr-2">
-            <span><%= t('orders.show.stripe_label') %></span>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <label class="inline-flex items-center gap-2 text-slate-300 border border-outline-variant/40 rounded-lg px-3 py-2 bg-surface-container-high/40">
+            <input type="radio" name="payment_method" value="stripe" checked onclick="choosePayment('stripe')" class="accent-primary-fixed-dim">
+            <span class="font-label-tech text-xs uppercase tracking-wider"><%= t('orders.show.stripe_label') %></span>
           </label>
-          <label class="inline-flex items-center">
-            <input type="radio" name="payment_method" value="gmo" onclick="choosePayment('gmo')" class="mr-2">
-            <span><%= t('orders.show.gmo_label') %></span>
+          <label class="inline-flex items-center gap-2 text-slate-300 border border-outline-variant/40 rounded-lg px-3 py-2 bg-surface-container-high/40">
+            <input type="radio" name="payment_method" value="gmo" onclick="choosePayment('gmo')" class="accent-primary-fixed-dim">
+            <span class="font-label-tech text-xs uppercase tracking-wider"><%= t('orders.show.gmo_label') %></span>
           </label>
         </div>
 
@@ -48,7 +48,7 @@
             checkout_order_path(@order),
             method: :post,
             data: { turbo: false },
-            class: "w-full bg-green-600 text-white py-2 rounded-xl hover:bg-green-700" %>
+            class: "w-full glow-button font-label-tech text-xs uppercase tracking-wider py-2.5 rounded-xl" %>
         </div>
 
         <div id="gmo-container" class="mt-4" style="display:none;">
@@ -58,21 +58,21 @@
             <input type="hidden" id="gmo_token" name="Token" value="">
 
             <div class="mb-2">
-              <label class="block"><%= t('orders.show.card_number') %>:</label>
-              <input type="text" id="cardno" placeholder="4100000000000100" value="4100000000000100" inputmode="numeric" maxlength="19" autocomplete="cc-number" class="w-full border rounded px-2 py-1">
+              <label class="block text-xs font-label-tech text-slate-400 uppercase tracking-widest mb-1"><%= t('orders.show.card_number') %>:</label>
+              <input type="text" id="cardno" placeholder="4100000000000100" value="4100000000000100" inputmode="numeric" maxlength="19" autocomplete="cc-number" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim">
             </div>
 
             <div class="mb-2">
-              <label class="block"><%= t('orders.show.expire_date') %>:</label>
-              <input type="text" id="expire" placeholder="2812" value="2812" maxlength="6" class="w-full border rounded px-2 py-1">
+              <label class="block text-xs font-label-tech text-slate-400 uppercase tracking-widest mb-1"><%= t('orders.show.expire_date') %>:</label>
+              <input type="text" id="expire" placeholder="2812" value="2812" maxlength="6" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim">
             </div>
 
             <div class="mb-2">
-              <label class="block"><%= t('orders.show.security_code') %>:</label>
-              <input type="text" id="securitycode" placeholder="123" value="123" maxlength="4" autocomplete="cc-csc" class="w-full border rounded px-2 py-1">
+              <label class="block text-xs font-label-tech text-slate-400 uppercase tracking-widest mb-1"><%= t('orders.show.security_code') %>:</label>
+              <input type="text" id="securitycode" placeholder="123" value="123" maxlength="4" autocomplete="cc-csc" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim">
             </div>
 
-            <button type="button" id="pay-button" class="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700"><%= t('orders.show.pay_gmo') %></button>
+            <button type="button" id="pay-button" class="w-full inline-flex items-center justify-center border border-sky-400/30 bg-sky-500/10 text-sky-300 hover:bg-sky-500/20 font-label-tech text-xs uppercase tracking-wider py-2.5 rounded-xl transition"><%= t('orders.show.pay_gmo') %></button>
           </form>
         </div>
 

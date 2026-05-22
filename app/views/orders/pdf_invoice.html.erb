@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Invoice #<%= @order.id %></title>
+  <title><%= t('missing_i18n.orders.pdf.invoice_title', id: @order.id) %></title>
   <style>
     body { font-family: Helvetica, sans-serif; color: #333; line-height: 1.5; }
     .invoice-box { max-w-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; }

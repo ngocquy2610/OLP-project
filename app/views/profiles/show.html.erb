@@ -1,87 +1,110 @@
-<div class="flex flex-col md:flex-row bg-gray-50" x-data="{ sidebarOpen: false }">
+<div class="flex flex-col md:flex-row min-h-screen bg-background border-t border-outline-variant/10" x-data="{ sidebarOpen: false }">
   <!-- Mobile sidebar toggle -->
-  <div class="md:hidden flex items-center justify-between bg-white border-b px-4 py-3 shadow-sm">
-    <span class="font-bold text-gray-800 text-lg"><%= t('profiles.sidebar.title') %></span>
-    <button @click="sidebarOpen = !sidebarOpen" class="text-gray-600 focus:outline-none">
-      <svg x-show="!sidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-      <svg x-show="sidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+  <div class="md:hidden flex items-center justify-between bg-surface-container-high/60 backdrop-blur-md border-b border-outline-variant/20 px-6 py-4 shadow-md">
+    <span class="font-headline-sm font-bold text-on-surface uppercase tracking-wide text-sm"><%= t('profiles.sidebar.title') %></span>
+    <button @click="sidebarOpen = !sidebarOpen" class="text-on-surface focus:outline-none flex items-center">
+      <span class="material-symbols-outlined text-2xl" x-show="!sidebarOpen">menu</span>
+      <span class="material-symbols-outlined text-2xl" x-show="sidebarOpen">close</span>
     </button>
   </div>
-  <div class="md:w-64 bg-white border-r shadow-sm flex-shrink-0" :class="sidebarOpen ? 'block' : 'hidden md:block'">
-    <div class="p-6 border-b">
-      <h2 class="font-bold text-gray-800 text-lg hidden md:flex items-center justify-between">
+  
+  <div class="md:w-64 bg-surface-container-low/30 backdrop-blur-lg border-r border-outline-variant/20 flex-shrink-0" :class="sidebarOpen ? 'block' : 'hidden md:block'">
+    <div class="p-6 border-b border-outline-variant/25">
+      <h2 class="font-headline-sm font-bold text-on-surface text-base hidden md:flex items-center justify-between uppercase tracking-wider">
         <span><%= t('profiles.sidebar.title') %></span>
       </h2>
-      <div class="mt-2">
-        <%= link_to t('nav.logout'), destroy_user_session_path, data: { turbo_method: :delete }, class: "inline-block bg-red-600 text-white px-3 py-1 rounded-full text-sm hover:bg-red-700" %>
+      <div class="mt-3">
+        <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "inline-flex items-center gap-1.5 bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-1.5 rounded-xl text-xs font-label-tech hover:bg-red-500-dim/20 transition-all uppercase tracking-wider" do %>
+          <span class="material-symbols-outlined text-sm">logout</span>
+          <span><%= t('nav.logout') %></span>
+        <% end %>
       </div>
     </div>
-    <nav class="p-4 space-y-2">
+    
+    <nav class="p-4 space-y-1 font-label-tech text-xs uppercase tracking-wider">
       <%= link_to profile_path, 
-          class: "block px-4 py-2 rounded-lg text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition" do %>
-        <%= t('profiles.information') %>
+          class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all" do %>
+        <span class="material-symbols-outlined text-sm">badge</span>
+        <span><%= t('profiles.information') %></span>
       <% end %>
+      
       <% if current_user.student? %>
-        <div class="pt-4 mt-4 border-t border-gray-100">
-          <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider"><%= t('profiles.sidebar.student_panel') %></p>
-          <%= link_to my_courses_courses_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.purchased_courses') %>
+        <div class="pt-4 mt-4 border-t border-outline-variant/10">
+          <p class="px-4 text-[10px] font-bold text-slate-text/50 tracking-widest uppercase mb-2"><%= t('profiles.sidebar.student_panel') %></p>
+          <%= link_to my_courses_courses_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">school</span>
+            <span><%= t('profiles.sidebar.purchased_courses') %></span>
           <% end %>
-          <%= link_to orders_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.payment_history') %>
+          <%= link_to orders_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">history</span>
+            <span><%= t('profiles.sidebar.payment_history') %></span>
           <% end %>
         </div>
       <% end %>
+      
       <% if current_user.teacher? %>
-        <div class="pt-4 mt-4 border-t border-gray-100">
-          <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider"><%= t('profiles.sidebar.teacher_panel') %></p>
-          <%= link_to management_courses_path(id: @user.id), class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content" } do %>
-            <%= t('profiles.sidebar.manage_courses') %>
+        <div class="pt-4 mt-4 border-t border-outline-variant/10">
+          <p class="px-4 text-[10px] font-bold text-slate-text/50 tracking-widest uppercase mb-2"><%= t('profiles.sidebar.teacher_panel') %></p>
+          <%= link_to management_courses_path(id: @user.id), class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content" } do %>
+            <span class="material-symbols-outlined text-sm">interactive_space</span>
+            <span><%= t('profiles.sidebar.manage_courses') %></span>
           <% end %>
-          <%= link_to management_topics_path(id: @user.id), class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content" } do %>
-            <%= t('profiles.sidebar.manage_topics') %>
+          <%= link_to management_topics_path(id: @user.id), class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content" } do %>
+            <span class="material-symbols-outlined text-sm">topic</span>
+            <span><%= t('profiles.sidebar.manage_topics') %></span>
           <% end %>
-          <%= link_to management_lessons_path(id: @user.id), class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content" } do %>
-            <%= t('profiles.sidebar.manage_lessons') %>
+          <%= link_to management_lessons_path(id: @user.id), class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content" } do %>
+            <span class="material-symbols-outlined text-sm">play_circle</span>
+            <span><%= t('profiles.sidebar.manage_lessons') %></span>
           <% end %>
-          <%= link_to management_exams_path(id: @user.id), class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content" } do %>
-            <%= t('profiles.sidebar.manage_exams') %>
+          <%= link_to management_exams_path(id: @user.id), class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content" } do %>
+            <span class="material-symbols-outlined text-sm">quiz</span>
+            <span><%= t('profiles.sidebar.manage_exams') %></span>
           <% end %>
-          <%= link_to management_practices_path(id: @user.id), class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content" } do %>
-            <%= t('profiles.sidebar.manage_practices') %>
+          <%= link_to management_practices_path(id: @user.id), class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content" } do %>
+            <span class="material-symbols-outlined text-sm">checklist</span>
+            <span><%= t('profiles.sidebar.manage_practices') %></span>
           <% end %>
         </div>
-        <div class="pt-4 mt-4 border-t border-gray-100">
-          <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider"><%= t('profiles.sidebar.user_panel') %></p>
-          <%= link_to my_courses_courses_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.purchased_courses') %>
+        <div class="pt-4 mt-4 border-t border-outline-variant/10">
+          <p class="px-4 text-[10px] font-bold text-slate-text/50 tracking-widest uppercase mb-2"><%= t('profiles.sidebar.user_panel') %></p>
+          <%= link_to my_courses_courses_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">school</span>
+            <span><%= t('profiles.sidebar.purchased_courses') %></span>
           <% end %>
-          <%= link_to teacher_dashboard_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-green-50 hover:text-green-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.manage_income') %>
+          <%= link_to teacher_dashboard_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">monetization_on</span>
+            <span><%= t('profiles.sidebar.manage_income') %></span>
           <% end %>
         </div>
       <% end %>
+      
       <% if current_user.admin? %>
-        <div class="pt-4 mt-4 border-t border-gray-100">
-          <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider"><%= t('profiles.sidebar.admin_panel') %></p>
-          <%= link_to admin_dashboard_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.admin_dashboard') %>
+        <div class="pt-4 mt-4 border-t border-outline-variant/10">
+          <p class="px-4 text-[10px] font-bold text-slate-text/50 tracking-widest uppercase mb-2"><%= t('profiles.sidebar.admin_panel') %></p>
+          <%= link_to admin_dashboard_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">monitoring</span>
+            <span><%= t('profiles.sidebar.admin_dashboard') %></span>
           <% end %>
-          <%= link_to admin_management_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.user_management') %>
+          <%= link_to admin_management_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">admin_panel_settings</span>
+            <span><%= t('profiles.sidebar.user_management') %></span>
           <% end %>
-          <%= link_to admin_courses_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.course_approvals') %>
+          <%= link_to admin_courses_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">fact_check</span>
+            <span><%= t('profiles.sidebar.course_approvals') %></span>
           <% end %>
-           <%= link_to admin_vouchers_path, class: "block px-4 py-2 mt-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition", data: { turbo_frame: "profile_content"} do %>
-            <%= t('profiles.sidebar.voucher_management') %>
+           <%= link_to admin_vouchers_path, class: "flex items-center gap-2 px-4 py-3 rounded-xl text-slate-text hover:bg-primary-fixed-dim/5 hover:text-primary-fixed-dim border-l-2 border-transparent hover:border-primary-fixed-dim transition-all", data: { turbo_frame: "profile_content"} do %>
+            <span class="material-symbols-outlined text-sm">payments</span>
+            <span><%= t('profiles.sidebar.voucher_management') %></span>
           <% end %>
         </div>
       <% end %>
     </nav>
   </div>
-  <div class="flex-1 p-4 md:p-8 min-w-0">
-    <div class="bg-white rounded-xl shadow-sm border p-6 min-h-[400px]">
+  
+  <div class="flex-1 p-6 md:p-10 min-w-0 bg-background/50">
+    <div class="glass-card rounded-2xl border border-outline-variant/30 p-8 min-h-[500px]">
       <%= turbo_frame_tag "profile_content" do %>
         <%= render "profiles/role_details/#{@user.role}" %>
       <% end %>

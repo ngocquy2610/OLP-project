@@ -606,6 +606,88 @@ en:
           description: "Topic description"
           submit: "Save Topic"
           cancel: "Cancel"
+  missing_i18n:
+    common:
+      edit: "Edit"
+      delete: "Delete"
+      clear: "Clear"
+      show: "Show"
+      hide: "Hide"
+      time_ago: "%{time} ago"
+    admin:
+      vouchers:
+        edit_title: "Edit Voucher"
+        update_button: "Update Voucher"
+        delete_confirm: "Are you sure you want to delete this voucher?"
+    devise:
+      min_chars: "min %{count} characters"
+      teacher_bank_info_title: "Payment Information (For Teachers)"
+      bank_name_hint: "Bank name (e.g. Vietcombank, MB Bank)"
+      bank_account_name_hint: "Account holder name (uppercase, no accents)"
+      security_settings_description_html: "Security settings for <span class='text-primary-fixed-dim font-bold'>%{name}</span>"
+    profiles:
+      fix_errors: "Please fix the errors below."
+      phone_hint: "Phone number must be 10 to 11 digits"
+    courses:
+      index:
+        secure_directory: "SECURE_DIRECTORY"
+        subtitle: "Available cognitive protocol modules in local sync."
+        secure_node: "SECURE_NODE"
+        price_credit: "PRICE"
+        instructor: "INSTRUCTOR"
+      show:
+        secure_node_specification: "SECURE_NODE_SPECIFICATION"
+        course_rating: "Course rating:"
+        anonymous_student: "Anonymous student"
+    orders:
+      index:
+        no_transactions: "No transactions yet"
+      pdf:
+        invoice_title: "Invoice #%{id}"
+    pages:
+      about:
+        core_system: "CORE_SYSTEM: INTEL"
+        protocol_initiated: "PROTOCOL_INITIATED: 100%"
+        stats_subtitle: "Empirical telemetry of our learning nodes."
+        team_subtitle: "Elite instruction core and protocol coordinators."
+    devise_mailer:
+      greeting: "Hello %{email}!"
+      welcome: "Welcome %{email}!"
+      reset_password_intro: "Someone has requested a link to change your password. You can do this through the link below."
+      change_password_link: "Change my password"
+      reset_password_ignore: "If you did not request this, please ignore this email."
+      reset_password_outro: "Your password will not change until you access the link above and create a new one."
+      confirmation_intro: "You can confirm your account email through the link below:"
+      confirm_account_link: "Confirm my account"
+      password_changed_notice: "We're contacting you to notify you that your password has been changed."
+      email_changing_to: "We're contacting you to notify you that your email is being changed to %{email}."
+      email_changed_to: "We're contacting you to notify you that your email has been changed to %{email}."
+      unlock_intro: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+      unlock_instruction: "Click the link below to unlock your account:"
+      unlock_account_link: "Unlock my account"
+    payment_mailer:
+      student_receipt:
+        title: "Receipt for Order #%{id}"
+        purchased_courses: "You've purchased the following course(s):"
+        total_paid_label: "Total paid:"
+      teacher_notification:
+        purchased_courses: "%{email} has purchased the following course(s):"
+        total_for_you_label: "Total for you:"
+    home:
+      system_status: "SYSTEM_STATUS: ACTIVE"
+      active_units_synced: "active cognitive units synced"
+      synapse_load: "SYNAPSE_LOAD: 98%"
+      why_title: "Why choose our platform?"
+      why_subtitle: "Engineered for architectural precision in knowledge transfer."
+      popular_subtitle: "Next-gen learning modules currently in deployment phase."
+      view_archive: "VIEW_ARCHIVE"
+      secure_node: "SECURE_NODE"
+      price_credit: "PRICE"
+      instructor: "INSTRUCTOR"
+      course_module_pending: "COURSE_MODULAR_LOAD_PENDING"
+      testimonial_subtitle: "Verified output from our learning community."
+      testimonial_1_title: "Software Engineer @ PROTO_CORP"
+      testimonial_2_title: "Systems Architect @ NEXUS_LABS"
     cart:
       title: "Your Cart"
       remove: "Remove"

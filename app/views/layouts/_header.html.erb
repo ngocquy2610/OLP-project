@@ -1,32 +1,37 @@
-<nav x-data="{ open: false }" class="sticky top-0 w-full h-24 bg-[#15a5ff] z-50">
-  <div class="flex justify-between items-center w-full h-full xl:px-20 px-5">
-    <div class="flex gap-20 items-center w-4/5">
-      <a class="w-24 h-24" href="/">
-        <%= optimized_static_image_tag("logo-olp.svg", alt: "Logo OLP", class_name: "w-24 h-24 rounded-full", width: 96, height: 96) %>
+<nav x-data="{ open: false }" class="sticky top-0 w-full h-24 bg-surface-glass backdrop-blur-xl border-b border-outline-variant/30 shadow-[0_0_15px_rgba(0,229,255,0.15)] z-50">
+  <div class="flex justify-between items-center w-full h-full xl:px-20 px-5 max-w-[1280px] mx-auto">
+    <div class="flex gap-8 items-center">
+      <a class="flex items-center gap-3" href="/">
+        <%= optimized_static_image_tag("logo-olp.svg", alt: "Logo OLP", class_name: "w-12 h-12 rounded-full border border-primary-fixed-dim/30 hover:border-primary-fixed-dim/60 transition-all", width: 48, height: 48) %>
+        <span class="font-headline-sm text-headline-sm font-bold tracking-tighter text-primary-fixed-dim hover:text-primary transition-colors">OLP_ACADEMY</span>
       </a>
     </div>
-    <div class="hidden xl:flex gap-4 items-center text-white !mr-8">
-      <a class="no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] whitespace-nowrap" href="/"><%= t('nav.home') %></a>
-      <%= link_to t('nav.about'), about_path, class: "no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] whitespace-nowrap" %>
-      <a class="no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] whitespace-nowrap" href="<%= courses_path %>"><%= t('nav.course') %></a>
-      <%= link_to cart_path, class: "no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] whitespace-nowrap flex items-center gap-2" do %>
+    
+    <div class="hidden xl:flex gap-6 items-center text-on-surface">
+      <a class="font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" href="/"><%= t('nav.home') %></a>
+      <%= link_to t('nav.about'), about_path, class: "font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" %>
+      <a class="font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" href="<%= courses_path %>"><%= t('nav.course') %></a>
+      
+      <%= link_to cart_path, class: "font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3 flex items-center gap-2" do %>
         <span><%= t('nav.cart') %></span>
         <%= turbo_frame_tag "cart-count-frame" do %>
-          <span id="cart-count" class="bg-white text-[#15a5ff] text-sm font-bold rounded-full px-2 py-0.5"><%= user_signed_in? ? (current_user.cart&.cart_items&.count || 0) : 0 %></span>
+          <span id="cart-count" class="bg-primary hover:bg-primary-container text-on-primary text-xs font-bold font-label-tech rounded px-2 py-0.5"><%= user_signed_in? ? (current_user.cart&.cart_items&.count || 0) : 0 %></span>
         <% end %>
       <% end %>
+
       <% if user_signed_in? %>
-        <%= link_to current_user.fullname, profile_path, class: "no-underline text-white hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] whitespace-nowrap text-[20px]" %>
+        <%= link_to current_user.fullname, profile_path, class: "font-body-md text-[16px] text-primary-fixed-dim border border-primary-fixed-dim/30 hover:bg-primary-fixed-dim/10 rounded px-4 py-2 transition-all" %>
       <% else %>
         <%= link_to t('nav.login') , new_user_session_path,
-                            class: "text-white no-underline hover:bg-[#ffffff] py-2 px-4 rounded-xl hover:text-[#15a5ff] text-[20px] w-fit whitespace-nowrap" %>
+                            class: "glow-button font-label-tech text-xs tracking-wider uppercase px-4 py-2 rounded shadow" %>
       <% end %>
-      <div class="w-10">
-        <%= form_with url: request.path, method: :get, local: true, class: "language-form " do |f| %>
+      
+      <div class="ml-4">
+        <%= form_with url: request.path, method: :get, local: true, class: "language-form" do |f| %>
           <%= f.select :locale, 
-                      [['🇬🇧: English', 'en'], ['🇻🇳: Tiếng Việt', 'vi']],
+                      [['🇬🇧 EN', 'en'], ['🇻🇳 VI', 'vi']],
                       { selected: I18n.locale },
-                      { onchange: "this.form.submit();", turbo: "profile_content", class: "bg-white text-black rounded px-2 py-1" } %>
+                      { onchange: "this.form.submit();", class: "bg-surface-container-high/80 border border-outline-variant text-[14px] text-on-surface rounded px-2 py-1 focus:ring-1 focus:ring-primary-fixed-dim outline-none cursor-pointer" } %>
           
           <% request.query_parameters.except(:locale).each do |key, value| %>
             <%= hidden_field_tag key, value %>
@@ -35,42 +40,42 @@
       </div>
     </div>
 
-    <div class="relative xl:hidden">
-      <button @click="open = !open" class="text-white focus:outline-none">
+    <div class="relative xl:hidden flex items-center gap-4">
+      <div class="xl:hidden">
+        <%= form_with url: request.path, method: :get, local: true, class: "language-form" do |f| %>
+          <%= f.select :locale, 
+                      [['🇬🇧', 'en'], ['🇻🇳', 'vi']],
+                      { selected: I18n.locale },
+                      { onchange: "this.form.submit();", class: "bg-surface-container-high/80 border border-outline-variant text-[14px] text-on-surface rounded px-1.5 py-0.5 focus:ring-1 focus:ring-primary-fixed-dim outline-none" } %>
+          
+          <% request.query_parameters.except(:locale).each do |key, value| %>
+            <%= hidden_field_tag key, value %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <button @click="open = !open" class="text-on-surface hover:text-primary-fixed-dim focus:outline-none transition-colors">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
       </button>
 
-      <div x-show="open" @click.outside="open = false" x-transition class="absolute right-0 mt-2 w-64 bg-[#15a5ff] text-white shadow z-50 max-h-[80vh] overflow-auto rounded">
+      <div x-show="open" @click.outside="open = false" x-transition class="absolute right-0 mt-64 w-64 bg-surface-container-high border border-outline-variant/50 text-on-surface shadow-2xl z-50 max-h-[80vh] overflow-auto rounded-xl backdrop-blur-xl">
         <div class="p-4 flex flex-col gap-2">
-          <a href="/" class="px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]"> <%= t('nav.home') %> </a>
-          <%= link_to t('nav.about'), about_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]" %>
-          <a href="<%= courses_path %>" class="px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]"> <%= t('nav.course') %> </a>
-          <%= link_to cart_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff] flex items-center justify-between" do %>
+          <a href="/" class="px-3 py-2 rounded-lg hover:bg-primary-fixed-dim/10 text-on-surface-variant hover:text-primary-fixed-dim transition-all"> <%= t('nav.home') %> </a>
+          <%= link_to t('nav.about'), about_path, class: "px-3 py-2 rounded-lg hover:bg-primary-fixed-dim/10 text-on-surface-variant hover:text-primary-fixed-dim transition-all" %>
+          <a href="<%= courses_path %>" class="px-3 py-2 rounded-lg hover:bg-primary-fixed-dim/10 text-on-surface-variant hover:text-primary-fixed-dim transition-all"> <%= t('nav.course') %> </a>
+          <%= link_to cart_path, class: "px-3 py-2 rounded-lg hover:bg-primary-fixed-dim/10 text-on-surface-variant hover:text-primary-fixed-dim transition-all flex items-center justify-between" do %>
             <span><%= t('nav.cart') %></span>
             <%= turbo_frame_tag "cart-count-mobile-frame" do %>
-              <span id="cart-count-mobile" class="bg-white text-[#15a5ff] text-sm font-bold rounded-full px-2 py-0.5"><%= user_signed_in? ? (current_user.cart&.cart_items&.count || 0) : 0 %></span>
+              <span id="cart-count-mobile" class="bg-primary text-on-primary text-xs font-bold font-label-tech rounded-full px-2 py-0.5"><%= user_signed_in? ? (current_user.cart&.cart_items&.count || 0) : 0 %></span>
             <% end %>
           <% end %>
           <% if user_signed_in? %>
-            <%= link_to current_user.fullname, profile_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]" %>
+            <%= link_to current_user.fullname, profile_path, class: "px-3 py-2 rounded-lg hover:bg-primary-fixed-dim/10 text-primary-fixed-dim font-bold transition-all border border-primary-fixed-dim/20" %>
           <% else %>
-            <%= link_to t('nav.login') , new_user_session_path, class: "px-2 py-2 rounded hover:bg-white hover:text-[#15a5ff]" %>
+            <%= link_to t('nav.login') , new_user_session_path, class: "glow-button px-3 py-2 text-center rounded-lg shadow" %>
           <% end %>
-          <div class="pt-2">
-            <%= form_with url: request.path, method: :get, local: true, class: "language-form " do |f| %>
-              <%= f.select :locale,
-                          [['🇬🇧: English', 'en'], ['🇻🇳: Tiếng Việt', 'vi']],
-                          { selected: I18n.locale },
-                          { onchange: "this.form.submit();", class: "w-full bg-white text-black rounded px-2 py-1" } %>
-
-              <% request.query_parameters.except(:locale).each do |key, value| %>
-                <%= hidden_field_tag key, value %>
-              <% end %>
-            <% end %>
-          </div>
         </div>
       </div>
     </div>
-
-    
+  </div>
 </nav>

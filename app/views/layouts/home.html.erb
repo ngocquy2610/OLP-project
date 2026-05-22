@@ -1,124 +1,221 @@
-<section class="bg-purple-500 text-white">
-  <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 items-center">
-    <div>
-      <h2 class="text-2xl md:text-3xl xl:text-5xl font-bold leading-tight">
+<!-- Hero Section -->
+<section class="relative min-h-[700px] flex items-center overflow-hidden">
+  <div class="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
+  <div class="absolute -top-40 -right-40 w-96 h-96 bg-primary-container/10 blur-[120px] rounded-full"></div>
+  <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-secondary-container/10 blur-[120px] rounded-full"></div>
+  
+  <div class="max-w-[1280px] mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-20">
+    <div class="space-y-6">
+      <h1 class="font-headline-md text-3xl xl:text-5xl font-bold leading-tight text-on-surface">
         <%= simple_format(t('home.hero.title')) %>
-      </h2>
-      <p class="mt-6 text-lg text-blue-100">
+      </h1>
+      <p class="font-body-lg text-lg text-slate-text max-w-xl">
         <%= t('home.hero.subtitle') %>
       </p>
-      <div class="mt-8 space-x-4">
-        <%= link_to t('home.hero.cta_explore'), courses_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
+      <div class="flex flex-col sm:flex-row gap-4 pt-4">
+        <%= link_to courses_path, class: "glow-button px-6 py-3.5 rounded-xl font-label-tech text-xs tracking-wider uppercase text-on-primary font-bold flex items-center justify-center gap-2 cursor-pointer" do %>
+          <span><%= t('home.hero.cta_explore') %></span>
+          <span class="material-symbols-outlined text-[16px]">terminal</span>
+        <% end %>
         <% unless user_signed_in? %>
-          <%= link_to t('home.hero.cta_start'), new_user_session_path, class: "bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-200" %>
+          <%= link_to new_user_session_path, class: "px-6 py-3.5 border border-outline-variant hover:border-primary-fixed-dim rounded-xl font-label-tech text-xs tracking-wider uppercase text-on-surface hover:text-primary-fixed-dim transition-all flex items-center justify-center gap-2 cursor-pointer" do %>
+            <span><%= t('home.hero.cta_start') %></span>
+            <span class="material-symbols-outlined text-[16px]">play_circle</span>
+          <% end %>
         <% end %>
       </div>
+      
+      <div class="flex items-center gap-4 pt-6">
+        <div class="flex -space-x-3">
+          <img alt="User" class="w-10 h-10 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHSB0lHsTtG399LXhrYxjMRVHBuAkmF5ylvUYBzDzBcwLBCv770d1U-SRx2e8gZj80sHAlBz8JQWR9gjTrWh80nCPfa2mXCSPQlxhHOwabmmYxjhjDwC7C43oQYtljySmeKF4L9ZuzXUyGe3OpDO23sG1WPPZKIUHBr71fAystYrTH9nMCRKDeESmQOCGSLiHROMlmmg2DmXY51rW6erFswT0yGSDWTbXbdFJgkAT6u6BXoumusU6UVtftZEeBfIPvAYdCDgL-tzc"/>
+          <img alt="User" class="w-10 h-10 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-jAlnH_R6hh90oheSCMfPuWodS9OUWNC18V1oSZA29IdbiarwjIcETYfHC-dww4bp2w2pNdtmhJXgsm1tvf3tJOuynM5GSdOtIYsNPsS-FurlCaw4NppsmNKsUQh9N_VyopcpdpswMSYmZl42y9x8IMN9jUg5jKr2KPLXW1j9p7uxamw-fDAcMaGrFDYGn7A2b8yFwgXXm3VlHlhYByIZC8XxbhqE7lciYTiWpyzuurSRS2UCh4lA531bfkvMCe5CEEmCdb9G6vM"/>
+          <img alt="User" class="w-10 h-10 rounded-full border-2 border-background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlsDt-pxyULohBUsasuMPiEJvNkMaUtmNlwHbO-fvjeuAZlaQn7ya278rTKcIAVEwVcwSTaXj2EmmdaEuLAiGGIg0VG7WQpShriBTicf-ihpDl2bJPSgEfjk-xwCLYmdxY-t9b6vD13T1v-O5AU-0s3fvM8JAbcruFiGzmm-eFEe43vyrKRLyw6zMPKE-a-ncZcHZ6qlGfhMFAyqfqjAnqhJlQMsugDAhk6lJ_mgnu-H0SAj_u6ze0-5JLWOkW7n7gbwh9o3AzadI"/>
+        </div>
+        <p class="font-caption text-xs text-slate-text">
+          <span class="text-primary-fixed-dim font-bold">12k+</span> <%= t('missing_i18n.home.active_units_synced') %>
+        </p>
+      </div>
     </div>
-    <div>
-      <%= optimized_static_image_tag("home/home-image.svg", alt: "Home Image", class_name: "rounded-xl shadow-lg", width: 600, height: 400) %>
+    
+    <div class="relative group">
+      <div class="absolute inset-0 bg-primary-fixed-dim/15 blur-[80px] group-hover:bg-primary-fixed-dim/25 transition-all duration-700"></div>
+      <div class="glass-card-no-hover p-2 rounded-2xl overflow-hidden relative">
+        <%= optimized_static_image_tag("home/home-image.svg", alt: "Home Image", class_name: "w-full h-[400px] object-cover rounded-xl border border-outline-variant/20 shadow-lg", width: 600, height: 400) %>
+        
+      </div>
     </div>
   </div>
 </section>
-<section class="py-16">
-  <div class="max-w-7xl mx-auto px-6 text-center">
-    <h3 class="text-3xl font-bold mb-12"><%= t('home.features.why_title', default: 'Why choose our platform') %></h3>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
-        <div class="text-4xl mb-4 flex justify-center"><%= optimized_static_image_tag("home/book.svg", alt: "Book Image", class_name: "rounded-xl shadow-lg w-15 h-15", width: 60, height: 60) %></div>
-        <h4 class="text-xl font-semibold mb-2"><%= t('home.features.quality_courses.title') %></h4>
-        <p class="text-gray-600">
+
+<!-- Why Choose Us -->
+<section class="py-20 relative">
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="font-headline-md text-3xl font-bold tracking-tight text-on-surface mb-2"><%= t('missing_i18n.home.why_title') %></h2>
+      <p class="font-body-md text-sm text-slate-text"><%= t('missing_i18n.home.why_subtitle') %></p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Card 1 -->
+      <div class="glass-card p-8 rounded-xl flex flex-col justify-start">
+        <div class="w-12 h-12 bg-primary-fixed-dim/10 rounded-xl flex items-center justify-center mb-6 border border-primary-fixed-dim/10">
+          <span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 0;">verified</span>
+        </div>
+        <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-3"><%= t('home.features.quality_courses.title') %></h3>
+        <p class="font-body-md text-sm text-slate-text leading-relaxed">
           <%= t('home.features.quality_courses.desc') %>
         </p>
       </div>
-      <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
-        <div class="text-4xl mb-4 flex justify-center"><%= optimized_static_image_tag("home/teacher.svg", alt: "Teacher Image", class_name: "rounded-xl shadow-lg w-15 h-15", width: 60, height: 60) %></div>
-        <h4 class="text-xl font-semibold mb-2"><%= t('home.features.professional_instructors.title') %></h4>
-        <p class="text-gray-600">
+      
+      <!-- Card 2 -->
+      <div class="glass-card p-8 rounded-xl flex flex-col justify-start">
+        <div class="w-12 h-12 bg-primary-fixed-dim/10 rounded-xl flex items-center justify-center mb-6 border border-primary-fixed-dim/10">
+          <span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 0;">psychology</span>
+        </div>
+        <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-3"><%= t('home.features.professional_instructors.title') %></h3>
+        <p class="font-body-md text-sm text-slate-text leading-relaxed">
           <%= t('home.features.professional_instructors.desc') %>
         </p>
       </div>
-      <div class="bg-white p-8 rounded-xl shadow hover:shadow-lg">
-        <div class="text-4xl mb-4 flex justify-center"><%= optimized_static_image_tag("home/clock.svg", alt: "Clock Image", class_name: "rounded-xl shadow-lg w-15 h-15", width: 60, height: 60) %></div>
-        <h4 class="text-xl font-semibold mb-2"><%= t('home.features.learn_anytime.title') %></h4>
-        <p class="text-gray-600">
+      
+      <!-- Card 3 -->
+      <div class="glass-card p-8 rounded-xl flex flex-col justify-start">
+        <div class="w-12 h-12 bg-primary-fixed-dim/10 rounded-xl flex items-center justify-center mb-6 border border-primary-fixed-dim/10">
+          <span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 0;">schedule</span>
+        </div>
+        <h3 class="font-headline-sm text-xl font-bold text-on-surface mb-3"><%= t('home.features.learn_anytime.title') %></h3>
+        <p class="font-body-md text-sm text-slate-text leading-relaxed">
           <%= t('home.features.learn_anytime.desc') %>
         </p>
       </div>
     </div>
   </div>
 </section>
-<section class="bg-gray-100 py-16">
-  <div class="max-w-7xl mx-auto px-6">
-    <h3 class="text-3xl font-bold text-center mb-12"><%= t('home.popular_courses_title') %></h3>
-    <div class="grid md:grid-cols-3 gap-8">
-        <% if @featured_courses.present? %>
+
+<!-- Popular Courses -->
+<section class="py-20 bg-surface-container-low/40 relative">
+  <div class="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="flex justify-between items-end mb-12">
+      <div>
+        <h2 class="font-headline-md text-3xl font-bold text-on-surface"><%= t('home.popular_courses_title') %></h2>
+        <p class="font-body-md text-sm text-slate-text mt-1"><%= t('missing_i18n.home.popular_subtitle') %></p>
+      </div>
+      <%= link_to courses_path, class: "font-label-tech text-xs tracking-wider text-primary-fixed-dim hover:text-primary transition-all font-semibold uppercase" do %>
+        <%= t('missing_i18n.home.view_archive') %> &rarr;
+      <% end %>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <% if @featured_courses.present? %>
         <% @featured_courses.each do |course| %>
-          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-3 justify-between items-center h-100">
-            <div class="w-full h-48 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+          <div class="glass-card p-5 rounded-2xl flex flex-col justify-between h-[480px]">
+            <div class="w-full h-44 bg-surface-container rounded-xl overflow-hidden flex items-center justify-center border border-outline-variant/20 relative">
               <% if course.course_image.attached? %>
                 <%= optimized_course_image_tag(
                   course,
                   alt: course.name,
-                  class_name: "w-full h-full object-cover",
+                  class_name: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500",
                   width: 600,
-                  height: 192,
+                  height: 176,
                   sizes: "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                 ) %>
               <% else %>
-                <svg class="w-20 h-20 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 13l2.5-3 3.5 4.5L16 11l4 6H4l4-4z" />
-                </svg>
+                <span class="material-symbols-outlined text-outline-variant text-[50px]">auto_stories</span>
               <% end %>
             </div>
 
-            <h4 class="font-bold text-gray-800 text-center"><%= course.name %></h4>
-            <div class="text-gray-500 text-center h-16 flex items-start justify-center"><em><%= truncate(course.description, length: 100, separator: ' ', omission: "...") %></em></div>
-            <div class="text-sm text-black text-center"><%= format_vnd(course.price) %></div>
-            <%= link_to t('home.course.view_details'), course_path(course), class: "text-blue-500 hover:underline" %>
+            <div class="flex-1 flex flex-col pt-4 gap-2">
+              <h4 class="font-headline-sm text-lg font-bold text-on-surface leading-snug line-clamp-1"><%= course.name %></h4>
+              <div class="text-slate-text text-xs line-clamp-3 leading-relaxed">
+                <em><%= truncate(course.description, length: 120, separator: ' ', omission: "...") %></em>
+              </div>
+            </div>
+            
+            <div class="pt-4 border-t border-outline-variant/20 flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <span class="font-label-tech text-xs text-slate-text"><%= t('missing_i18n.home.price_credit') %></span>
+                <span class="font-label-tech text-sm text-primary font-bold"><%= format_vnd(course.price) %></span>
+              </div>
+              
+              <div class="flex items-center justify-between gap-3">
+                <%= link_to t('home.course.view_details'), course_path(course), class: "text-primary-fixed-dim hover:text-primary hover:underline font-label-tech text-xs tracking-wider" %>
 
-            <div class="mt-2 h-12 flex items-center justify-center w-full">
-              <% if current_user&.owned_courses&.exists?(course.id) %>
-                <%= link_to t('home.course.learn_now'),
-                      learn_course_path(course),
-                      class: "bg-green-600 text-white px-4 py-2 rounded-xl" %>
-              <% elsif course.user_id == current_user&.id %>
-                <div class="w-full h-10"></div>
-              <% else %>
-                <button data-controller="add-to-cart"
-                        data-action="click->add-to-cart#add"
-                        data-add-to-cart-course-id-value="<%= course.id %>"
-                  data-add-to-cart-added-message-value="<%= t('messages.cart_items.added') %>"
-                  data-add-to-cart-failed-message-value="<%= t('messages.cart_items.already_in_cart') %>"
-                  data-add-to-cart-error-message-value="<%= t('messages.common.unexpected_error') %>"
-                        class="w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition">
-                  <%= t('home.course.add_to_cart') %>
-                </button>
-              <% end %>
+                <div class="flex items-center justify-end">
+                  <% if current_user&.owned_courses&.exists?(course.id) %>
+                    <%= link_to t('home.course.learn_now'),
+                          learn_course_path(course),
+                          class: "glow-button px-4 py-2 text-xs rounded-lg shadow font-label-tech uppercase tracking-wider font-semibold" %>
+                  <% elsif course.user_id == current_user&.id %>
+                    <span class="text-xs text-slate-text font-label-tech"><%= t('missing_i18n.home.instructor') %></span>
+                  <% else %>
+                    <button data-controller="add-to-cart"
+                            data-action="click->add-to-cart#add"
+                            data-add-to-cart-course-id-value="<%= course.id %>"
+                            data-add-to-cart-added-message-value="<%= t('messages.cart_items.added') %>"
+                            data-add-to-cart-failed-message-value="<%= t('messages.cart_items.already_in_cart') %>"
+                            data-add-to-cart-error-message-value="<%= t('messages.common.unexpected_error') %>"
+                            class="glow-button px-4 py-2 text-xs rounded-lg shadow font-label-tech uppercase tracking-wider font-semibold cursor-pointer">
+                      <%= t('home.course.add_to_cart') %>
+                    </button>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
         <% end %>
       <% else %>
-        <p class="text-center col-span-3 text-gray-500"><%= t('home.no_courses') %></p>
+        <div class="col-span-3 py-16 flex flex-col items-center justify-center glass-card rounded-2xl border-dashed border-outline-variant border-2">
+          <span class="material-symbols-outlined text-outline-variant text-[50px] mb-3">data_exploration</span>
+          <h3 class="font-headline-sm text-lg text-on-surface-variant uppercase tracking-wider font-semibold"><%= t('missing_i18n.home.course_module_pending') %></h3>
+          <p class="font-body-md text-xs text-slate-text mt-1"><%= t('home.no_courses') %></p>
+        </div>
       <% end %>
     </div>
   </div>
 </section>
-<section class="py-16">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h3 class="text-3xl font-bold mb-12"><%= t('home.testimonials_title') %></h3>
-    <div class="grid md:grid-cols-2 gap-8">
-      <div class="bg-white p-8 rounded-xl shadow">
-        <p class="text-gray-600">
+
+<!-- Testimonials -->
+<section class="py-20 overflow-hidden relative">
+  <div class="max-w-[1280px] mx-auto px-6">
+    <div class="mb-12 text-center sm:text-left">
+      <h2 class="font-headline-md text-3xl font-bold text-on-surface"><%= t('home.testimonials_title') %></h2>
+      <p class="font-body-md text-sm text-slate-text mt-1"><%= t('missing_i18n.home.testimonial_subtitle') %></p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="glass-card p-8 rounded-xl relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+        <div class="absolute top-0 right-0 p-4 opacity-10">
+          <span class="material-symbols-outlined text-5xl">format_quote</span>
+        </div>
+        <p class="font-body-lg text-sm mb-6 italic text-on-surface leading-relaxed">
           "<%= t('home.testimonial_1') %>"
         </p>
-        <div class="mt-4 font-semibold"><%= t('home.testimonial_1_author') %></div>
+        <div class="flex items-center gap-3">
+          <img alt="Tien Bob" class="w-10 h-10 rounded-full grayscale border border-primary-fixed-dim/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx7wHYV78_fw6r2pGM5GpXADTSeh3DOSkKXsxkGy6hueb0bs4mpnMJlcRX3MhpLncGDuXHGSYuNLXE266f121iP4FiEKjkc3A-qsLsEVGAnayD9AYz7AfaeEn8lSdZoUWBf6meVBJaGgg2IErfpOD1YuklPWO4eDkXVGCL1T1QrzDN60EX7aUqcQu8787flUnz-mKLi5hlUpHiVwiunBIn7LPfea97-SPU8Vw6JDy7vhZq9QKmo-h_DRRWtLOFK7O2_T_wKOZw2Fk"/>
+          <div>
+            <p class="font-label-tech text-xs text-primary-fixed-dim font-bold uppercase tracking-wider"><%= t('home.testimonial_1_author').gsub('— ', '').strip.upcase.gsub(' ', '_') %></p>
+            <p class="font-caption text-[11px] text-slate-text"><%= t('missing_i18n.home.testimonial_1_title') %></p>
+          </div>
+        </div>
       </div>
-      <div class="bg-white p-8 rounded-xl shadow">
-        <p class="text-gray-600">
+      
+      <!-- Testimonial 2 -->
+      <div class="glass-card p-8 rounded-xl relative overflow-hidden flex flex-col justify-between min-h-[220px]">
+        <div class="absolute top-0 right-0 p-4 opacity-10">
+          <span class="material-symbols-outlined text-5xl">format_quote</span>
+        </div>
+        <p class="font-body-lg text-sm mb-6 italic text-on-surface leading-relaxed">
           "<%= t('home.testimonial_2') %>"
         </p>
-        <div class="mt-4 font-semibold"><%= t('home.testimonial_2_author') %></div>
+        <div class="flex items-center gap-3">
+          <img alt="Manh LV" class="w-10 h-10 rounded-full grayscale border border-primary-fixed-dim/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlsDt-pxyULohBUsasuMPiEJvNkMaUtmNlwHbO-fvjeuAZlaQn7ya278rTKcIAVEwVcwSTaXj2EmmdaEuLAiGGIg0VG7WQpShriBTicf-ihpDl2bJPSgEfjk-xwCLYmdxY-t9b6vD13T1v-O5AU-0s3fvM8JAbcruFiGzmm-eFEe43vyrKRLyw6zMPKE-a-ncZcHZ6qlGfhMFAyqfqjAnqhJlQMsugDAhk6lJ_mgnu-H0SAj_u6ze0-5JLWOkW7n7gbwh9o3AzadI"/>
+          <div>
+            <p class="font-label-tech text-xs text-primary-fixed-dim font-bold uppercase tracking-wider"><%= t('home.testimonial_2_author').gsub('— ', '').strip.upcase.gsub(' ', '_') %></p>
+            <p class="font-caption text-[11px] text-slate-text"><%= t('missing_i18n.home.testimonial_2_title') %></p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

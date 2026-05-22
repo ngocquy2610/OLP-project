@@ -1,7 +1,7 @@
-<p><strong><%= @student.email %> has purchased the following course(s):</strong></p>
+<p><strong><%= t('missing_i18n.payment_mailer.teacher_notification.purchased_courses', email: @student.email) %></strong></p>
 <ul>
 	<% @courses.each do |c| %>
 		<li><%= c.name %></li>
 	<% end %>
 </ul>
-<p><strong>Total for you:</strong> <%= format_vnd(@amount) %></p>
+<p><strong><%= t('missing_i18n.payment_mailer.teacher_notification.total_for_you_label') %></strong> <%= format_vnd(@amount) %></p>

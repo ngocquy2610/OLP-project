@@ -1,8 +1,8 @@
-<p><strong>Receipt for Order #<%= @order.id %></strong></p>
-<p>You've purchased the following course(s):</p>
+<p><strong><%= t('missing_i18n.payment_mailer.student_receipt.title', id: @order.id) %></strong></p>
+<p><%= t('missing_i18n.payment_mailer.student_receipt.purchased_courses') %></p>
 <ul>
 	<% @courses.each do |c| %>
 		<li><%= c.name %></li>
 	<% end %>
 </ul>
-<p><strong>Total paid:</strong> <%= format_vnd(@amount) %></p>
+<p><strong><%= t('missing_i18n.payment_mailer.student_receipt.total_paid_label') %></strong> <%= format_vnd(@amount) %></p>

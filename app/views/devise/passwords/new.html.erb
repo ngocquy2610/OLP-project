@@ -1,14 +1,31 @@
-<div class="mx-auto mt-10 w-full max-w-xl border p-6 sm:p-10 rounded-lg shadow-lg shadow-gray-400">
-  <%= link_to t('devise.links.back'), :back, class: "bg-gray-500 text-white border-1 border-gray-500 px-4 py-2 rounded hover:bg-white hover:text-gray-500 hover:border-1" %>
-  <div class="mt-5 text-xl sm:text-[24px] text-[#74787f]"><%= t('devise.passwords.new_title') %></div>
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
-    <div class="field my-5">
-      <p class="mb-2"><%= f.label :email, class: "text-xl sm:text-[24px] text-[#74787f]" %></p>
-      <p><%= f.email_field :email, autofocus: false, autocomplete: "email", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+<div class="mx-auto my-16 max-w-xl relative group pb-24 px-4">
+  <div class="absolute -inset-1 bg-gradient-to-r from-primary-fixed-dim/40 via-primary-fixed-dim/10 to-primary/40 rounded-2xl blur opacity-15 group-hover:opacity-25 transition duration-1000"></div>
+  <div class="relative glass-card rounded-2xl border border-outline-variant/30 p-8 shadow-2xl">
+    
+    <div class="flex items-center justify-between mb-6 pb-6 border-b border-outline-variant/20">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-3xl">lock_reset</span>
+        <h2 class="text-lg font-bold text-on-surface font-headline-sm uppercase tracking-wide">
+          <%= t('devise.passwords.new_title') %>
+        </h2>
+      </div>
+      <%= link_to :back, class: "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-outline-variant/30 hover:border-primary-fixed-dim/50 text-slate-text hover:text-primary-fixed-dim transition font-bold text-[10px] uppercase tracking-wider font-label-tech" do %>
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <span><%= t('devise.links.back', default: 'Quay lại') %></span>
+      <% end %>
     </div>
-    <div class="actions bg-green-400 border-1 border-green-400 w-fit py-2 px-5 rounded-full text-black hover:bg-white hover:text-black hover:border-1 transition cursor-pointer">
-      <%= f.submit t('devise.passwords.send_instructions'), class: "cursor-pointer" %>
-    </div>
-  <% end %>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      
+      <div class="field mb-6">
+        <%= f.label :email, class: "block mb-2 font-label-tech text-xs uppercase tracking-wider text-slate-text" %>
+        <%= f.email_field :email, autofocus: false, autocomplete: "email", class: "w-full bg-surface-container-high/40 border border-outline-variant/50 hover:border-primary-fixed-dim/50 focus:border-primary text-on-surface rounded-xl px-5 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all font-body-md" %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit t('devise.passwords.send_instructions'), class: "w-full glow-button font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer shadow-[0_0_15px_rgba(0,229,255,0.15)]" %>
+      </div>
+    <% end %>
+  </div>
 </div>

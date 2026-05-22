@@ -1,7 +1,7 @@
 <%= form_with(model: [:management, course], class: "space-y-6") do |f| %>
   <% if course.errors.any? %>
-    <div class="bg-red-50 p-4 rounded-lg text-red-700 text-sm">
-      <h2 class="font-bold"><%= t('admin.management.errors.header', count: course.errors.count) %></h2>
+      <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-xl text-red-400 text-sm">
+        <h2 class="font-bold font-label-tech"><%= t('admin.management.errors.header', count: course.errors.count) %></h2>
       <ul class="list-disc pl-5">
         <% course.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
@@ -10,29 +10,29 @@
     </div>
   <% end %>
   <div>
-    <%= f.label :name, t('admin.management.courses.form.name'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-    <%= f.text_field :name, class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+    <%= f.label :name, t('admin.management.courses.form.name'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+    <%= f.text_field :name, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="mb-4">
-      <%= f.label :tag, "Course Tag (e.g., Programming, Design, Basic)", class: "block text-sm font-semibold text-gray-700 mb-1" %>
-      <%= f.text_field :tag, placeholder: "Enter a tag...", class: "w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 outline-none" %>
+      <%= f.label :tag, "Course Tag (e.g., Programming, Design, Basic)", class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+      <%= f.text_field :tag, placeholder: "Enter a tag...", class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
     </div>
     <div>
-      <%= f.label :price, t('admin.management.courses.form.price'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-      <%= f.number_field :price, class: "w-full border rounded-lg p-2.5" %>
+      <%= f.label :price, t('admin.management.courses.form.price'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+      <%= f.number_field :price, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
     </div>
     <div>
-      <%= f.label :course_image, t('admin.management.courses.form.course_image'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-      <%= f.file_field :course_image, class: "w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+      <%= f.label :course_image, t('admin.management.courses.form.course_image'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+      <%= f.file_field :course_image, class: "w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border file:border-primary-fixed-dim/30 file:text-xs file:font-label-tech file:bg-primary-fixed-dim/10 file:text-primary-fixed-dim hover:file:bg-primary-fixed-dim/20" %>
     </div>
   </div>
   <div>
-    <%= f.label :description, t('admin.management.courses.form.description'), class: "block text-sm font-semibold text-gray-700 mb-1" %>
-    <%= f.text_area :description, rows: 4, class: "w-full border rounded-lg p-2.5" %>
+    <%= f.label :description, t('admin.management.courses.form.description'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+    <%= f.text_area :description, rows: 4, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
   </div>
   <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-4">
-    <%= f.submit t('admin.management.courses.form.submit'), class: "bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-indigo-700 cursor-pointer" %>
-    <%= link_to t('admin.management.courses.form.cancel'), profile_path(current_user), class: "text-gray-500 hover:underline" %>
+    <%= f.submit t('admin.management.courses.form.submit'), class: "glow-button font-label-tech px-6 py-2 rounded-xl cursor-pointer" %>
+    <%= link_to t('admin.management.courses.form.cancel'), profile_path(current_user), class: "text-slate-400 hover:text-primary-fixed-dim transition font-label-tech text-sm" %>
   </div>
 <% end %>

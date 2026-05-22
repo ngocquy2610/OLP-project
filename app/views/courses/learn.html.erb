@@ -1,9 +1,9 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="flex flex-col lg:flex-row min-h-screen bg-gray-100" x-data="{ sidebarOpen: false, videoLoading: true, videoError: false }">
+  <div class="flex flex-col lg:flex-row min-h-screen bg-surface-container" x-data="{ sidebarOpen: false, videoLoading: true, videoError: false }">
     <!-- Mobile sidebar toggle -->
-    <div class="lg:hidden flex items-center justify-between bg-gray-800 text-white px-4 py-2">
-      <span class="font-semibold text-sm"><%= @current_lesson&.name %></span>
-      <button @click="sidebarOpen = !sidebarOpen" class="text-white focus:outline-none">
+    <div class="lg:hidden flex items-center justify-between bg-surface-container-high text-white px-4 py-2 border-b border-white/10">
+      <span class="font-label-tech text-xs uppercase tracking-wider"><%= @current_lesson&.name %></span>
+      <button @click="sidebarOpen = !sidebarOpen" class="text-slate-200 focus:outline-none">
         <svg x-show="!sidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         <svg x-show="sidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
@@ -42,69 +42,69 @@
           </div>
         <% end %>
       </div>
-      <div class="p-6 bg-white">
-        <h2 class="text-xl font-semibold">
+      <div class="p-6 bg-surface-container-high/50 border-t border-white/10">
+        <h2 class="text-xl font-bold text-white font-headline-sm">
           <%= @current_lesson&.name %>
         </h2>
-        <p class="text-gray-600 mt-2">
+        <p class="text-slate-300 mt-2 font-body-md">
           <%= @current_lesson&.description %>
         </p>
       </div>
     </div>
-    <div class="lg:w-80 bg-white border-t lg:border-t-0 lg:border-l overflow-y-auto" :class="sidebarOpen ? 'block' : 'hidden lg:block'">
+    <div class="lg:w-80 bg-surface-container-high border-t border-white/10 lg:border-t-0 lg:border-l lg:border-white/10 overflow-y-auto" :class="sidebarOpen ? 'block' : 'hidden lg:block'">
       <% @topics.each do |topic| %>
-        <div class="border-b">
-          <div class="p-4 bg-gray-100 font-semibold">
+        <div class="border-b border-white/10">
+          <div class="p-4 bg-white/5 text-white font-semibold font-headline-sm">
             <%= topic.name %>
           </div>
           <% topic.lessons.each do |lesson| %>
             <%= link_to learn_course_path(@course, lesson_id: lesson.id),
-              class: "block px-4 py-3 hover:bg-gray-50 #{'bg-blue-100' if lesson == @current_lesson}" do %>
-              <p class="">
+              class: "block px-4 py-3 hover:bg-white/5 transition #{'bg-primary-fixed-dim/10 border-l-2 border-primary-fixed-dim' if lesson == @current_lesson}" do %>
+              <p class="text-slate-200 font-body-md">
                 ▶ <%= lesson.name %>
               </p>
             <% end %>
             <%= link_to practice_lesson_path(lesson),
-              class: "block px-4 py-3 hover:bg-gray-50",
+              class: "block px-4 py-3 hover:bg-white/5 transition",
               data: { turbo_frame: "profile_content" } do %>
-              <p class="">
+              <p class="text-slate-300 font-body-md">
                 📝 <%= t('admin.courses.learn.practice_of', lesson: lesson.name) %>
                 <% last_practice = @last_practice_attempts[lesson.id] %>
                 <% if last_practice&.completed %>
-                  <span class="ml-2 px-2 py-1 bg-green-500 text-white rounded text-xs"><%= t('admin.courses.learn.status.done') %></span>
+                  <span class="ml-2 px-2 py-1 bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 rounded text-[10px] font-label-tech uppercase tracking-wider"><%= t('admin.courses.learn.status.done') %></span>
                 <% elsif last_practice %>
-                  <span class="ml-2 px-2 py-1 bg-yellow-500 text-white rounded text-xs"><%= t('admin.courses.learn.status.attempted') %></span>
+                  <span class="ml-2 px-2 py-1 bg-amber-500/20 border border-amber-500/30 text-amber-300 rounded text-[10px] font-label-tech uppercase tracking-wider"><%= t('admin.courses.learn.status.attempted') %></span>
                 <% else %>
-                  <span class="ml-2 px-2 py-1 bg-gray-500 text-white rounded text-xs"><%= t('admin.courses.learn.status.new') %></span>
+                  <span class="ml-2 px-2 py-1 bg-slate-500/20 border border-slate-500/30 text-slate-300 rounded text-[10px] font-label-tech uppercase tracking-wider"><%= t('admin.courses.learn.status.new') %></span>
                 <% end %>
               </p>
             <% end %>
           <% end %>
           <% highest = @highest_attempts[topic.id] %>
           <% if highest %>
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-2 p-3 border-t border-white/10 bg-white/5">
               <% if highest.status == "Passed" %>
-                <div class="p-3">
-                  <%= link_to t('admin.courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
+                <div>
+                  <%= link_to t('admin.courses.learn.retry'), exam_topic_path(topic), class: "inline-flex items-center px-3 py-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 text-xs font-label-tech uppercase tracking-wider", data: { turbo_frame: "profile_content" } %>
                 </div>
-                <div class="px-4 py-2 text-sm text-gray-700">
-                  <%= t('admin.courses.learn.status_label') %> <span class="font-semibold bg-green-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                <div class="text-sm text-slate-300 font-body-md">
+                  <%= t('admin.courses.learn.status_label') %> <span class="font-semibold bg-emerald-500/20 border border-emerald-500/30 py-1 px-2 rounded text-emerald-300 text-xs"><%= highest.status %></span>
                 </div>
               <% else %>
-                <div class="p-3">
-                  <%= link_to t('admin.courses.learn.retry'), exam_topic_path(topic), class: "inline-block bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700", data: { turbo_frame: "profile_content" } %>
+                <div>
+                  <%= link_to t('admin.courses.learn.retry'), exam_topic_path(topic), class: "inline-flex items-center px-3 py-2 rounded-lg border border-red-500/30 bg-red-500/10 text-red-300 hover:bg-red-500/20 text-xs font-label-tech uppercase tracking-wider", data: { turbo_frame: "profile_content" } %>
                 </div>
-                <div class="px-4 py-2 text-sm text-gray-700">
-                  <%= t('admin.courses.learn.status_label') %> <span class="font-semibold bg-red-500 py-1 px-2 rounded text-white"><%= highest.status %></span>
+                <div class="text-sm text-slate-300 font-body-md">
+                  <%= t('admin.courses.learn.status_label') %> <span class="font-semibold bg-red-500/20 border border-red-500/30 py-1 px-2 rounded text-red-300 text-xs"><%= highest.status %></span>
                 </div>
               <% end %>
-              <div class="px-4 py-2 text-sm text-gray-700">
+              <div class="text-sm text-slate-300 font-body-md">
                 <%= t('admin.courses.learn.score_label') %> <strong><%= highest.score %> %</strong>
               </div>
             </div>
           <% else %>
-            <div class="p-3">
-              <%= link_to t('admin.courses.learn.take_exam'), exam_topic_path(topic), class: "inline-block bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700", data: { turbo_frame: "profile_content" } %>
+            <div class="p-3 border-t border-white/10 bg-white/5">
+              <%= link_to t('admin.courses.learn.take_exam'), exam_topic_path(topic), class: "inline-flex items-center px-3 py-2 rounded-lg border border-primary-fixed-dim/30 bg-primary-fixed-dim/10 text-primary-fixed-dim hover:bg-primary-fixed-dim/20 text-xs font-label-tech uppercase tracking-wider", data: { turbo_frame: "profile_content" } %>
             </div>
           <% end %>
         </div>
