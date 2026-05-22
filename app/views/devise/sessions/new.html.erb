@@ -1,30 +1,61 @@
-<div class="mx-auto mt-10 flex max-w-7xl flex-col gap-10 px-4 lg:flex-row lg:items-center lg:justify-between">
-  <div class="w-full lg:w-1/2">
-    <p class="text-[#4F8929] text-3xl sm:text-4xl lg:text-5xl font-bold text-center"><%= t('devise.brand.line1') %></p>
-    <p class="text-[#4F8929] text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-7"><%= t('devise.brand.line2') %></p>
-    <div><%= optimized_static_image_tag("login-image.png", alt: "Login Image", class_name: "w-full rounded-2xl shadow-lg shadow-black", width: 600, height: 400) %></div>
+<div class="mx-auto my-16 flex max-w-6xl flex-col gap-12 px-6 lg:flex-row lg:items-center lg:justify-between pb-24">
+  <div class="w-full lg:w-1/2 space-y-6">
+    <div class="space-y-2">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-fixed-dim/20 bg-primary-fixed-dim/5 text-primary-fixed-dim text-xs font-label-tech uppercase tracking-wider">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+        <span><%= t('devise.brand.secure_portal', default: 'Cổng truy cập bảo mật') %></span>
+      </div>
+      <h1 class="text-4xl lg:text-5xl font-bold font-headline-lg tracking-tight bg-gradient-to-r from-on-surface via-primary-fixed-dim to-on-surface bg-clip-text text-transparent">
+        <%= t('devise.brand.line1') %>
+      </h1>
+      <p class="text-xl lg:text-2xl font-semibold text-slate-text font-headline-sm">
+        <%= t('devise.brand.line2') %>
+      </p>
+    </div>
+    
+    <div class="relative group">
+      <div class="absolute -inset-1 bg-gradient-to-r from-primary to-primary-fixed-dim rounded-2xl blur opacity-15 group-hover:opacity-25 transition duration-1000"></div>
+      <div class="relative glass-card overflow-hidden rounded-2xl border border-outline-variant/30 bg-surface/50">
+        <%= optimized_static_image_tag("login-image.png", alt: "Login Image", class_name: "w-full h-[320px] object-cover mix-blend-luminosity opacity-80 group-hover:opacity-95 transition-opacity duration-500", width: 600, height: 400) %>
+      </div>
+    </div>
   </div>
-  <div class="w-full lg:w-[28rem] rounded-2xl border border-gray-200 bg-white p-6 shadow-lg shadow-gray-300/60">
-    <div class="text-[#1877F2] text-2xl sm:text-3xl text-center font-bold border-b-2 border-[#1877F2] p-4 sm:p-6 w-full"><%= t('devise.sessions.title') %></div>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="field my-5">
-        <p class="mb-2"><%= f.label :email, t('devise.sessions.email_label'), class: "text-xl sm:text-2xl text-[#74787f]" %></p>
-        <p><%= f.email_field :email, autofocus: false, autocomplete: "off", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
+
+  <div class="w-full lg:w-[28rem] relative group">
+    <div class="absolute -inset-1 bg-gradient-to-r from-primary-fixed-dim to-primary rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+    <div class="relative glass-card rounded-2xl border border-outline-variant/30 p-8 shadow-2xl">
+      <div class="flex flex-col items-center mb-6 pb-6 border-b border-outline-variant/20">
+        <span class="material-symbols-outlined text-primary text-4xl mb-2">fingerprint</span>
+        <h2 class="text-xl font-bold text-on-surface font-headline-sm tracking-wide uppercase">
+          <%= t('devise.sessions.title') %>
+        </h2>
       </div>
-      <div class="field my-5">
-        <p class="mb-2"><%= f.label :password, t('devise.sessions.password_label'), class: "text-xl sm:text-2xl text-[#74787f]" %></p>
-        <p><%= f.password_field :password, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
-      </div>
-      <% if devise_mapping.rememberable? %>
-        <div class="field flex items-center gap-3 sm:gap-5">
-          <p class="flex items-center"><%= f.check_box :remember_me, class: "w-[20px] h-[20px]" %></p>
-          <p class="flex items-center"><%= f.label :remember_me, t('devise.sessions.remember_me'), class: "text-base sm:text-[20px]" %></p>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="field mb-5">
+          <%= f.label :email, t('devise.sessions.email_label'), class: "block mb-2 font-label-tech text-xs uppercase tracking-wider text-slate-text" %>
+          <%= f.email_field :email, autofocus: false, autocomplete: "off", class: "w-full bg-surface-container-high/40 border border-outline-variant/50 hover:border-primary-fixed-dim/50 focus:border-primary text-on-surface rounded-xl px-5 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all font-body-md" %>
+        </div>
+
+        <div class="field mb-5">
+          <%= f.label :password, t('devise.sessions.password_label'), class: "block mb-2 font-label-tech text-xs uppercase tracking-wider text-slate-text" %>
+          <%= f.password_field :password, autocomplete: "current-password", class: "w-full bg-surface-container-high/40 border border-outline-variant/50 hover:border-primary-fixed-dim/50 focus:border-primary text-on-surface rounded-xl px-5 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all font-body-md" %>
+        </div>
+
+        <% if devise_mapping.rememberable? %>
+          <div class="field flex items-center gap-3 mb-6">
+            <%= f.check_box :remember_me, class: "w-5 h-5 text-primary-fixed-dim bg-surface-container border-outline-variant rounded focus:ring-primary-fixed-dim cursor-pointer focus:ring-offset-surface" %>
+            <%= f.label :remember_me, t('devise.sessions.remember_me'), class: "text-xs font-label-tech text-slate-text cursor-pointer uppercase tracking-wider" %>
+          </div>
+        <% end %>
+
+        <div class="actions">
+          <%= f.submit t('devise.sessions.submit'), class: "w-full glow-button font-bold text-xs uppercase tracking-wider py-3.5 rounded-xl cursor-pointer shadow-[0_0_15px_rgba(0,229,255,0.15)]" %>
+          <div class="mt-6 border-t border-outline-variant/20 pt-4">
+            <%= render "devise/shared/links" %>
+          </div>
         </div>
       <% end %>
-      <div class="actions">
-        <%= f.submit t('devise.sessions.submit'), class: "w-full bg-blue-500 text-white text-center py-2 rounded-full border-2 mt-5 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
-        <%= render "devise/shared/links" %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>

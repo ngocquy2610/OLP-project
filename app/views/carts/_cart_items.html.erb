@@ -1,6 +1,6 @@
 <% if cart.cart_items.any? %>
   <% cart.cart_items.each do |item| %>
-    <div class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-300">
+    <div class="flex items-center justify-between glass-card p-4 rounded-xl border border-outline-variant/30">
       <div class="flex items-center gap-4">
         <input
           type="checkbox"
@@ -8,35 +8,39 @@
           value="<%= item.id %>"
           <%= "checked" if selected_ids&.include?(item.id.to_s) %>
           data-price="<%= item.course&.price.to_i %>"
-          class="js-item-checkbox w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
+          class="js-item-checkbox w-5 h-5 text-primary-fixed-dim bg-surface border-outline-variant rounded focus:ring-primary-fixed-dim cursor-pointer"
         >
         <% if item.course&.course_image&.attached? %>
-          <div class="w-20 h-12 flex-shrink-0">
+          <div class="w-20 h-12 flex-shrink-0 border border-outline-variant/20 rounded overflow-hidden">
             <%= optimized_course_thumb_tag(
               item.course,
               alt: item.course.name,
-              class_name: "w-full h-full object-cover rounded-md",
+              class_name: "w-full h-full object-cover",
               width: 80,
               height: 48
             ) %>
           </div>
         <% end %>
         <div>
-          <p class="font-medium text-gray-800"><%= item.course&.name %></p>
+          <p class="font-body-md text-sm font-semibold text-on-surface"><%= item.course&.name %></p>
+          <p class="font-label-tech text-[10px] text-primary-fixed-dim tracking-wider uppercase mt-1">NODE_ID: #<%= item.course&.tag %></p>
         </div>
       </div>
 
-      <div class="flex items-center gap-4">
-        <p class="font-semibold text-gray-700"><%= format_vnd(item.course&.price) %></p>
-        <%= link_to t("cart.remove", default: "Xóa"),
-          cart_item_path(item),
+      <div class="flex items-center gap-6">
+        <p class="font-label-tech text-sm text-primary font-bold"><%= format_vnd(item.course&.price) %></p>
+        <%= link_to cart_item_path(item),
           data: { turbo_method: :delete, turbo_confirm: t("cart.remove_confirm", default: "Bạn chắc chắn muốn xóa?") },
-          class: "text-red-500 hover:text-red-700 text-sm font-medium" %>
+          class: "text-red-400 hover:text-red-500 text-xs font-label-tech uppercase tracking-wider flex items-center gap-1" do %>
+          <span class="material-symbols-outlined text-[14px]">delete</span>
+          <span><%= t("cart.remove", default: "Xóa") %></span>
+        <% end %>
       </div>
     </div>
   <% end %>
 <% else %>
-  <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-300 text-center">
-    <p class="text-gray-500"><%= t("cart.empty", default: "Giỏ hàng của bạn đang trống.") %></p>
+  <div class="glass-card p-10 rounded-2xl border border-dashed border-outline-variant/30 text-center flex flex-col items-center justify-center">
+    <span class="material-symbols-outlined text-outline-variant text-[40px] mb-2">shopping_cart</span>
+    <p class="text-slate-text text-sm italic"><%= t("cart.empty", default: "Giỏ hàng của bạn đang trống.") %></p>
   </div>
 <% end %>

@@ -1,41 +1,41 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="max-w-2xl mx-auto mt-8 px-4">
+  <div class="max-w-2xl mx-auto mt-8 px-4 pb-12">
     <div class="mb-6">
-      <%= link_to "← " + t('admin.management.vouchers.new.back'), admin_vouchers_path, class: "text-gray-500 hover:text-gray-700" %>
-      <h1 class="text-2xl font-bold text-gray-900 mt-2">Edit Voucher</h1>
+      <%= link_to "← " + t('admin.management.vouchers.new.back'), admin_vouchers_path, class: "text-slate-400 hover:text-primary-fixed-dim transition font-label-tech text-sm" %>
+      <h1 class="text-2xl font-bold text-white mt-3 font-headline-sm"><%= t('missing_i18n.admin.vouchers.edit_title') %></h1>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-6">
+    <div class="glass-card-no-hover rounded-xl p-6">
       <%= form_with model: [:admin, @voucher], class: "space-y-6" do |f| %>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <%= f.label :code, t('admin.management.vouchers.new.code_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.text_field :code, required: true, class: "w-full border-gray-300 rounded-md shadow-sm uppercase" %>
+            <%= f.label :code, t('admin.management.vouchers.new.code_label'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+            <%= f.text_field :code, required: true, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim uppercase" %>
           </div>
           <div>
-            <%= f.label :discount_percent, t('admin.management.vouchers.new.discount_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.number_field :discount_percent, required: true, min: 1, max: 100, class: "w-full border-gray-300 rounded-md shadow-sm" %>
+            <%= f.label :discount_percent, t('admin.management.vouchers.new.discount_label'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+            <%= f.number_field :discount_percent, required: true, min: 1, max: 100, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <%= f.label :usage_limit, t('admin.management.vouchers.new.usage_limit_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.number_field :usage_limit, placeholder: t('admin.management.vouchers.new.usage_limit_placeholder'), class: "w-full border-gray-300 rounded-md shadow-sm" %>
+            <%= f.label :usage_limit, t('admin.management.vouchers.new.usage_limit_label'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+            <%= f.number_field :usage_limit, placeholder: t('admin.management.vouchers.new.usage_limit_placeholder'), class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white placeholder-slate-500 focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
           </div>
           <div>
-            <%= f.label :expires_at, t('admin.management.vouchers.new.expires_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
-            <%= f.datetime_field :expires_at, class: "w-full border-gray-300 rounded-md shadow-sm" %>
+            <%= f.label :expires_at, t('admin.management.vouchers.new.expires_label'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+            <%= f.datetime_field :expires_at, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
           </div>
         </div>
 
-        <div class="flex items-center">
-          <%= f.check_box :active, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
-          <%= f.label :active, t('admin.management.vouchers.new.activate_now'), class: "ml-2 block text-sm text-gray-900" %>
+        <div class="flex items-center gap-3">
+          <%= f.check_box :active, class: "h-4 w-4 accent-primary-fixed-dim" %>
+          <%= f.label :active, t('admin.management.vouchers.new.activate_now'), class: "text-sm text-slate-300 font-body-md" %>
         </div>
 
-        <div class="pt-4 border-t">
-          <%= f.submit "Update Voucher", class: "w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 cursor-pointer" %>
+        <div class="pt-4 border-t border-white/10">
+          <%= f.submit t('missing_i18n.admin.vouchers.update_button'), class: "w-full glow-button font-label-tech py-2 px-4 rounded-xl cursor-pointer" %>
         </div>
       <% end %>
     </div>

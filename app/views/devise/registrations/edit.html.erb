@@ -1,39 +1,65 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="mx-auto mt-10 w-full max-w-2xl border p-6 sm:p-10 rounded-lg shadow-lg shadow-gray-400">
-    <div class="mt-5 text-xl sm:text-[24px] text-[#74787f] font-bold"><%= t('devise.registrations.edit_title', default: 'Change password') %> - <em><%= current_user.fullname %></em></div>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, data: { turbo: false } }) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
-      <div class="field my-5">
-        <p class="mb-2"><%= f.label :email, t('devise.registrations.email_label'), class: "text-xl sm:text-[24px] text-[#74787f]" %></p>
-        <p><%= f.email_field :email, readonly: true, autocomplete: "email", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2 bg-[#9b9fa5]" %></p>
-      </div>
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-          <div><%= t('devise.registrations.pending_reconfirmation', email: resource.unconfirmed_email) %></div>
-      <% end %>
-      <div class="field my-5">
-        <p class="mb-2"><%= f.label :current_password, t('devise.registrations.current_password_label', default: 'Current password'), class: "text-xl sm:text-[24px] text-[#74787f]" %> <br>
-          <i>(<%= t('devise.registrations.current_password_help', default: 'We need your current password to confirm changes') %>)</i></p>
-        <p><%= f.password_field :current_password, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
-      </div>
-      <div class="field my-5">
-        <p class="mb-2"><%= f.label :password, t('devise.passwords.new_password_label'), class: "text-xl sm:text-[24px] text-[#74787f]" %></p>
-        <% if @minimum_password_length %>
-          <p class="mb-2"><em>(<%= t('devise.passwords.minimum_length', count: @minimum_password_length) %>)</em></p>
-        <% end %>
-        <p><%= f.password_field :password, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
-      </div>
-      <div class="field my-5">
-        <p class="mb-2"><%= f.label :password_confirmation, t('devise.passwords.password_confirmation'), class: "text-xl sm:text-[24px] text-[#74787f]" %></p>
-        <p><%= f.password_field :password_confirmation, autocomplete: "new-password", class: "text-[18px] border-1 border-[#dfe2e6] rounded-full px-5 w-full py-2" %></p>
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center">
-        <div class="actions">
-          <%= f.submit t('devise.registrations.confirm_button', default: 'Confirm'), class: "bg-green-400 border-1 border-green-400 w-fit py-2 px-5 rounded-full text-black hover:bg-white hover:text-black hover:border-1 transition cursor-pointer" %>
+  <div class="mx-auto mt-10 w-full max-w-2xl relative group pb-16">
+    <div class="absolute -inset-1 bg-gradient-to-r from-primary-fixed-dim via-primary-fixed-dim/20 to-primary rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+    <div class="relative glass-card rounded-2xl border border-outline-variant/30 p-8 shadow-2xl">
+      
+      <div class="flex items-center gap-3 mb-6 pb-6 border-b border-outline-variant/20">
+        <span class="material-symbols-outlined text-primary text-3xl">key</span>
+        <div>
+          <h2 class="text-xl font-bold text-on-surface font-headline-sm uppercase tracking-wide">
+            <%= t('devise.registrations.edit_title', default: 'Change password') %>
+          </h2>
+          <p class="text-xs text-slate-text/70 mt-1">
+            <%= t('missing_i18n.devise.security_settings_description_html', name: current_user.fullname) %>
+          </p>
         </div>
-        <%= link_to t('devise.links.back', default: 'Back'), :back, class: "bg-gray-500 text-white border-1 border-gray-500 px-4 py-2 rounded-full hover:bg-white hover:text-gray-500 hover:border-1" %>
       </div>
 
-    <% end %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, data: { turbo: false } }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        
+        <div class="space-y-5">
+          <div class="field">
+            <%= f.label :email, t('devise.registrations.email_label'), class: "block mb-2 font-label-tech text-xs uppercase tracking-wider text-slate-text" %>
+            <%= f.email_field :email, readonly: true, autocomplete: "email", class: "w-full bg-surface-container-high/20 border border-outline-variant/30 text-slate-text/70 cursor-not-allowed rounded-xl px-5 py-3 text-sm font-body-md" %>
+          </div>
+
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div class="bg-primary/5 border border-primary/20 text-xs px-4 py-3 rounded-xl text-primary-fixed-dim">
+              <%= t('devise.registrations.pending_reconfirmation', email: resource.unconfirmed_email) %>
+            </div>
+          <% end %>
+
+          <div class="field bg-primary-fixed-dim/5 border border-primary-fixed-dim/10 rounded-2xl p-5 space-y-3">
+            <div>
+              <%= f.label :current_password, t('devise.registrations.current_password_label', default: 'Current password'), class: "block font-label-tech text-xs uppercase tracking-wider text-primary-fixed-dim font-bold" %>
+              <span class="text-[10px] text-slate-text/60 font-body-md block mt-1"><%= t('devise.registrations.current_password_help', default: 'We need your current password to confirm changes') %></span>
+            </div>
+            <%= f.password_field :current_password, autocomplete: "current-password", class: "w-full bg-surface/50 border border-outline-variant/50 hover:border-primary-fixed-dim/50 focus:border-primary text-on-surface rounded-xl px-5 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all font-body-md" %>
+          </div>
+
+          <div class="field">
+            <div class="flex items-center justify-between mb-2">
+              <%= f.label :password, t('devise.passwords.new_password_label'), class: "font-label-tech text-xs uppercase tracking-wider text-slate-text" %>
+              <% if @minimum_password_length %>
+                <span class="text-slate-text/50 text-[10px] uppercase font-label-tech tracking-wider"><%= t('missing_i18n.devise.min_chars', count: @minimum_password_length) %></span>
+              <% end %>
+            </div>
+            <%= f.password_field :password, autocomplete: "new-password", class: "w-full bg-surface-container-high/40 border border-outline-variant/50 hover:border-primary-fixed-dim/50 focus:border-primary text-on-surface rounded-xl px-5 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all font-body-md" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password_confirmation, t('devise.passwords.password_confirmation'), class: "block mb-2 font-label-tech text-xs uppercase tracking-wider text-slate-text" %>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "w-full bg-surface-container-high/40 border border-outline-variant/50 hover:border-primary-fixed-dim/50 focus:border-primary text-on-surface rounded-xl px-5 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 transition-all font-body-md" %>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-end gap-3">
+          <%= link_to t('devise.links.back', default: 'Back'), :back, class: "w-full sm:w-auto text-center px-6 py-3 rounded-xl border border-outline-variant/30 hover:border-primary-fixed-dim/50 text-slate-text hover:text-primary-fixed-dim transition font-bold text-xs uppercase tracking-wider font-label-tech" %>
+          <%= f.submit t('devise.registrations.confirm_button', default: 'Confirm'), class: "w-full sm:w-auto glow-button font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl cursor-pointer shadow-[0_0_15px_rgba(0,229,255,0.15)]" %>
+        </div>
+
+      <% end %>
+    </div>
   </div>
 <% end %>

@@ -1,56 +1,66 @@
 <%= turbo_frame_tag "profile_content" do %>
-<div class="max-w-6xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+<div class="max-w-6xl mx-auto mt-6">
   
-  <div class="mb-6 border-b pb-4">
-    <h1 class="text-3xl font-bold text-gray-800"><%= t('admin.teacher_dashboard.title') %></h1>
-    <p class="text-gray-500 mt-2"><%= t('admin.teacher_dashboard.subtitle') %></p>
+  <div class="mb-8 pb-4 border-b border-outline-variant/20">
+    <h1 class="text-xl font-bold text-on-surface font-headline-sm uppercase tracking-wider flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary">monitoring</span>
+      <span><%= t('admin.teacher_dashboard.title') %></span>
+    </h1>
+    <p class="text-slate-text/70 text-xs font-body-md mt-1"><%= t('admin.teacher_dashboard.subtitle') %></p>
   </div>
 
-  <div class="bg-blue-50 border border-blue-100 rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center justify-between shadow-sm">
-    <div>
-      <h2 class="text-sm font-semibold text-blue-800 uppercase tracking-wider mb-1"><%= t('admin.teacher_dashboard.available_balance') %></h2>
-      <p class="text-4xl font-bold text-blue-600">
-        <%= format_vnd(current_user.balance || 0) %>
-      </p>
-    </div>
-
-    <div class="mt-4 md:mt-0 flex flex-col items-end">
-      <% if current_user.balance.to_i > 0 %>
-        <%= button_to withdrawals_path, 
-              method: :post, 
-              data: { turbo_confirm: t('admin.teacher_dashboard.withdraw_confirm', amount: format_vnd(current_user.balance)) },
-              class: "bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition shadow-md cursor-pointer flex items-center gap-2" do %>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-          <%= t('admin.teacher_dashboard.withdraw_button') %>
-        <% end %>
-      <% else %>
-        <button class="bg-gray-300 text-white px-6 py-3 rounded-lg font-bold cursor-not-allowed flex items-center gap-2" disabled>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-          <%= t('admin.teacher_dashboard.no_balance') %>
-        </button>
-      <% end %>
-
-      <% unless current_user.stripe_account_id.present? %>
-        <p class="mt-2 text-xs text-red-500 font-medium">
-          <%= t('admin.teacher_dashboard.stripe_note') %>
+  <div class="relative group mb-8">
+    <div class="absolute -inset-1 bg-gradient-to-r from-primary-fixed-dim/30 to-primary/20 rounded-2xl blur opacity-15"></div>
+    <div class="relative glass-card border border-outline-variant/30 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between shadow-2xl">
+      <div class="space-y-1">
+        <h2 class="text-[10px] font-bold text-primary-fixed-dim uppercase tracking-widest font-label-tech flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">account_balance_wallet</span>
+          <span><%= t('admin.teacher_dashboard.available_balance') %></span>
+        </h2>
+        <p class="text-3xl font-bold font-headline-md text-on-surface">
+          <%= format_vnd(current_user.balance || 0) %>
         </p>
-      <% end %>
+      </div>
+
+      <div class="mt-4 md:mt-0 flex flex-col items-end">
+        <% if current_user.balance.to_i > 0 %>
+          <%= button_to withdrawals_path, 
+                method: :post, 
+                data: { turbo_confirm: t('admin.teacher_dashboard.withdraw_confirm', amount: format_vnd(current_user.balance)) },
+                class: "glow-button font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-xl cursor-pointer shadow-[0_0_15px_rgba(0,229,255,0.15)] flex items-center gap-2" do %>
+            <span class="material-symbols-outlined text-base">payments</span>
+            <span><%= t('admin.teacher_dashboard.withdraw_button') %></span>
+          <% end %>
+        <% else %>
+          <button class="bg-surface-container border border-outline-variant/30 text-slate-text/40 px-6 py-3 rounded-xl text-xs font-bold font-label-tech uppercase tracking-wider cursor-not-allowed flex items-center gap-2" disabled>
+            <span class="material-symbols-outlined text-base text-slate-text/30">lock</span>
+            <span><%= t('admin.teacher_dashboard.no_balance') %></span>
+          </button>
+        <% end %>
+
+        <% unless current_user.stripe_account_id.present? %>
+          <p class="mt-2.5 text-[10px] text-red-400 font-semibold uppercase tracking-wider font-label-tech flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">info</span>
+            <span><%= t('admin.teacher_dashboard.stripe_note') %></span>
+          </p>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="min-w-[877px] xl:min-w-full bg-white border border-gray-200 rounded-lg">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="py-3 px-6 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.teacher_dashboard.table.course_name') %></th>
-          <th class="py-3 px-6 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.teacher_dashboard.table.price') %></th>
-          <th class="py-3 px-6 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.teacher_dashboard.table.sell_quantity') %></th>
-          <th class="py-3 px-6 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"><%= t('admin.teacher_dashboard.table.total_revenue') %></th>
-          <th class="py-3 px-6 text-right text-xs font-bold text-green-600 uppercase tracking-wider"><%= t('admin.teacher_dashboard.table.actual_receipt') %></th>
+  <div class="overflow-x-auto rounded-xl border border-outline-variant/30 bg-surface-container-low/20">
+    <table class="w-full text-left border-collapse min-w-[700px]">
+      <thead>
+        <tr class="bg-surface-container/40 border-b border-outline-variant/20">
+          <th class="p-4 font-label-tech text-xs uppercase tracking-wider text-slate-text/70 font-bold"><%= t('admin.teacher_dashboard.table.course_name') %></th>
+          <th class="p-4 font-label-tech text-xs uppercase tracking-wider text-slate-text/70 font-bold text-right"><%= t('admin.teacher_dashboard.table.price') %></th>
+          <th class="p-4 font-label-tech text-xs uppercase tracking-wider text-slate-text/70 font-bold text-center"><%= t('admin.teacher_dashboard.table.sell_quantity') %></th>
+          <th class="p-4 font-label-tech text-xs uppercase tracking-wider text-slate-text/70 font-bold text-right"><%= t('admin.teacher_dashboard.table.total_revenue') %></th>
+          <th class="p-4 font-label-tech text-xs uppercase tracking-wider text-primary-fixed-dim font-bold text-right"><%= t('admin.teacher_dashboard.table.actual_receipt') %></th>
         </tr>
       </thead>
       
-      <tbody class="divide-y divide-gray-200">
+      <tbody class="divide-y divide-outline-variant/10 font-body-md text-slate-text text-sm">
         <% total_platform_revenue = 0 %>
         <% total_actual_receipt = 0 %>
 
@@ -62,21 +72,23 @@
           <% total_platform_revenue += revenue %>
           <% total_actual_receipt += actual_receipt %>
 
-          <tr class="hover:bg-gray-50 transition duration-150">
-            <td class="py-4 px-6 text-sm font-medium text-gray-900"><%= course.name %></td>
-            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= format_vnd(course.price) %></td>
-            <td class="py-4 px-6 text-sm text-gray-600 text-center"><span class="bg-blue-100 text-blue-800 py-1 px-3 rounded-full text-xs"><%= quantity %></span></td>
-            <td class="py-4 px-6 text-sm text-gray-600 text-right"><%= format_vnd(revenue) %></td>
-            <td class="py-4 px-6 text-sm font-bold text-green-600 text-right"><%= format_vnd(actual_receipt) %></td>
+          <tr class="hover:bg-surface-container-high/10 transition-colors">
+            <td class="p-4 font-semibold text-on-surface"><%= course.name %></td>
+            <td class="p-4 text-slate-text text-right"><%= format_vnd(course.price) %></td>
+            <td class="p-4 text-center">
+              <span class="inline-block bg-primary-fixed-dim/10 border border-primary-fixed-dim/20 text-primary-fixed-dim font-mono font-bold text-xs py-1 px-3 rounded-full"><%= quantity %></span>
+            </td>
+            <td class="p-4 text-slate-text text-right"><%= format_vnd(revenue) %></td>
+            <td class="p-4 font-bold text-primary-fixed-dim text-right"><%= format_vnd(actual_receipt) %></td>
           </tr>
         <% end %>
       </tbody>
 
-      <tfoot class="bg-gray-100 border-t-2 border-gray-300">
-        <tr>
-          <td colspan="3" class="py-4 px-6 text-right font-bold text-gray-800 text-lg"><%= t('admin.teacher_dashboard.table.grand_total') %></td>
-          <td class="py-4 px-6 text-right font-bold text-gray-800 text-lg"><%= format_vnd(total_platform_revenue) %></td>
-          <td class="py-4 px-6 text-right font-bold text-green-700 text-xl"><%= format_vnd(total_actual_receipt) %></td>
+      <tfoot class="bg-surface-container-low/50 border-t border-outline-variant/30">
+        <tr class="text-right font-semibold font-headline-sm text-sm">
+          <td colspan="3" class="p-4 text-on-surface text-base uppercase tracking-wider font-label-tech font-bold"><%= t('admin.teacher_dashboard.table.grand_total') %></td>
+          <td class="p-4 text-on-surface text-base font-bold"><%= format_vnd(total_platform_revenue) %></td>
+          <td class="p-4 text-primary-fixed-dim text-lg font-bold"><%= format_vnd(total_actual_receipt) %></td>
         </tr>
       </tfoot>
     </table>

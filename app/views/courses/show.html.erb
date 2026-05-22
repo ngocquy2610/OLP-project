@@ -1,94 +1,140 @@
 <%= turbo_frame_tag "profile_content" do %>
-  <div class="max-w-4xl mx-auto px-4 py-8 mb-20">
+  <div class="max-w-4xl mx-auto px-6 py-10 mb-24">
     
-    <div class="flex items-center justify-between gap-4 mb-6">
-      <%= link_to t('courses.show.back'), courses_path, class: "bg-gray-500 text-white border-1 border-gray-500 px-4 py-2 rounded hover:bg-white hover:text-gray-500 hover:border-1" %>
+    <div class="flex items-center justify-between gap-4 mb-8">
+      <%= link_to courses_path, class: "font-label-tech text-xs tracking-wider uppercase border border-outline-variant hover:border-primary-fixed-dim px-4 py-2 rounded-lg text-on-surface hover:text-primary-fixed-dim transition flex items-center gap-2" do %>
+        <span class="material-symbols-outlined text-[14px]">arrow_back</span>
+        <span><%= t('courses.show.back') %></span>
+      <% end %>
+      
       <%= optimized_course_image_tag(
         @course,
         alt: @course.name,
-        class_name: "w-32 h-32 object-cover rounded-lg",
-        width: 128,
-        height: 128,
-        sizes: "128px"
+        class_name: "w-24 h-24 object-cover rounded-xl border border-primary-fixed-dim/20 shadow-lg",
+        width: 96,
+        height: 96,
+        sizes: "96px"
       ) if @course.course_image.attached? %>
     </div>
-    <h1 class="text-2xl text-center font-bold text-gray-800 mb-3"><%= @course.name %></h1>
-    <div class="flex items-center gap-2">
-      <div class="relative inline-block text-gray-300 text-xl tracking-widest">
-        <span>★★★★★</span>
 
-        <div class="absolute top-0 left-0 text-yellow-400 overflow-hidden whitespace-nowrap" 
-            style="width: <%= ((@course.rate.to_f || 0) / 5.0) * 100 %>%;">
-          ★★★★★
+    <div class="text-center mb-8">
+      <h1 class="font-headline-md text-3xl font-bold text-on-surface mb-4 leading-tight"><%= @course.name %></h1>
+      
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-slate-text mt-2 font-body-md bg-surface-container/30 border border-outline-variant/30 rounded-xl p-4">
+        <div class="flex items-center gap-2">
+          <span><%= t('courses.show.created_by') %></span>
+          <span class="text-primary-fixed-dim font-bold"><%= @teacher_name || t('courses.show.unknown') %></span>
         </div>
-      </div>
-    </div>
-    <p><%= t('courses.show.created_by') %> <span class="text-blue-500"><%= @teacher_name || t('courses.show.unknown') %></span></p>
-    <div class="flex items-center gap-2">
-    <%= t('courses.show.teacher_ranking_label') %>
-      <div class="relative inline-block text-gray-300 text-xl tracking-widest">
-        <span>★★★★★</span>
-
-        <div class="absolute top-0 left-0 text-yellow-400 overflow-hidden whitespace-nowrap" 
-            style="width: <%= ((@teacher_rating.to_f || 0) / 5.0) * 100 %>%;">
-          ★★★★★
-        </div>
-      </div>
-    </div>
-    <% @topics.each do |topic|%>
-      <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <h2 class="text-xl font-bold mb-4"><%= topic.name %></h2>
-        <p class="text-gray-700 mb-4"><%= topic.description %></p>
-        <% topic.lessons.each do |lesson| %>
-          <div class="bg-gray-100 rounded-lg shadow-sm p-4 mb-4">
-            <h3 class="text-lg font-bold mb-2"><%= lesson.name %></h3>
-            <p class="text-gray-600 mb-2"><%= lesson.description %></p>
+        
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        
+        <div class="flex items-center gap-2">
+          <span><%= t('courses.show.teacher_ranking_label') %></span>
+          <div class="relative inline-block text-outline-variant text-[15px] tracking-wider">
+            <span>★★★★★</span>
+            <div class="absolute top-0 left-0 text-yellow-400 overflow-hidden whitespace-nowrap" 
+                style="width: <%= ((@teacher_rating.to_f || 0) / 5.0) * 100 %>%;">
+              ★★★★★
+            </div>
           </div>
-        <% end %>
+        </div>
+        
+        <span class="hidden sm:inline text-outline-variant">|</span>
+        
+        <div class="flex items-center gap-2">
+          <span><%= t('missing_i18n.courses.show.course_rating') %></span>
+          <div class="relative inline-block text-outline-variant text-[15px] tracking-wider">
+            <span>★★★★★</span>
+            <div class="absolute top-0 left-0 text-yellow-400 overflow-hidden whitespace-nowrap" 
+                style="width: <%= ((@course.rate.to_f || 0) / 5.0) * 100 %>%;">
+              ★★★★★
+            </div>
+          </div>
+        </div>
       </div>
-    <% end %>
+    </div>
 
-    <div class="mb-12">
-      <% if current_user&.owned_courses&.exists?(@course.id) %>
-          <%= link_to t('courses.show.learn_now'),
-                      learn_course_path(@course),
-                      class: "bg-green-600 text-white px-4 py-2 rounded-xl inline-block" %>
-      <% elsif current_user && @course.user_id == current_user.id %>
-          <% else %>
-        <%= button_to t('courses.show.add_to_cart'), cart_items_path(course_id: @course.id), method: :post, class: "w-fit bg-blue-500 text-white text-center py-2 px-4 rounded-full border-2 hover:bg-white hover:text-blue-500 hover:border-2 border-blue-500 transition cursor-pointer" %>
+    <!-- Syllabus Modules -->
+    <div class="space-y-6 mb-10">
+      <% @topics.each do |topic| %>
+        <div class="glass-card-no-hover p-6 rounded-2xl border border-outline-variant/30">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-10 h-10 bg-primary-fixed-dim/10 border border-primary-fixed-dim/20 rounded flex items-center justify-center text-primary-fixed-dim">
+              <span class="material-symbols-outlined text-[20px]">layers</span>
+            </div>
+            <div>
+              <h2 class="font-headline-sm text-lg font-bold text-on-surface"><%= topic.name %></h2>
+              <p class="font-body-md text-xs text-slate-text mt-1"><%= topic.description %></p>
+            </div>
+          </div>
+          
+          <div class="space-y-3 pl-14">
+            <% topic.lessons.each do |lesson| %>
+              <div class="bg-surface-container-high/40 border border-outline-variant/20 rounded-xl p-4 flex items-center justify-between shadow-sm">
+                <div>
+                  <h3 class="font-body-md text-sm font-semibold text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[16px] text-primary-fixed-dim">code</span>
+                    <span><%= lesson.name %></span>
+                  </h3>
+                  <p class="font-body-md text-xs text-slate-text mt-1"><%= lesson.description %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
       <% end %>
     </div>
 
-    <hr class="my-8 border-gray-200">
-    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6"><%= t('courses.show.reviews_title') %></h2>
+    <div class="flex items-center justify-center py-6">
+      <% if current_user&.owned_courses&.exists?(@course.id) %>
+          <%= link_to learn_course_path(@course), class: "glow-button px-8 py-3.5 rounded-xl font-label-tech text-xs tracking-wider uppercase font-bold flex items-center gap-2" do %>
+            <span><%= t('courses.show.learn_now') %></span>
+            <span class="material-symbols-outlined text-[16px]">terminal</span>
+          <% end %>
+      <% elsif current_user && @course.user_id == current_user.id %>
+          <% else %>
+        <%= button_to cart_items_path(course_id: @course.id), method: :post, class: "glow-button px-8 py-3.5 rounded-xl font-label-tech text-xs tracking-wider uppercase font-bold flex items-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(0,229,255,0.2)]" do %>
+          <span><%= t('courses.show.add_to_cart') %></span>
+          <span class="material-symbols-outlined text-[16px]">add_shopping_cart</span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <hr class="my-10 border-outline-variant/20">
+
+    <!-- Review Section -->
+    <div class="glass-card-no-hover p-6 rounded-2xl border border-outline-variant/30">
+      <h2 class="font-headline-sm text-xl font-bold text-on-surface mb-6 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary-fixed-dim">rate_review</span>
+        <span><%= t('courses.show.reviews_title') %></span>
+      </h2>
 
       <% if current_user&.owned_courses&.exists?(@course.id) %>
         <% user_feedback = @course.feedback_courses.find_by(user_id: current_user.id) %>
         
-          <% if user_feedback %>
-          <div class="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-100 flex items-center justify-between">
+        <% if user_feedback %>
+          <div class="mb-8 p-4 bg-primary-fixed-dim/5 rounded-xl border border-primary-fixed-dim/20 flex items-center justify-between">
             <div>
-              <p class="text-sm font-semibold text-blue-800"><%= t('courses.show.you_reviewed') %></p>
-              <p class="text-sm text-blue-600"><%= t('courses.show.thanks_for_feedback') %></p>
+              <p class="text-sm font-semibold text-primary-fixed-dim"><%= t('courses.show.you_reviewed') %></p>
+              <p class="text-xs text-slate-text mt-1"><%= t('courses.show.thanks_for_feedback') %></p>
             </div>
-            <%= link_to t('courses.show.edit_review'), edit_course_feedback_course_path(@course, user_feedback), class: "bg-white text-blue-600 px-4 py-2 rounded shadow-sm border border-blue-200 hover:bg-blue-50 font-medium text-sm transition" %>
+            <%= link_to t('courses.show.edit_review'), edit_course_feedback_course_path(@course, user_feedback), class: "bg-surface border border-outline-variant hover:border-primary-fixed-dim hover:text-primary-fixed-dim text-on-surface px-4 py-2 rounded-lg font-medium text-xs transition" %>
           </div>
         <% else %>
-          <div class="mb-10 bg-gray-50 p-5 rounded-lg border border-gray-200">
-            <h3 class="text-lg font-semibold mb-4 text-gray-800"><%= t('courses.show.submit_review_title') %></h3>
+          <div class="mb-10 bg-surface-container/50 p-6 rounded-xl border border-outline-variant/20">
+            <h3 class="font-headline-sm text-base font-semibold mb-4 text-on-surface"><%= t('courses.show.submit_review_title') %></h3>
             <%= form_with(model: [@course, FeedbackCourse.new], local: true, class: "space-y-4") do |f| %>
               <div>
-                <%= f.label :rate, t('feedback.form.rate_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= f.number_field :rate, in: 1..5, value: 5, class: "block w-24 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" %>
+                <%= f.label :rate, t('feedback.form.rate_label'), class: "block text-xs font-label-tech text-slate-text uppercase mb-1" %>
+                <%= f.number_field :rate, in: 1..5, value: 5, class: "block w-24 p-2 bg-surface text-on-surface border border-outline-variant rounded-lg focus:border-primary-fixed-dim outline-none text-sm font-label-tech" %>
               </div>
 
               <div>
-                <%= f.label :feedback, t('feedback.form.feedback_label'), class: "block text-sm font-medium text-gray-700 mb-1" %>
-                <%= f.text_area :feedback, rows: 3, placeholder: t('feedback.form.feedback_placeholder'), class: "block w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" %>
+                <%= f.label :feedback, t('feedback.form.feedback_label'), class: "block text-xs font-label-tech text-slate-text uppercase mb-1" %>
+                <%= f.text_area :feedback, rows: 3, placeholder: t('feedback.form.feedback_placeholder'), class: "block w-full p-3 bg-surface text-on-surface border border-outline-variant rounded-lg focus:border-primary-fixed-dim outline-none text-sm placeholder:text-slate-text/50" %>
               </div>
 
-              <%= f.submit t('feedback.form.submit'), class: "bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 cursor-pointer font-medium transition" %>
+              <%= f.submit t('feedback.form.submit'), class: "glow-button px-5 py-2 rounded-lg cursor-pointer font-label-tech text-xs uppercase font-bold" %>
             <% end %>
           </div>
         <% end %>
@@ -98,31 +144,34 @@
       <% if feedbacks.any? %>
         <div class="space-y-6">
           <% feedbacks.each do |fb| %>
-            <div class="pb-6 border-b border-gray-100 last:border-0 last:pb-0">
+            <div class="pb-6 border-b border-outline-variant/20 last:border-0 last:pb-0">
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold">
+                  <div class="w-10 h-10 bg-primary-fixed-dim/10 text-primary-fixed-dim border border-primary-fixed-dim/20 rounded-full flex items-center justify-center font-bold font-label-tech">
                     <%= fb.user&.fullname&.first || "U" %>
                   </div>
                   <div>
-                    <h4 class="font-semibold text-gray-800"><%= fb.user&.fullname || "Học viên ẩn danh" %></h4>
-                    <p class="text-xs text-gray-500"><%= time_ago_in_words(fb.created_at) %> trước</p>
+                    <h4 class="font-body-md text-sm font-semibold text-on-surface"><%= fb.user&.fullname || t('missing_i18n.courses.show.anonymous_student') %></h4>
+                    <p class="text-[11px] text-slate-text mt-0.5"><%= t('missing_i18n.common.time_ago', time: time_ago_in_words(fb.created_at)) %></p>
                   </div>
                 </div>
-                <div class="text-yellow-400 text-lg tracking-widest">
+                <div class="text-yellow-400 text-base tracking-widest">
                   <% fb.rate.times do %>★<% end %><% (5 - fb.rate).times do %>☆<% end %>
                 </div>
               </div>
-              <p class="text-gray-700 mt-3 leading-relaxed bg-gray-50 p-4 rounded-lg inline-block w-full">
+              <p class="text-on-surface text-sm mt-3 leading-relaxed bg-surface-container/60 border border-outline-variant/10 p-4 rounded-xl inline-block w-full">
                 <%= fb.feedback %>
               </p>
-              <%= render partial: "likes/button", locals: { feedback: fb } %>
+              <div class="mt-2 text-xs flex justify-end">
+                <%= render partial: "likes/button", locals: { feedback: fb } %>
+              </div>
             </div>
           <% end %>
         </div>
       <% else %>
-        <div class="text-center py-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-          <p class="text-gray-500"><%= t('courses.show.no_reviews_yet') %></p>
+        <div class="text-center py-10 bg-surface-container/30 rounded-xl border border-dashed border-outline-variant/30 flex flex-col items-center justify-center">
+          <span class="material-symbols-outlined text-outline-variant mb-2">rate_review</span>
+          <p class="text-slate-text text-xs italic"><%= t('courses.show.no_reviews_yet') %></p>
         </div>
       <% end %>
       

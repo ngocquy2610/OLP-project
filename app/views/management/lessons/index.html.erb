@@ -1,37 +1,43 @@
 <%= turbo_frame_tag "profile_content" do %>
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-    <h1 class="text-2xl font-bold text-gray-800"><%= t('admin.management.lessons.index.title') %></h1>
-    <%= link_to t('admin.management.lessons.index.new'), new_management_lesson_path, 
-        class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center shadow-sm" %>
+      <h1 class="text-2xl font-bold text-white font-headline-sm"><%= t('admin.management.lessons.index.title') %></h1>
+      <%= link_to t('admin.management.lessons.index.new'), new_management_lesson_path, 
+          class: "glow-button font-label-tech text-sm px-4 py-2 rounded-xl flex items-center gap-1" %>
   </div>
-  <div class="overflow-x-auto bg-white rounded-xl border border-gray-200">
-    <table class="min-w-[877px] xl:min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.lessons.index.table.name') %></th>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.lessons.index.table.topic') %></th>
-          <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.lessons.index.table.course') %></th>
-          <th class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase"><%= t('admin.management.lessons.index.table.actions') %></th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200">
+    <div class="glass-card-no-hover rounded-xl overflow-x-auto">
+      <table class="min-w-[877px] xl:min-w-full">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="px-6 py-3 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.lessons.index.table.name') %></th>
+            <th class="px-6 py-3 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.lessons.index.table.topic') %></th>
+            <th class="px-6 py-3 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.lessons.index.table.course') %></th>
+            <th class="px-6 py-3 text-right text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.management.lessons.index.table.actions') %></th>
+          </tr>
+        </thead>
+        <tbody>
         <% @lessons.each do |lesson| %>
-          <tr class="hover:bg-gray-50 transition">
+          <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
             <td class="px-6 py-4">
               <div class="font-medium text-gray-900"><%= lesson.name %></div>
+                          <div class="font-medium text-white"><%= lesson.name %></div>
             </td>
             <td class="px-6 py-4">
               <p><%= lesson.topic.name %></p>
             </td>
             <td class="px-6 py-4">
               <p><%= lesson.topic.course.name %></p>
+              <td class="px-6 py-4 text-slate-300">
+                <p><%= lesson.topic.name %></p>
+              </td>
+              <td class="px-6 py-4 text-slate-300">
+                <p><%= lesson.topic.course.name %></p>
             </td>
             <td class="px-6 py-4 text-right text-sm font-medium">
               <div class="flex flex-col items-end gap-2 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
-                <%= link_to t('admin.management.actions.edit'), edit_management_lesson_path(lesson), class: "text-indigo-600 hover:text-indigo-900",data: { turbo_frame: "profile_content" } %>
+                <%= link_to t('admin.management.actions.edit'), edit_management_lesson_path(lesson), class: "px-3 py-1 rounded-full border border-sky-500/30 text-sky-400 hover:bg-sky-500/20 text-xs font-label-tech transition",data: { turbo_frame: "profile_content" } %>
                 <%= button_to t('admin.management.actions.delete'), management_lesson_path(lesson), method: :delete,
                   form: { data: { turbo_confirm: t('admin.management.delete_confirm') } },
-                  class: "inline text-red-600 hover:text-red-900" %>
+                  class: "inline px-3 py-1 rounded-full border border-red-500/30 text-red-400 hover:bg-red-500/20 text-xs font-label-tech transition cursor-pointer" %>
               </div>
             </td>
           </tr>

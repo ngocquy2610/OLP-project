@@ -2,40 +2,40 @@
 <div class="max-w-7xl mx-auto mt-8 px-4 mb-20">
   
   <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-900"><%= t('admin.courses.verify.title') %></h1>
-    <p class="mt-2 text-sm text-gray-600"><%= t('admin.courses.verify.subtitle') %></p>
+    <h1 class="text-3xl font-bold text-white font-headline-lg"><%= t('admin.courses.verify.title') %></h1>
+    <p class="mt-2 text-sm text-slate-400 font-body-md"><%= t('admin.courses.verify.subtitle') %></p>
   </div>
 
-  <div class="bg-white rounded-lg shadow overflow-x-auto">
-    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-      <h2 class="text-lg font-bold text-gray-900"><%= t('admin.courses.verify.pending_approval') %> (<%= @pending_courses.count %>)</h2>
+  <div class="glass-card-no-hover rounded-xl overflow-x-auto">
+    <div class="px-6 py-4 border-b border-white/10 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+      <h2 class="text-lg font-bold text-white font-headline-sm"><%= t('admin.courses.verify.pending_approval') %> (<%= @pending_courses.count %>)</h2>
     </div>
 
-    <table class="min-w-[877px] xl:min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
-        <tr>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"><%= t('admin.courses.verify.course_name') %></th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"><%= t('admin.courses.verify.teacher') %></th>
-          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase"><%= t('admin.courses.verify.price') %></th>
-          <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase"><%= t('admin.courses.verify.actions') %></th>
+    <table class="min-w-[877px] xl:min-w-full">
+      <thead>
+        <tr class="border-b border-white/5">
+          <th class="px-6 py-3 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.courses.verify.course_name') %></th>
+          <th class="px-6 py-3 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.courses.verify.teacher') %></th>
+          <th class="px-6 py-3 text-left text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.courses.verify.price') %></th>
+          <th class="px-6 py-3 text-center text-xs font-label-tech text-slate-400 uppercase tracking-widest"><%= t('admin.courses.verify.actions') %></th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
+      <tbody>
         <% if @pending_courses.empty? %>
           <tr>
-            <td colspan="4" class="px-6 py-8 text-center text-gray-500"><%= t('admin.courses.verify.no_pending') %></td>
+            <td colspan="4" class="px-6 py-10 text-center text-slate-400 font-body-md"><%= t('admin.courses.verify.no_pending') %></td>
           </tr>
         <% else %>
           <% @pending_courses.each do |course| %>
-            <tr>
-              <td class="px-6 py-4 font-medium text-gray-900"><%= course.name %></td>
-              <td class="px-6 py-4 text-gray-500"><%= course.user&.fullname.presence || t('messages.common.not_available') %></td>
-              <td class="px-6 py-4 text-gray-500"><%= format_vnd(course.price) %></td>
-              <td class="px-6 py-4 text-right">
-                <div class="flex flex-wrap gap-2 justify-center sm:justify-end">
-                <%= button_to t('admin.courses.verify.approve'), published_admin_course_path(course), method: :patch, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600 text-sm font-medium" %>
-                <%= button_to t('admin.courses.verify.details'), admin_course_path(course), method: :get, class: "bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm font-medium" %>
-                <%= button_to t('admin.courses.verify.reject'), rejected_admin_course_path(course), method: :patch, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm font-medium" %>
+            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+              <td class="px-6 py-4 font-medium text-white"><%= course.name %></td>
+              <td class="px-6 py-4 text-slate-300"><%= course.user&.fullname.presence || t('messages.common.not_available') %></td>
+              <td class="px-6 py-4 text-primary-fixed-dim font-bold"><%= format_vnd(course.price) %></td>
+              <td class="px-6 py-4">
+                <div class="flex flex-wrap gap-2 justify-center">
+                  <%= button_to t('admin.courses.verify.approve'), published_admin_course_path(course), method: :patch, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full hover:bg-emerald-500/30 text-xs font-label-tech cursor-pointer" %>
+                  <%= button_to t('admin.courses.verify.details'), admin_course_path(course), method: :get, class: "bg-sky-500/20 text-sky-400 border border-sky-500/30 px-3 py-1 rounded-full hover:bg-sky-500/30 text-xs font-label-tech cursor-pointer" %>
+                  <%= button_to t('admin.courses.verify.reject'), rejected_admin_course_path(course), method: :patch, onclick: "return confirm('#{j t('admin.management.actions.confirm')}')", class: "bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1 rounded-full hover:bg-red-500/30 text-xs font-label-tech cursor-pointer" %>
                 </div>
               </td>
             </tr>
