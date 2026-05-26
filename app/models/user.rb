@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :practice_attempts, dependent: :destroy
   has_many :feedback_courses, dependent: :destroy
   has_many :likes, dependent: :destroy
+  has_one :chat_history, dependent: :destroy
 
   validates :phone,
             presence: true,

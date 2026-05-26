@@ -640,8 +640,8 @@ vi:
       instructor: "GIẢNG VIÊN"
       course_module_pending: "ĐANG CHỜ NẠP MÔ-ĐUN KHÓA HỌC"
       testimonial_subtitle: "Phản hồi đã được xác thực từ cộng đồng học viên."
-      testimonial_1_title: "Kỹ sư phần mềm @ PROTO_CORP"
-      testimonial_2_title: "Kiến trúc sư hệ thống @ NEXUS_LABS"
+      testimonial_1_title: "Kỹ sư phần mềm"
+      testimonial_2_title: "Kiến trúc sư hệ thống"
     cart:
       title: "Giỏ hàng của bạn"
       remove: "Xóa"
@@ -967,6 +967,36 @@ vi:
       cta_title: "Tham Gia Cộng Đồng Học Tập Ngay Hôm Nay"
       cta_subtitle: "Hàng nghìn học viên đã bắt đầu hành trình phát triển kỹ năng của họ."
       cta_action: "Khám phá khóa học"
+  chatbot:
+    page:
+      label: "Chatbot"
+      title: "Chat hiện đã có trên mọi trang"
+      description: "Dùng nút chatbot hình tròn ở góc dưới bên phải để mở hoặc ẩn khung chat ở bất kỳ trang nào trên website."
+    widget:
+      brand: "Trợ lý OLP"
+      subtitle: "Trò chuyện ở mọi trang trong website"
+      toggle_aria: "Bật/tắt chatbot"
+      close_aria: "Đóng chatbot"
+      message_label: "Tin nhắn"
+      placeholder: "Hỏi về khóa học, giá, thẻ..."
+      labels:
+        assistant: "Trợ lý"
+        you: "Bạn"
+      actions:
+        send: "Gửi"
+        sending: "Đang gửi..."
+      empty:
+        start: "Bắt đầu cuộc trò chuyện."
+        sign_in: "Đăng nhập để trò chuyện với trợ lý."
+      status:
+        ready: "Sẵn sàng. Hãy hỏi bất kỳ điều gì về khóa học."
+        sign_in_start: "Đăng nhập để bắt đầu trò chuyện."
+        sign_in_required: "Đăng nhập để dùng chatbot."
+        type_before_sending: "Hãy nhập tin nhắn trước khi gửi."
+        sending: "Đang gửi tin nhắn..."
+        connected: "Đã kết nối."
+        no_response: "Không có phản hồi trả về."
+        error_prefix: "Lỗi: "
   feedback:
     form:
       rate_label: "Số sao (1-5)"

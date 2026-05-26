@@ -1,0 +1,314 @@
+<% chat_history = user_signed_in? ? ChatbotService.load_chat_history(current_user) : [] %>
+
+<style>
+  .chatbot-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(34, 211, 238, 0.55) rgba(15, 23, 42, 0.45);
+  }
+
+  .chatbot-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .chatbot-scrollbar::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.52));
+    border-radius: 9999px;
+    border: 1px solid rgba(34, 211, 238, 0.14);
+  }
+
+  .chatbot-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.88), rgba(8, 145, 178, 0.88));
+    border-radius: 9999px;
+    border: 2px solid rgba(15, 23, 42, 0.9);
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
+  }
+
+  .chatbot-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(103, 232, 249, 0.95), rgba(6, 182, 212, 0.95));
+  }
+</style>
+
+<div
+  data-chatbot-widget-root="true"
+  data-chatbot-endpoint-value="<%= api_v1_chatbot_index_path %>"
+  data-chatbot-signed-in-value="<%= user_signed_in? %>"
+  class="fixed bottom-6 right-6 z-[90]"
+>
+  <button
+    type="button"
+    id="chatbot-toggle"
+    aria-label="<%= t('chatbot.widget.toggle_aria') %>"
+    aria-expanded="false"
+    class="glow-button flex h-14 w-14 items-center justify-center rounded-full shadow-[0_12px_30px_rgba(0,218,243,0.35)]"
+  >
+    <span class="material-symbols-outlined text-[26px]">chat</span>
+  </button>
+
+  <div
+    id="chatbot-panel"
+    class="glass-card-no-hover mt-3 hidden w-[calc(100vw-2.5rem)] max-w-[380px] overflow-hidden rounded-3xl border border-cyan-400/20 shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+  >
+    <div class="border-b border-cyan-400/10 bg-slate-950/70 px-4 py-3">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <div class="font-label-tech text-[10px] uppercase tracking-[0.22em] text-cyan-300"><%= t('chatbot.widget.brand') %></div>
+          <div class="mt-1 text-sm font-semibold text-white"><%= t('chatbot.widget.subtitle') %></div>
+        </div>
+        <button type="button" id="chatbot-close" class="text-slate-400 transition hover:text-cyan-300" aria-label="<%= t('chatbot.widget.close_aria') %>">
+          <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="px-4 py-3">
+      <div id="chatbot-widget-status" class="rounded-2xl border border-cyan-400/20 bg-cyan-500/10 px-3 py-2 text-xs text-cyan-100">
+        <%= user_signed_in? ? t('chatbot.widget.status.ready') : t('chatbot.widget.status.sign_in_start') %>
+      </div>
+    </div>
+
+    <div id="chatbot-widget-messages" class="chatbot-scrollbar max-h-[320px] min-h-[180px] space-y-3 overflow-y-auto bg-[linear-gradient(180deg,rgba(15,19,28,0.65),rgba(10,14,23,0.92))] px-4 py-3">
+      <% if chat_history.empty? %>
+        <div data-empty-state="true" class="rounded-2xl border border-dashed border-slate-700 bg-slate-950/40 px-4 py-6 text-center text-xs text-slate-400">
+          <%= user_signed_in? ? t('chatbot.widget.empty.start') : t('chatbot.widget.empty.sign_in') %>
+        </div>
+      <% else %>
+        <% chat_history.each do |entry| %>
+          <% assistant = entry["role"] == "assistant" %>
+          <div class="flex <%= assistant ? "justify-start" : "justify-end" %>">
+            <div class="max-w-[88%] rounded-2xl <%= assistant ? "rounded-bl-md border border-cyan-400/20 bg-slate-950/80 text-slate-100" : "rounded-br-md border border-cyan-300/20 bg-cyan-400/15 text-cyan-50" %> px-3 py-2 text-xs leading-5">
+              <div class="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] <%= assistant ? "text-cyan-300" : "text-slate-300" %>">
+                <%= assistant ? t('chatbot.widget.labels.assistant') : t('chatbot.widget.labels.you') %>
+              </div>
+              <div class="break-words prose prose-invert prose-sm max-w-none">
+                <%= assistant ? chatbot_markdown_to_html(entry["text"]) : simple_format(h(entry["text"])) %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <form id="chatbot-widget-form" class="border-t border-cyan-400/10 bg-slate-950/60 px-4 py-3">
+      <label for="chatbot-widget-input" class="mb-2 block font-label-tech text-[10px] uppercase tracking-[0.18em] text-slate-400"><%= t('chatbot.widget.message_label') %></label>
+      <textarea
+        id="chatbot-widget-input"
+        rows="3"
+        placeholder="<%= t('chatbot.widget.placeholder') %>"
+        class="chatbot-scrollbar w-full rounded-2xl border border-cyan-400/15 bg-slate-950/70 px-3 py-2 text-xs text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/40 focus:ring-2 focus:ring-cyan-400/10"
+        <%= user_signed_in? ? "" : "disabled" %>
+      ></textarea>
+      <div class="mt-3 flex justify-end">
+        <button
+          type="submit"
+          id="chatbot-widget-send"
+          class="glow-button rounded-xl px-4 py-2 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+          <%= user_signed_in? ? "" : "disabled" %>
+        >
+          <%= t('chatbot.widget.actions.send') %>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  (function () {
+    function setupChatbotWidget() {
+      var root = document.querySelector("[data-chatbot-widget-root='true']");
+      if (!root || root.dataset.bound === "true") return;
+      root.dataset.bound = "true";
+
+      var endpoint = root.dataset.chatbotEndpointValue;
+      var signedIn = root.dataset.chatbotSignedInValue === "true";
+      var toggle = document.getElementById("chatbot-toggle");
+      var closeBtn = document.getElementById("chatbot-close");
+      var panel = document.getElementById("chatbot-panel");
+      var status = document.getElementById("chatbot-widget-status");
+      var messages = document.getElementById("chatbot-widget-messages");
+      var form = document.getElementById("chatbot-widget-form");
+      var input = document.getElementById("chatbot-widget-input");
+      var sendButton = document.getElementById("chatbot-widget-send");
+      var csrf = document.querySelector("meta[name='csrf-token']")?.content;
+
+      if (!toggle || !panel || !status || !messages || !form || !input || !sendButton) return;
+
+      function escapeHtml(text) {
+        return String(text)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function parseSimpleMarkdown(text) {
+        var lines = String(text).split(/\r?\n/);
+        var htmlParts = [];
+        var inList = false;
+
+        function closeListIfNeeded() {
+          if (inList) {
+            htmlParts.push("</ul>");
+            inList = false;
+          }
+        }
+
+        function inlineMarkdown(inputText) {
+          return escapeHtml(inputText).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        }
+
+        for (var i = 0; i < lines.length; i += 1) {
+          var line = lines[i];
+          var bullet = line.match(/^\s*\*\s+(.+)$/);
+
+          if (bullet) {
+            if (!inList) {
+              htmlParts.push('<ul class="list-disc pl-5 space-y-1">');
+              inList = true;
+            }
+            htmlParts.push("<li>" + inlineMarkdown(bullet[1]) + "</li>");
+            continue;
+          }
+
+          closeListIfNeeded();
+
+          if (!line.trim()) {
+            htmlParts.push("<br>");
+            continue;
+          }
+
+          htmlParts.push("<p>" + inlineMarkdown(line) + "</p>");
+        }
+
+        closeListIfNeeded();
+        return htmlParts.join("");
+      }
+
+      function setOpen(open) {
+        panel.classList.toggle("hidden", !open);
+        toggle.classList.toggle("hidden", open);
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open) {
+          messages.scrollTop = messages.scrollHeight;
+          if (signedIn) input.focus();
+        }
+      }
+
+      function setStatus(text, isError) {
+        status.textContent = text;
+        status.className = isError
+          ? "rounded-2xl border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs text-red-100"
+          : "rounded-2xl border border-cyan-400/20 bg-cyan-500/10 px-3 py-2 text-xs text-cyan-100";
+      }
+
+      function appendMessage(role, text, isError) {
+        var emptyState = messages.querySelector("[data-empty-state='true']");
+        if (emptyState) emptyState.remove();
+
+        var wrapper = document.createElement("div");
+        wrapper.className = role === "assistant" ? "flex justify-start" : "flex justify-end";
+
+        var bubble = document.createElement("div");
+        if (isError) {
+          bubble.className = "max-w-[88%] rounded-2xl rounded-bl-md border border-red-400/30 bg-red-500/10 px-3 py-2 text-xs leading-5 text-red-100";
+        } else if (role === "assistant") {
+          bubble.className = "max-w-[88%] rounded-2xl rounded-bl-md border border-cyan-400/20 bg-slate-950/80 px-3 py-2 text-xs leading-5 text-slate-100";
+        } else {
+          bubble.className = "max-w-[88%] rounded-2xl rounded-br-md border border-cyan-300/20 bg-cyan-400/15 px-3 py-2 text-xs leading-5 text-cyan-50";
+        }
+
+        var label = role === "assistant" ? "<%= j t('chatbot.widget.labels.assistant') %>" : "<%= j t('chatbot.widget.labels.you') %>";
+        var labelColor = role === "assistant" ? "text-cyan-300" : "text-slate-300";
+        var renderedText = role === "assistant" && !isError ? parseSimpleMarkdown(text) : escapeHtml(text);
+
+        bubble.innerHTML =
+          '<div class="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] ' + labelColor + '">' + label + "</div>" +
+          '<div class="break-words prose prose-invert prose-sm max-w-none">' + renderedText + "</div>";
+
+        wrapper.appendChild(bubble);
+        messages.appendChild(wrapper);
+        messages.scrollTop = messages.scrollHeight;
+
+        // After assistant replies, focus the input so the user can continue typing.
+        try {
+          if (role === "assistant" && signedIn && !input.disabled) {
+            input.focus();
+          }
+        } catch (e) {
+          // ignore focus errors in browsers that might restrict focus calls
+        }
+      }
+
+      toggle.addEventListener("click", function () {
+        setOpen(panel.classList.contains("hidden"));
+      });
+
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+          setOpen(false);
+        });
+      }
+
+      input.addEventListener("keydown", function (event) {
+        // Enter sends message, Shift+Enter inserts a new line.
+        if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+
+        event.preventDefault();
+        form.requestSubmit();
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        if (!signedIn) {
+          setStatus("<%= j t('chatbot.widget.status.sign_in_required') %>", true);
+          return;
+        }
+
+        var message = input.value.trim();
+        if (!message) {
+          setStatus("<%= j t('chatbot.widget.status.type_before_sending') %>", true);
+          return;
+        }
+
+        appendMessage("user", message, false);
+        input.value = "";
+        input.disabled = true;
+        sendButton.disabled = true;
+        sendButton.textContent = "<%= j t('chatbot.widget.actions.sending') %>";
+        setStatus("<%= j t('chatbot.widget.status.sending') %>", false);
+
+        try {
+          var response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "X-CSRF-Token": csrf
+            },
+            body: JSON.stringify({ message: message })
+          });
+
+          var payload = await response.json();
+          if (!response.ok) {
+            throw new Error(payload.error || ("Request failed with status " + response.status));
+          }
+
+          appendMessage("assistant", payload.response || "<%= j t('chatbot.widget.status.no_response') %>", false);
+          setStatus("<%= j t('chatbot.widget.status.connected') %>", false);
+        } catch (error) {
+          appendMessage("assistant", "<%= j t('chatbot.widget.status.error_prefix') %>" + error.message, true);
+          setStatus(error.message, true);
+        } finally {
+          input.disabled = false;
+          sendButton.disabled = false;
+          sendButton.textContent = "<%= j t('chatbot.widget.actions.send') %>";
+        }
+      });
+    }
+
+    document.addEventListener("turbo:load", setupChatbotWidget);
+    document.addEventListener("turbo:render", setupChatbotWidget);
+  })();
+</script>

@@ -98,4 +98,14 @@ Rails.application.routes.draw do
       get :refresh
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :chatbot, only: [ :index, :create ] do
+        collection do
+          post :chat, action: :create
+        end
+      end
+    end
+  end
 end
