@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_18_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_25_024916) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    # force: :cascade - if the table already exists, drop it and create a new one
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -68,6 +67,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_000000) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_carts_on_user_id"
+  end
+
+  create_table "chat_histories", force: :cascade do |t|
+    t.text "chat_history"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_chat_histories_on_user_id"
   end
 
   create_table "course_buys", force: :cascade do |t|
@@ -274,6 +281,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_18_000000) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "courses"
   add_foreign_key "carts", "users"
+  add_foreign_key "chat_histories", "users"
   add_foreign_key "course_buys", "courses"
   add_foreign_key "course_buys", "users"
   add_foreign_key "course_creates", "courses"

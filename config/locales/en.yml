@@ -680,14 +680,13 @@ en:
       why_title: "Why choose our platform?"
       why_subtitle: "Engineered for architectural precision in knowledge transfer."
       popular_subtitle: "Next-gen learning modules currently in deployment phase."
-      view_archive: "VIEW_ARCHIVE"
-      secure_node: "SECURE_NODE"
+      view_archive: "View courses list"
       price_credit: "PRICE"
       instructor: "INSTRUCTOR"
       course_module_pending: "COURSE_MODULAR_LOAD_PENDING"
       testimonial_subtitle: "Verified output from our learning community."
-      testimonial_1_title: "Software Engineer @ PROTO_CORP"
-      testimonial_2_title: "Systems Architect @ NEXUS_LABS"
+      testimonial_1_title: "Software Engineer"
+      testimonial_2_title: "Systems Architect"
     cart:
       title: "Your Cart"
       remove: "Remove"
@@ -858,6 +857,36 @@ en:
       cta_title: "Join the Learning Community Today"
       cta_subtitle: "Thousands of learners have already started their skills journey."
       cta_action: "Explore Courses"
+  chatbot:
+    page:
+      label: "Chatbot"
+      title: "Chat is now available on every page"
+      description: "Use the circular chatbot button in the bottom-right corner to open or hide the chatbox anywhere in the website."
+    widget:
+      brand: "OLP Assistant"
+      subtitle: "Chat anywhere on this site"
+      toggle_aria: "Toggle chatbot"
+      close_aria: "Close chatbot"
+      message_label: "Message"
+      placeholder: "Ask about courses, pricing, tags..."
+      labels:
+        assistant: "Assistant"
+        you: "You"
+      actions:
+        send: "Send"
+        sending: "Sending..."
+      empty:
+        start: "Start a conversation."
+        sign_in: "Sign in to chat with the assistant."
+      status:
+        ready: "Ready. Ask anything about courses."
+        sign_in_start: "Sign in to start chatting."
+        sign_in_required: "Sign in to use the chatbot."
+        type_before_sending: "Type a message before sending."
+        sending: "Sending message..."
+        connected: "Connected."
+        no_response: "No response returned."
+        error_prefix: "Error: "
   profiles:
     information: "Profile Information"
     sidebar:
