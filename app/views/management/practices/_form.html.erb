@@ -17,19 +17,24 @@
     <%= f.label :question, t('admin.management.practices.form.question'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
     <%= f.text_field :question, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
   </div>
-  <div>
-    <%= f.label :answers, t('admin.management.practices.form.answers'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
-    <p class="text-slate-400 text-xs mb-1"><em><%= t('admin.management.practices.form.answers_hint') %></em></p>
-    <%= f.text_field :answers, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
-  </div>
-  <div>
-    <%= f.label :correct_answers, t('admin.management.practices.form.correct_answers'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
-    <%= f.text_field :correct_answers, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
-  </div>
+  <%= render "management/shared/answer_fields",
+             param_prefix: "practice",
+             answers: f.object.answers.to_s.split(",").map(&:strip),
+             correct_answer: f.object.correct_answers,
+             title: t('admin.management.practices.form.answers'),
+             hint: t('admin.management.practices.form.answers_hint'),
+             answer_label: t('admin.management.forms.answer', default: 'Answer'),
+             correct_label: t('admin.management.forms.correct_answer', default: 'Correct'),
+             button_label: t('admin.management.forms.add_answer', default: 'Add answer') %>
   <div>
     <%= f.label :type, t('admin.management.practices.form.kind'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
     <%= f.select :type, options_for_select([[t('admin.management.types.multiple_choice'), "multiple_choice"],[t('admin.management.types.true_false'), "true_false"]], f.object.type), { prompt: t('admin.management.forms.choose_type') }, { class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" } %>
   </div>
+    <div>
+      <%= f.label :time_limit_minutes, t('admin.management.practices.form.time_limit'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
+      <p class="text-slate-400 text-xs mb-1"><em><%= t('admin.management.practices.form.time_limit_hint') %></em></p>
+      <%= f.number_field :time_limit_minutes, min: 1, required: true, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
+    </div>
   <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-4">
     <%= f.submit t('admin.management.practices.form.submit'), class: "glow-button font-label-tech px-6 py-2 rounded-xl cursor-pointer" %>
     <%= link_to t('admin.management.practices.form.cancel'), profile_path(current_user), class: "text-slate-400 hover:text-primary-fixed-dim transition font-label-tech text-sm" %>

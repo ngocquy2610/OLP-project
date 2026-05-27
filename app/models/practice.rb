@@ -11,4 +11,5 @@ class Practice < ApplicationRecord
   validates :answers, presence: true
   validates :correct_answers, presence: true
   validates :type, presence: true
+  validates :time_limit_minutes, presence: true, numericality: { only_integer: true, greater_than: 0 }
 end

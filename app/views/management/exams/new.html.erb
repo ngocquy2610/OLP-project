@@ -11,14 +11,14 @@
           <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.question') %></label>
           <input type="text" name="exams[][question]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
         </div>
-        <div class="mb-2">
-          <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.answers_hint') %></label>
-          <input type="text" name="exams[][answers]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
-        </div>
-        <div class="mb-2">
-          <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.correct_answers') %></label>
-          <input type="text" name="exams[][correct_answers]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
-        </div>
+        <%= render "management/shared/answer_fields",
+                   param_prefix: "exams[]",
+                   answers: ["", ""],
+                   title: t('admin.management.exams.form.answers'),
+                   hint: t('admin.management.exams.form.answers_hint'),
+                   answer_label: t('admin.management.forms.answer', default: 'Answer'),
+                   correct_label: t('admin.management.forms.correct_answer', default: 'Correct'),
+                   button_label: t('admin.management.forms.add_answer', default: 'Add answer') %>
         <div class="mb-2">
           <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.kind') %></label>
           <select name="exams[][type]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim">
@@ -26,6 +26,10 @@
             <option value="multiple_choice"><%= t('admin.management.types.multiple_choice') %></option>
             <option value="true_false"><%= t('admin.management.types.true_false') %></option>
           </select>
+        </div>
+        <div class="mb-2">
+          <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.time_limit') %></label>
+          <input type="number" min="1" name="exams[][time_limit_minutes]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
         </div>
         <button type="button" class="remove-question mt-2 text-sm text-red-300 hover:text-red-200 font-label-tech"><%= t('admin.management.exams.actions.remove_question') %></button>
       </div>
@@ -42,14 +46,14 @@
         <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.question') %></label>
         <input type="text" name="exams[][question]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
       </div>
-      <div class="mb-2">
-        <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.answers_hint') %></label>
-        <input type="text" name="exams[][answers]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
-      </div>
-      <div class="mb-2">
-        <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.correct_answers') %></label>
-        <input type="text" name="exams[][correct_answers]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
-      </div>
+      <%= render "management/shared/answer_fields",
+                 param_prefix: "exams[]",
+                 answers: ["", ""],
+                 title: t('admin.management.exams.form.answers'),
+                 hint: t('admin.management.exams.form.answers_hint'),
+                 answer_label: t('admin.management.forms.answer', default: 'Answer'),
+                 correct_label: t('admin.management.forms.correct_answer', default: 'Correct'),
+                 button_label: t('admin.management.forms.add_answer', default: 'Add answer') %>
       <div class="mb-2">
         <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.kind') %></label>
         <select name="exams[][type]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim">
@@ -57,6 +61,10 @@
           <option value="multiple_choice"><%= t('admin.management.types.multiple_choice') %></option>
           <option value="true_false"><%= t('admin.management.types.true_false') %></option>
         </select>
+      </div>
+      <div class="mb-2">
+        <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.time_limit') %></label>
+        <input type="number" min="1" name="exams[][time_limit_minutes]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
       </div>
       <button type="button" class="remove-question mt-2 text-sm text-red-300 hover:text-red-200 font-label-tech"><%= t('admin.management.exams.actions.remove_question') %></button>
     </div>

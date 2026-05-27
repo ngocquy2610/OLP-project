@@ -243,6 +243,8 @@ vi:
       complete_before_submit: "Vui lòng trả lời tất cả câu hỏi trước khi nộp."
       exam_score: "Đã nộp bài kiểm tra. Bạn đạt %{score}/%{total}."
       practice_score: "Đã nộp bài luyện tập. Điểm của bạn: %{percentage}%"
+      exam_time_up: "Hết thời gian. Bạn không thể tiếp tục làm bài kiểm tra."
+      practice_time_up: "Hết thời gian. Bạn không thể tiếp tục làm bài luyện tập."
     stripe:
       connect_error: "Kết nối Stripe thất bại: %{error}"
       connected: "Kết nối tài khoản Stripe thành công!"
@@ -348,6 +350,13 @@ vi:
         xtitle_month: "Tháng"
         ytitle: "Số khóa học bán"
         empty: "Không có dữ liệu bán hàng."
+    topics:
+      exam:
+        title: "Bài kiểm tra của %{topic}"
+        submit: "Nộp bài kiểm tra"
+    lessons:
+      practice_title: "Luyện tập"
+      submit_practice: "Nộp bài luyện tập"
     management:
       vouchers:
         index:
@@ -488,6 +497,8 @@ vi:
           answers_hint: "Nhập các đáp án, cách nhau bằng dấu phẩy"
           correct_answers: "Đáp án đúng"
           kind: "Loại bài kiểm tra"
+          time_limit: "Thời gian làm bài (phút)"
+          time_limit_hint: "Nhập thời gian giới hạn tính theo phút"
           submit: "Lưu bài kiểm tra"
           cancel: "Hủy bỏ"
         actions:
@@ -537,6 +548,8 @@ vi:
           answers_hint: "Nhập các đáp án, cách nhau bằng dấu phẩy"
           correct_answers: "Đáp án đúng"
           kind: "Loại bài thực hành"
+          time_limit: "Thời gian làm bài (phút)"
+          time_limit_hint: "Nhập thời gian giới hạn tính theo phút"
           submit: "Lưu bài thực hành"
           cancel: "Hủy bỏ"
         actions:

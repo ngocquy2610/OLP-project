@@ -236,6 +236,8 @@ en:
       complete_before_submit: "Please answer all questions before submitting."
       exam_score: "Exam submitted. You got %{score}/%{total}."
       practice_score: "Practice submitted. Your score: %{percentage}%"
+      exam_time_up: "Time is up. Your exam is no longer available."
+      practice_time_up: "Time is up. Your practice is no longer available."
     stripe:
       connect_error: "Stripe connection failed: %{error}"
       connected: "Stripe account connected successfully!"
@@ -425,6 +427,13 @@ en:
         xtitle_month: "Month"
         ytitle: "Courses Sold"
         empty: "No sales data available."
+    topics:
+      exam:
+        title: "Exam of %{topic}"
+        submit: "Submit Exam"
+    lessons:
+      practice_title: "Practice"
+      submit_practice: "Submit Practice"
     feedback:
       edit:
         title: "Edit your review"
@@ -485,6 +494,9 @@ en:
         choose_course: "Choose a course..."
         choose_lesson: "Choose a lesson..."
         choose_type: "Choose a type..."
+        answer: "Answer"
+        correct_answer: "Correct"
+        add_answer: "Add answer"
       types:
         multiple_choice: "Multiple choice"
         true_false: "True / False"
@@ -534,6 +546,8 @@ en:
           answers_hint: "Enter answers separated by commas"
           correct_answers: "Correct Answers"
           kind: "Exam type"
+          time_limit: "Time limit (minutes)"
+          time_limit_hint: "Enter the allowed time in minutes"
           submit: "Save Exam"
           cancel: "Cancel"
         actions:
@@ -583,6 +597,8 @@ en:
           answers_hint: "Enter answers separated by commas"
           correct_answers: "Correct Answers"
           kind: "Practice type"
+          time_limit: "Time limit (minutes)"
+          time_limit_hint: "Enter the allowed time in minutes"
           submit: "Save Practice"
           cancel: "Cancel"
         actions:
@@ -959,6 +975,9 @@ en:
         choose_course: "Choose a course..."
         choose_lesson: "Choose a lesson..."
         choose_type: "Choose a type..."
+        answer: "Answer"
+        correct_answer: "Correct"
+        add_answer: "Add answer"
       types:
         multiple_choice: "Multiple choice"
         true_false: "True / False"

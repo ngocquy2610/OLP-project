@@ -18,3 +18,17 @@ body {
 .footer {
 	margin-top: auto;
 }
+
+/* Keep management dropdowns aligned with dark UI theme. */
+select.bg-surface-container-high,
+select.border-outline-variant {
+	color-scheme: dark;
+	background-color: #1e293b;
+	color: #f8fafc;
+}
+
+select.bg-surface-container-high option,
+select.border-outline-variant option {
+	background-color: #1e293b;
+	color: #f8fafc;
+}
