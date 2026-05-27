@@ -3,10 +3,16 @@ class LessonsController < ApplicationController
 
   def practice
     @practices = @lesson.practices
+    session[practice_session_key] ||= Time.current.to_i
   end
 
   def submit_practice
     @practices = @lesson.practices
+
+    if practice_time_expired?
+      session.delete(practice_session_key)
+      redirect_to learn_course_path(@lesson.topic.course), alert: I18n.t("messages.assessments.practice_time_up") and return
+    end
 
     answers = params[:answers] || {}
 
@@ -37,6 +43,8 @@ class LessonsController < ApplicationController
       completed: percentage >= 80
     )
 
+    session.delete(practice_session_key)
+
     redirect_to learn_course_path(@lesson.topic.course),
       notice: I18n.t("messages.assessments.practice_score", percentage: percentage)
   end
@@ -45,5 +53,19 @@ class LessonsController < ApplicationController
 
   def set_lesson
     @lesson = Lesson.find_by(id: params[:id])
+  end
+
+  def practice_session_key
+    "practice_started_at_#{params[:id]}"
+  end
+
+  def practice_time_expired?
+    started_at = session[practice_session_key].to_i
+    return false if started_at <= 0
+
+    limit_seconds = @practices.first&.time_limit_minutes.to_i * 60
+    return false if limit_seconds <= 0
+
+    (Time.current.to_i - started_at) > limit_seconds
   end
 end

@@ -31,19 +31,13 @@ class Management::ExamsController < ApplicationController
       created = []
       ActiveRecord::Base.transaction do # working if all function inside transaction block is successful, otherwise rollback
         params[:exams].each do |q|
-          next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank? # skip if all fields are blank
+          attributes = normalized_exam_attributes(q, topic_id: q[:topic_id].presence || params[:topic_id].presence)
+          next if attributes[:question].blank? && attributes[:answers].blank? && attributes[:correct_answers].blank? # skip if all fields are blank
 
-          topic_id = (q[:topic_id].presence || params[:topic_id].presence)
           # if topic_id is present in question params, use it, otherwise use topic_id from main params
-          next unless @topics.exists?(id: topic_id) # skip if topic_id is not in owned topics
+          next unless @topics.exists?(id: attributes[:topic_id]) # skip if topic_id is not in owned topics
 
-          created << Exam.create!(
-            topic_id: topic_id,
-            question: q[:question],
-            answers: q[:answers],
-            correct_answers: q[:correct_answers],
-            type: q[:type]
-          )
+          created << Exam.create!(attributes)
         end
       end
 
@@ -94,7 +88,9 @@ class Management::ExamsController < ApplicationController
   private
 
   def exam_params
-    params.require(:exam).permit(:question, :answers, :correct_answers, :type, :topic_id)
+    normalize_question_params(
+      params.require(:exam).permit(:question, :type, :topic_id, :time_limit_minutes, :correct_answer_index, :correct_answers, answers: [])
+    )
   end
 
   def set_exam
@@ -110,5 +106,35 @@ class Management::ExamsController < ApplicationController
 
     @exam.errors.add(:topic_id, :invalid) # add error to topic_id field if the selected topic is not in owned topics
     false
+  end
+
+  def normalized_exam_attributes(question_params, topic_id: nil)
+    normalize_question_params(question_params).merge(topic_id: topic_id.presence).compact
+  end
+
+  def normalize_question_params(question_params)
+    answers = normalized_answers(question_params[:answers])
+    correct_answer = selected_correct_answer(question_params[:correct_answer_index], answers, question_params[:correct_answers])
+
+    {
+      question: question_params[:question],
+      answers: answers.join(","),
+      correct_answers: correct_answer,
+      type: question_params[:type],
+      topic_id: question_params[:topic_id],
+      time_limit_minutes: question_params[:time_limit_minutes]
+    }
+  end
+
+  def normalized_answers(raw_answers)
+    Array(raw_answers).flat_map { |answer| answer.to_s.split(",") }.map(&:strip).reject(&:blank?)
+  end
+
+  def selected_correct_answer(correct_answer_index, answers, fallback_correct_answer)
+    if correct_answer_index.present?
+      answers[correct_answer_index.to_i].to_s.strip
+    else
+      fallback_correct_answer.to_s.strip
+    end
   end
 end

@@ -1,7 +1,18 @@
 <%= turbo_frame_tag "profile_content" do %>
+<% exam_minutes = @exams.map { |e| e.time_limit_minutes.to_i }.select { |m| m > 0 } %>
+<% exam_time_limit_seconds = exam_minutes.max.to_i * 60 %>
 <div class="max-w-5xl mx-auto px-4 py-8">
   <h2 class="text-xl font-bold text-white font-headline-sm uppercase tracking-wider mb-6"><%= t('admin.topics.exam.title', topic: @topic.name) %></h2>
-  <%= form_with url: submit_exam_topic_path(@topic), method: :post, data: { controller: 'ensure-complete', 'ensure-complete-message-value': t('messages.assessments.complete_before_submit') }, class: "space-y-6" do %>
+  <%= form_with url: submit_exam_topic_path(@topic), method: :post, data: { controller: 'ensure-complete', 'ensure-complete-message-value': t('messages.assessments.complete_before_submit'), 'ensure-complete-time-limit-value': exam_time_limit_seconds, 'ensure-complete-warning-value': 300 }, class: "space-y-6", id: "exam-form" do %>
+    <div class="mb-6 flex items-center justify-between">
+      <div class="flex-1"></div>
+      <div id="exam-timer" data-ensure-complete-target="timerContainer" class="flex items-center gap-2 px-4 py-2 rounded-lg border border-cyan-400/30 bg-cyan-500/10">
+        <span class="material-symbols-outlined text-cyan-400 text-lg">schedule</span>
+        <span class="font-label-tech text-sm text-cyan-100">
+          <span id="timer-display" data-ensure-complete-target="timerDisplay">00:00</span>
+        </span>
+      </div>
+    </div>
     <% @exams.each_with_index do |exam, index| %>
       <div class="p-5 rounded-2xl border border-white/10 bg-surface-container-high/40">
         <p class="font-medium text-white mb-3">

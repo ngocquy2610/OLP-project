@@ -1,0 +1,134 @@
+<% param_prefix = local_assigns.fetch(:param_prefix) %>
+<% answers = Array(local_assigns[:answers]).map { |answer| answer.to_s.strip } %>
+<% answers = ["", ""] if answers.empty? %>
+<% correct_answer = local_assigns[:correct_answer].to_s.strip %>
+<% correct_index = answers.index(correct_answer) %>
+<% title = local_assigns[:title] || "Answers" %>
+<% hint = "Add answers using the fields below." %>
+<% answer_label = local_assigns[:answer_label] || "Answer" %>
+<% correct_label = local_assigns[:correct_label] || "Correct" %>
+<% button_label = local_assigns[:button_label] || "Add answer" %>
+<% remove_button_label = local_assigns[:remove_button_label] || "Remove" %>
+<% answer_placeholder = local_assigns[:answer_placeholder] || "Answer" %>
+<% unique_id = "answer-builder-#{SecureRandom.hex(4)}" %>
+
+<div class="space-y-4">
+  <div class="flex items-center justify-between gap-3">
+    <div>
+      <p class="text-xs font-label-tech uppercase tracking-widest text-slate-400"><%= title %></p>
+      <p class="text-slate-400 text-xs mt-1"><em><%= hint %></em></p>
+    </div>
+    <button type="button" class="inline-flex items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-xs font-label-tech text-emerald-300 transition hover:bg-emerald-500/20" data-answer-add-button="<%= unique_id %>">
+      <%= button_label %>
+    </button>
+  </div>
+
+  <div class="space-y-3" data-answer-list="<%= unique_id %>">
+    <% answers.each_with_index do |answer, index| %>
+      <div data-answer-row="true" class="rounded-2xl border border-outline-variant/70 bg-surface-container-high/40 p-4">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+          <label class="inline-flex items-center gap-2 text-sm text-slate-200 sm:pt-2">
+            <%= radio_button_tag "#{param_prefix}[correct_answer_index]", index, correct_index == index, class: "accent-primary-fixed-dim", data: { answer_radio: true } %>
+            <span><%= correct_label %></span>
+          </label>
+
+          <div class="flex-1 sm:pr-3">
+            <label class="mb-2 block text-xs font-label-tech uppercase tracking-widest text-slate-400" data-answer-label="true"><%= answer_label %> <%= index + 1 %></label>
+            <%= text_field_tag "#{param_prefix}[answers][]", answer, placeholder: "#{answer_placeholder} #{index + 1}", class: "w-full rounded-lg border border-outline-variant bg-surface-container-high px-3 py-2 text-white placeholder-slate-500 focus:border-primary-fixed-dim focus:outline-none focus:ring-1 focus:ring-primary-fixed-dim", data: { answer_input: true } %>
+          </div>
+
+          <button type="button" data-answer-remove="true" class="self-start rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs font-label-tech text-red-200 transition hover:bg-red-400/20"><%= remove_button_label %></button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <template data-answer-template="<%= unique_id %>">
+    <div data-answer-row="true" class="rounded-2xl border border-outline-variant/70 bg-surface-container-high/40 p-4">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+        <label class="inline-flex items-center gap-2 text-sm text-slate-200 sm:pt-2">
+          <input type="radio" name="<%= param_prefix %>[correct_answer_index]" value="__INDEX__" class="accent-primary-fixed-dim" data-answer-radio="true">
+          <span><%= correct_label %></span>
+        </label>
+
+        <div class="flex-1 sm:pr-3">
+          <label class="mb-2 block text-xs font-label-tech uppercase tracking-widest text-slate-400" data-answer-label="true"><%= answer_label %> __INDEX_PLUS_ONE__</label>
+          <input type="text" name="<%= param_prefix %>[answers][]" placeholder="<%= answer_placeholder %> __INDEX_PLUS_ONE__" class="w-full rounded-lg border border-outline-variant bg-surface-container-high px-3 py-2 text-white placeholder-slate-500 focus:border-primary-fixed-dim focus:outline-none focus:ring-1 focus:ring-primary-fixed-dim" data-answer-input="true">
+        </div>
+
+        <button type="button" data-answer-remove="true" class="self-start rounded-lg border border-red-400/30 bg-red-400/10 px-3 py-2 text-xs font-label-tech text-red-200 transition hover:bg-red-400/20"><%= remove_button_label %></button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      const uniqueId = "<%= unique_id %>"
+      const button = document.querySelector('[data-answer-add-button="' + uniqueId + '"]')
+      const list = document.querySelector('[data-answer-list="' + uniqueId + '"]')
+      const template = document.querySelector('[data-answer-template="' + uniqueId + '"]')
+      const minimumRows = 2
+      const answerLabel = "<%= j(answer_label) %>"
+      const answerPlaceholder = "<%= j(answer_placeholder) %>"
+
+      function reindexRows() {
+        const rows = list.querySelectorAll('[data-answer-row="true"]')
+
+        rows.forEach(function(row, index) {
+          const radio = row.querySelector('[data-answer-radio="true"]')
+          const label = row.querySelector('[data-answer-label="true"]')
+          const input = row.querySelector('[data-answer-input="true"]')
+
+          if (radio) radio.value = index
+          if (label) label.textContent = answerLabel + " " + (index + 1)
+          if (input) input.placeholder = answerPlaceholder + " " + (index + 1)
+        })
+
+        const removeButtons = list.querySelectorAll('[data-answer-remove="true"]')
+        const disableRemove = rows.length <= minimumRows
+        removeButtons.forEach(function(removeButton) {
+          removeButton.disabled = disableRemove
+          removeButton.classList.toggle('opacity-50', disableRemove)
+          removeButton.classList.toggle('cursor-not-allowed', disableRemove)
+        })
+      }
+
+      if (button && list && template) {
+        button.addEventListener('click', function(e) {
+          e.preventDefault()
+          const index = list.querySelectorAll('[data-answer-row="true"]').length
+          const templateHtml = template.innerHTML
+            .replaceAll("__INDEX__", index)
+            .replaceAll("__INDEX_PLUS_ONE__", index + 1)
+
+          list.insertAdjacentHTML('beforeend', templateHtml)
+          reindexRows()
+        })
+
+        list.addEventListener('click', function(e) {
+          const removeButton = e.target.closest('[data-answer-remove="true"]')
+          if (!removeButton) return
+
+          e.preventDefault()
+          if (removeButton.disabled) return
+
+          const row = removeButton.closest('[data-answer-row="true"]')
+          if (!row) return
+
+          const radio = row.querySelector('[data-answer-radio="true"]')
+          const selectedRadio = list.querySelector('[data-answer-radio="true"]:checked')
+          row.remove()
+
+          reindexRows()
+
+          if (selectedRadio && radio && selectedRadio === radio) {
+            const firstRadio = list.querySelector('[data-answer-radio="true"]')
+            if (firstRadio) firstRadio.checked = true
+          }
+        })
+
+        reindexRows()
+      }
+    })()
+  </script>
+</div>

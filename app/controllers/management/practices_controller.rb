@@ -32,18 +32,12 @@ class Management::PracticesController < ApplicationController
       created = []
       ActiveRecord::Base.transaction do
         params[:practices].each do |q|
-          next if q[:question].blank? && q[:answers].blank? && q[:correct_answers].blank?
+          attributes = normalized_practice_attributes(q, lesson_id: q[:lesson_id].presence || params[:lesson_id].presence)
+          next if attributes[:question].blank? && attributes[:answers].blank? && attributes[:correct_answers].blank?
 
-          lesson_id = (q[:lesson_id].presence || params[:lesson_id].presence)
-          next unless @lessons.exists?(id: lesson_id)
+          next unless @lessons.exists?(id: attributes[:lesson_id])
 
-          created << Practice.create!(
-            lesson_id: lesson_id,
-            question: q[:question],
-            answers: q[:answers],
-            correct_answers: q[:correct_answers],
-            type: q[:type]
-          )
+          created << Practice.create!(attributes)
         end
       end
 
@@ -84,7 +78,9 @@ class Management::PracticesController < ApplicationController
   private
 
   def practice_params
-    params.require(:practice).permit(:lesson_id, :question, :answers, :correct_answers, :type)
+    normalize_question_params(
+      params.require(:practice).permit(:lesson_id, :question, :type, :time_limit_minutes, :correct_answer_index, :correct_answers, answers: [])
+    )
   end
 
   def set_practice
@@ -100,5 +96,35 @@ class Management::PracticesController < ApplicationController
 
     @practice.errors.add(:lesson_id, :invalid)
     false
+  end
+
+  def normalized_practice_attributes(question_params, lesson_id: nil)
+    normalize_question_params(question_params).merge(lesson_id: lesson_id.presence).compact
+  end
+
+  def normalize_question_params(question_params)
+    answers = normalized_answers(question_params[:answers])
+    correct_answer = selected_correct_answer(question_params[:correct_answer_index], answers, question_params[:correct_answers])
+
+    {
+      lesson_id: question_params[:lesson_id],
+      question: question_params[:question],
+      answers: answers.join(","),
+      correct_answers: correct_answer,
+      type: question_params[:type],
+      time_limit_minutes: question_params[:time_limit_minutes]
+    }
+  end
+
+  def normalized_answers(raw_answers)
+    Array(raw_answers).flat_map { |answer| answer.to_s.split(",") }.map(&:strip).reject(&:blank?)
+  end
+
+  def selected_correct_answer(correct_answer_index, answers, fallback_correct_answer)
+    if correct_answer_index.present?
+      answers[correct_answer_index.to_i].to_s.strip
+    else
+      fallback_correct_answer.to_s.strip
+    end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_25_024916) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_26_064506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -135,6 +135,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_25_024916) do
     t.text "correct_answers", null: false
     t.datetime "created_at", null: false
     t.text "question", null: false
+    t.integer "time_limit_minutes"
     t.bigint "topic_id", null: false
     t.integer "type", null: false
     t.datetime "updated_at", null: false
@@ -218,6 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_25_024916) do
     t.datetime "created_at", null: false
     t.bigint "lesson_id", null: false
     t.text "question", null: false
+    t.integer "time_limit_minutes"
     t.boolean "type", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["lesson_id"], name: "index_practices_on_lesson_id"
