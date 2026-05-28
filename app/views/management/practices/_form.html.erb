@@ -11,7 +11,7 @@
   <% end %>
   <div>
     <%= f.label :lesson_id, t('admin.management.practices.form.lesson'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
-    <%= f.collection_select :lesson_id, @lessons, :id, :name, { prompt: t('admin.management.forms.choose_lesson') }, { class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" } %>
+    <%= f.collection_select :lesson_id, @lessons, :id, :name, { prompt: t('admin.management.forms.choose_lesson') }, { class: "w-full bg-[#171B24] bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" } %>
   </div>
   <div>
     <%= f.label :question, t('admin.management.practices.form.question'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>

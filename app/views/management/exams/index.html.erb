@@ -4,7 +4,7 @@
     <div class="flex w-full lg:w-auto flex-col lg:flex-row lg:items-center gap-3 sm:gap-4">
       <%= form_with url: management_exams_path, method: :get, local: false, data: { turbo_frame: 'profile_content' }, class: "flex w-full lg:w-auto flex-col lg:flex-row lg:items-center gap-2" do %>
         <%= label_tag :topic_id, t('admin.management.exams.index.filter_by_topic'), class: "hidden lg:flex text-xs font-label-tech text-slate-400 uppercase tracking-widest" %>
-        <%= select_tag :topic_id, options_from_collection_for_select(@topics, :id, :name, @selected_topic&.id), include_blank: false, class: "border border-outline-variant rounded-lg px-3 py-2 bg-surface-container-high text-white focus:outline-none focus:border-primary-fixed-dim", onchange: 'if(this.form.requestSubmit){this.form.requestSubmit()}else{this.form.dispatchEvent(new Event("submit", {bubbles:true,cancelable:true}))}' %>
+        <%= select_tag :topic_id, options_from_collection_for_select(@topics, :id, :name, @selected_topic&.id), include_blank: false, class: "bg-[#171B24] bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim", onchange: 'if(this.form.requestSubmit){this.form.requestSubmit()}else{this.form.dispatchEvent(new Event("submit", {bubbles:true,cancelable:true}))}' %>
       <% end %>
       <%= link_to t('admin.management.exams.index.new'), new_management_exam_path, 
           class: "glow-button font-label-tech px-4 py-2 rounded-xl flex items-center justify-center" %>

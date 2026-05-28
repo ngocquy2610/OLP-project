@@ -9,21 +9,59 @@ export default class extends Controller {
 
   connect() {
     this.csrfToken = document.querySelector("meta[name='csrf-token']")?.content
+    this.translations = this.buildTranslations()
     this.renderEmptyStateIfNeeded()
     this.scrollToBottom()
+  }
+
+  buildTranslations() {
+    const lang = (document.documentElement.lang || "en").toLowerCase()
+    const vi = lang.startsWith("vi")
+
+    if (vi) {
+      return {
+        signInFirst: "Vui long dang nhap de dung chatbot.",
+        typeBeforeSend: "Hay nhap tin nhan truoc khi gui.",
+        waiting: "Dang gui tin nhan va cho phan hoi...",
+        noResponse: "Khong co phan hoi tra ve.",
+        connected: "Da ket noi.",
+        connectionProbe: "Tra loi CONNECTED neu Rails co the ket noi den Python.",
+        labelAssistant: "Tro ly",
+        labelYou: "Ban",
+        sending: "Dang gui...",
+        send: "Gui",
+        emptySignedIn: "Gui tin nhan de kiem tra ket noi chatbot Rails-Python.",
+        emptySignedOut: "Dang nhap de gui tin nhan den chatbot."
+      }
+    }
+
+    return {
+      signInFirst: "Sign in first to test the chatbot connection.",
+      typeBeforeSend: "Type a message before sending.",
+      waiting: "Sending message to Rails and waiting for Python...",
+      noResponse: "No response returned.",
+      connected: "Connected. Rails received the message and returned a chatbot response.",
+      connectionProbe: "Reply with CONNECTED if Rails can reach Python.",
+      labelAssistant: "Assistant",
+      labelYou: "You",
+      sending: "Sending...",
+      send: "Send",
+      emptySignedIn: "Send a message to test the Rails-to-Python chatbot connection.",
+      emptySignedOut: "Sign in to send a test message to the chatbot."
+    }
   }
 
   async send(event) {
     event.preventDefault()
 
     if (!this.signedInValue) {
-      this.setStatus("Sign in first to test the chatbot connection.", true)
+      this.setStatus(this.translations.signInFirst, true)
       return
     }
 
     const message = this.inputTarget.value.trim()
     if (!message) {
-      this.setStatus("Type a message before sending.", true)
+      this.setStatus(this.translations.typeBeforeSend, true)
       return
     }
 
@@ -31,7 +69,7 @@ export default class extends Controller {
     this.appendMessage("user", message)
     this.inputTarget.value = ""
     this.setLoading(true)
-    this.setStatus("Sending message to Rails and waiting for Python...", false)
+    this.setStatus(this.translations.waiting, false)
 
     try {
       const response = await fetch(this.endpointValue, {
@@ -50,8 +88,8 @@ export default class extends Controller {
         throw new Error(payload.error || `Request failed with status ${response.status}`)
       }
 
-      this.appendMessage("assistant", payload.response || "No response returned.")
-      this.setStatus("Connected. Rails received the message and returned a chatbot response.", false)
+      this.appendMessage("assistant", payload.response || this.translations.noResponse)
+      this.setStatus(this.translations.connected, false)
     } catch (error) {
       this.appendMessage("assistant", `Error: ${error.message}`, true)
       this.setStatus(error.message, true)
@@ -63,14 +101,14 @@ export default class extends Controller {
   }
 
   fillConnectionProbe() {
-    this.inputTarget.value = "Reply with CONNECTED if Rails can reach Python."
+    this.inputTarget.value = this.translations.connectionProbe
     this.inputTarget.focus()
   }
 
   appendMessage(role, text, isError = false) {
     const wrapper = document.createElement("div")
     const bubble = document.createElement("div")
-    const label = role === "assistant" ? "Assistant" : "You"
+    const label = role === "assistant" ? this.translations.labelAssistant : this.translations.labelYou
     const renderedText = role === "assistant" && !isError ? this.parseSimpleMarkdown(text) : this.escapeHtml(text)
 
     wrapper.className = role === "assistant" ? "flex justify-start" : "flex justify-end"
@@ -99,7 +137,7 @@ export default class extends Controller {
   setLoading(isLoading) {
     this.submitTarget.disabled = isLoading
     this.inputTarget.disabled = isLoading
-    this.submitTarget.textContent = isLoading ? "Sending..." : "Send"
+    this.submitTarget.textContent = isLoading ? this.translations.sending : this.translations.send
   }
 
   setStatus(message, isError) {
@@ -115,7 +153,7 @@ export default class extends Controller {
     const state = document.createElement("div")
     state.dataset.emptyState = "true"
     state.className = "rounded-3xl border border-dashed border-slate-700 bg-slate-950/40 px-5 py-8 text-center text-sm text-slate-400"
-    state.textContent = this.signedInValue ? "Send a message to test the Rails-to-Python chatbot connection." : "Sign in to send a test message to the chatbot."
+    state.textContent = this.signedInValue ? this.translations.emptySignedIn : this.translations.emptySignedOut
     this.messagesTarget.appendChild(state)
   }
 

@@ -31,7 +31,7 @@
           <%= f.select :locale, 
                       [['🇬🇧 EN', 'en'], ['🇻🇳 VI', 'vi']],
                       { selected: I18n.locale },
-                      { onchange: "this.form.submit();", class: "bg-surface-container-high/80 border border-outline-variant text-[14px] text-on-surface rounded px-2 py-1 focus:ring-1 focus:ring-primary-fixed-dim outline-none cursor-pointer" } %>
+                      { onchange: "this.form.submit();", class: "bg-[#171B24] bg-surface-container-high/80 border border-outline-variant text-[14px] text-on-surface rounded px-2 py-1 focus:ring-1 focus:ring-primary-fixed-dim outline-none cursor-pointer" } %>
           
           <% request.query_parameters.except(:locale).each do |key, value| %>
             <%= hidden_field_tag key, value %>

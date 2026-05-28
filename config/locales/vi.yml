@@ -573,6 +573,39 @@ vi:
           description: "Mô tả chủ đề"
           submit: "Lưu chủ đề"
           cancel: "Hủy bỏ"
+
+  pagination:
+    prev: "Trước"
+    next: "Tiếp"
+    ellipsis: "..."
+
+  errors:
+    models:
+      course:
+        attributes:
+          price:
+            invalid_range: "phải bằng 0 (miễn phí) hoặc tối thiểu 20,000 VNĐ"
+          course_image:
+            file_too_large: "Tệp quá lớn (tối đa 20MB)"
+      cart_item:
+        attributes:
+          base:
+            cannot_buy_own_course: "Bạn không thể mua khóa học của chính mình"
+      user:
+        attributes:
+          phone:
+            too_short: "phải có ít nhất 10 chữ số"
+            too_long: "chỉ được tối đa 11 chữ số"
+            digits_only: "chỉ được chứa chữ số"
+
+  chatbot:
+    api:
+      ready: "API chatbot đã sẵn sàng"
+      message_required: "bắt buộc có nội dung tin nhắn"
+      unavailable: "Chatbot hiện không khả dụng"
+    widget:
+      status:
+        service_unavailable: "Dịch vụ hiện chưa sẵn sàng. Vui lòng thử lại sau."
   missing_i18n:
     common:
       edit: "Sửa"

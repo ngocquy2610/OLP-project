@@ -55,13 +55,13 @@ class Course < ApplicationRecord
     return if price.nil?
     p = price.to_i
     if p != 0 && p < 20_000
-      errors.add(:price, "must be 0 (free) or at least 20,000 VNĐ")
+      errors.add(:price, I18n.t("errors.models.course.attributes.price.invalid_range"))
     end
   end
   validates :course_image,
             attached: true,
             content_type: [ "image/png", "image/jpeg", "image/webp" ],
-            size: { less_than: 20.megabytes, message: "File quá lớn (tối đa 5MB)" }
+            size: { less_than: 20.megabytes, message: I18n.t("errors.models.course.attributes.course_image.file_too_large") }
 
   def optimized_image
     return unless course_image.attached?

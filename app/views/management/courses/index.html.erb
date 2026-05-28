@@ -19,9 +19,8 @@
         <tbody>
         <% @courses.each do |course| %>
           <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-            <td>
-              <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                              <div class="w-16 h-16 bg-surface-container rounded-lg overflow-hidden flex items-center justify-center">
+            <td class="px-6 py-4">
+              <div class="w-16 h-16 bg-surface-container rounded-lg overflow-hidden flex items-center justify-center">
                 <% if course.course_image.attached? %>
                   <%= optimized_course_thumb_tag(
                     course,
@@ -31,8 +30,7 @@
                     height: 64
                   ) %>
                 <% else %>
-                  <svg class="w-8 h-8 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <svg class="w-8 h-8 text-slate-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg class="w-8 h-8 text-slate-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a4 4 0 014-4h10a4 4 0 014 4v10a4 4 0 01-4 4H7a4 4 0 01-4-4V7z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 13l2.5-3 3.5 4.5L16 11l4 6H4l4-4z" />
                   </svg>
@@ -40,10 +38,8 @@
               </div>
             </td>
             <td class="px-6 py-4">
-              <div class="font-medium text-gray-900"><%= course.name %></div>
-                          <div class="font-medium text-white"><%= course.name %></div>
+              <div class="font-medium text-white"><%= course.name %></div>
             </td>
-            <td class="px-6 py-4 text-sm text-gray-600"><%= truncate(course.description, length: 100) %></td>
             <td class="px-6 py-4 text-sm text-slate-400"><%= truncate(course.description, length: 100) %></td>
             <td class="px-6 py-4 text-sm text-primary-fixed-dim font-bold">
               <%= format_vnd(course.price) %>
@@ -55,11 +51,11 @@
                 when 'rejected' then 'bg-red-500/20 text-red-400 border border-red-500/30'
                 else 'bg-slate-500/20 text-slate-400 border border-slate-500/30'
               end %>
-              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold <%= status_class %>"><%= course.status.to_s.titleize %></span>
-                          <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-label-tech <%= status_class %>"><%= course.status.to_s.titleize %></span>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-label-tech <%= status_class %>"><%= course.status.to_s.titleize %></span>
             </td>
             <td class="px-6 py-4 text-right text-sm font-medium">
               <div class="flex flex-col items-end gap-2 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
+                <%= link_to t('admin.courses.verify.details'), management_course_path(course), class: "px-3 py-1 rounded-full border border-sky-500/30 text-sky-400 hover:bg-sky-500/20 text-xs font-label-tech transition", data: { turbo_frame: "profile_content" } %>
                 <%= link_to t('admin.management.actions.edit'), edit_management_course_path(course), class: "px-3 py-1 rounded-full border border-sky-500/30 text-sky-400 hover:bg-sky-500/20 text-xs font-label-tech transition",data: { turbo_frame: "profile_content" } %>
                 <%= button_to t('admin.management.actions.delete'), management_course_path(course), method: :delete,
                   form: { data: { turbo_confirm: t('admin.management.delete_confirm') } },
@@ -70,5 +66,8 @@
         <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="mt-12 flex justify-center py-4 text-primary-fixed-dim font-label-tech">
+    <%= pagination_links(@courses) %>
   </div>
 <% end %>

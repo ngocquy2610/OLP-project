@@ -5,16 +5,25 @@ class Management::CoursesController < ApplicationController
   before_action :require_stripe_connection, only: [ :new, :create ]
 
   def index
-    @courses = Course.where(user_id: current_user.id) if current_user&.teacher?
+    @courses = Course.where(user_id: current_user.id).page(params[:page]).per(5) if current_user&.teacher?
     render layout: false if turbo_frame_request?
     # if the request is from turbo frame, we want to render without layout to avoid nested layout
   end
 
   def show
-    authorize @course
-    # authorize: check in course policy.
-    # if true --> continue to render show page
-    # if false --> raise error and redirect to 403 page (forbidden)
+    authorize @course, :update?
+    @topics = @course.topics.includes(:exams).includes(lessons: [ :practices, { video_attachment: :blob } ])
+    @exams_by_topic = @topics.map { |topic| [ topic.id, topic.exams ] }.to_h
+    @practices_by_lesson = @topics.flat_map(&:lessons).map { |lesson| [ lesson.id, lesson.practices ] }.to_h
+    @current_lesson = if params[:lesson_id].present?
+                        Lesson.find_by(id: params[:lesson_id])
+    else
+                        @topics.first&.lessons&.first
+    end
+
+    if @current_lesson.present? && !@topics.flat_map(&:lessons).map(&:id).include?(@current_lesson.id)
+      @current_lesson = @topics.first&.lessons&.first
+    end
   end
 
   def new

@@ -2,12 +2,12 @@ class Api::V1::ChatbotController < ApplicationController
   before_action :authenticate_user!, except: :index
 
   def index
-    render json: { message: "Chatbot API is ready" }
+    render json: { message: I18n.t("chatbot.api.ready") }
   end
 
   def create
     message = chat_params[:message].to_s.strip # strip - remove blank
-    return render json: { error: "message is required" }, status: :unprocessable_entity if message.blank?
+    return render json: { error: I18n.t("chatbot.api.message_required") }, status: :unprocessable_entity if message.blank?
 
     chat_history_record = current_user.chat_history || current_user.create_chat_history!(chat_history: "[]")
     chat_history = ChatbotService.load_chat_history(current_user)
@@ -25,7 +25,7 @@ class Api::V1::ChatbotController < ApplicationController
     render json: { error: e.message }, status: :service_unavailable
   rescue StandardError => e
     Rails.logger.error "Chatbot controller error: #{e.message}"
-    render json: { error: "Chatbot is unavailable" }, status: :service_unavailable
+    render json: { error: I18n.t("chatbot.api.unavailable") }, status: :service_unavailable
   end
 
   private

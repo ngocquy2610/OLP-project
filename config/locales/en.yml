@@ -622,6 +622,39 @@ en:
           description: "Topic description"
           submit: "Save Topic"
           cancel: "Cancel"
+
+  pagination:
+    prev: "Prev"
+    next: "Next"
+    ellipsis: "..."
+
+  errors:
+    models:
+      course:
+        attributes:
+          price:
+            invalid_range: "must be 0 (free) or at least 20,000 VNĐ"
+          course_image:
+            file_too_large: "File is too large (maximum 20MB)"
+      cart_item:
+        attributes:
+          base:
+            cannot_buy_own_course: "You cannot buy your own course"
+      user:
+        attributes:
+          phone:
+            too_short: "must be at least 10 digits"
+            too_long: "must be at most 11 digits"
+            digits_only: "must contain only digits"
+
+  chatbot:
+    api:
+      ready: "Chatbot API is ready"
+      message_required: "message is required"
+      unavailable: "Chatbot is unavailable"
+    widget:
+      status:
+        service_unavailable: "Our service is not ready right now. Please try again later."
   missing_i18n:
     common:
       edit: "Edit"

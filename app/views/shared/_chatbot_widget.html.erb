@@ -298,8 +298,8 @@
           appendMessage("assistant", payload.response || "<%= j t('chatbot.widget.status.no_response') %>", false);
           setStatus("<%= j t('chatbot.widget.status.connected') %>", false);
         } catch (error) {
-          appendMessage("assistant", "Our service aren't ready now, please try again later!", true);
-          setStatus("Our service aren't ready now, please try again later!", true);
+          appendMessage("assistant", "<%= j t('chatbot.widget.status.service_unavailable') %>", true);
+          setStatus("<%= j t('chatbot.widget.status.service_unavailable') %>", true);
         } finally {
           input.disabled = false;
           sendButton.disabled = false;

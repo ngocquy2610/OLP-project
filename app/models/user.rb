@@ -22,12 +22,12 @@ class User < ApplicationRecord
             length: {
               minimum: 10,
               maximum: 11,
-              too_short: "must be at least 10 digits",
-              too_long: "must be at most 11 digits"
+              too_short: I18n.t("errors.models.user.attributes.phone.too_short"),
+              too_long: I18n.t("errors.models.user.attributes.phone.too_long")
             },
             format: {
               with: /\A\d{10,11}\z/,
-              message: "must contain only digits"
+              message: I18n.t("errors.models.user.attributes.phone.digits_only")
             }
 
   after_create :create_cart
