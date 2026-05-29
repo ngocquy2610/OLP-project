@@ -28,8 +28,6 @@
               class: "block w-full py-3.5 pl-11 pr-4 text-sm text-on-surface bg-surface-container border border-outline-variant rounded-xl focus:border-primary-fixed-dim focus:outline-none transition shadow-sm placeholder:text-slate-text/50" %>
         </div>
         
-        <%= f.submit t('courses.index.search_button'), class: "glow-button tracking-wider font-semibold text-xs uppercase rounded-xl px-6 py-3.5 cursor-pointer transition shadow-sm" %>
-        
         <% if params[:query].present? %>
           <%= link_to t('missing_i18n.common.clear'), request.path, class: "text-slate-text hover:text-primary-fixed-dim px-3 py-2 text-sm font-medium whitespace-nowrap font-label-tech uppercase" %>
         <% end %>
