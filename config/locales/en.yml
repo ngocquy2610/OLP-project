@@ -907,6 +907,10 @@ en:
       cta_subtitle: "Thousands of learners have already started their skills journey."
       cta_action: "Explore Courses"
   chatbot:
+    api:
+      ready: "Chatbot API is ready"
+      message_required: "message is required"
+      unavailable: "Chatbot is unavailable"
     page:
       label: "Chatbot"
       title: "Chat is now available on every page"
@@ -931,6 +935,7 @@ en:
         ready: "Ready. Ask anything about courses."
         sign_in_start: "Sign in to start chatting."
         sign_in_required: "Sign in to use the chatbot."
+        service_unavailable: "Our service is not ready right now. Please try again later."
         type_before_sending: "Type a message before sending."
         sending: "Sending message..."
         connected: "Connected."

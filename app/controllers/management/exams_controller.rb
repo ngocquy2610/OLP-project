@@ -74,7 +74,7 @@ class Management::ExamsController < ApplicationController
 
   def update
     if owned_topic_selected? && @exam.update(exam_params)
-      redirect_to profile_path(current_user), notice: I18n.t("messages.management.exams.updated")
+      redirect_to safe_return_to(management_exams_path), notice: I18n.t("messages.management.exams.updated")
     else
       render :edit
     end
@@ -136,5 +136,12 @@ class Management::ExamsController < ApplicationController
     else
       fallback_correct_answer.to_s.strip
     end
+  end
+
+  def safe_return_to(fallback_path)
+    path = params[:return_to].to_s
+    return fallback_path unless path.start_with?("/")
+
+    path
   end
 end

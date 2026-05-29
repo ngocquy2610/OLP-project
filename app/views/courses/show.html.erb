@@ -87,7 +87,7 @@
 
     <div class="flex items-center justify-center py-6">
       <% if current_user&.owned_courses&.exists?(@course.id) %>
-          <%= link_to learn_course_path(@course), class: "glow-button px-8 py-3.5 rounded-xl font-label-tech text-xs tracking-wider uppercase font-bold flex items-center gap-2" do %>
+          <%= link_to learn_course_path(@course), class: "glow-button px-8 py-3.5 rounded-xl font-label-tech text-xs tracking-wider uppercase font-bold flex items-center gap-2", data: { turbo_action: "advance" } do %>
             <span><%= t('courses.show.learn_now') %></span>
             <span class="material-symbols-outlined text-[16px]">terminal</span>
           <% end %>

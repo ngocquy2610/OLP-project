@@ -42,7 +42,7 @@
             </td>
             <td class="px-6 py-4 text-right text-sm font-medium">
               <div class="flex flex-col items-end gap-2 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
-                <%= link_to t('admin.management.actions.edit'), edit_management_exam_path(exam), class: "inline-flex items-center px-3 py-1.5 rounded-full border border-sky-500/30 text-sky-300 bg-sky-500/10 hover:bg-sky-500/20 transition",data: { turbo_frame: "profile_content" } %>
+                <%= link_to t('admin.management.actions.edit'), edit_management_exam_path(exam, return_to: request.fullpath), class: "inline-flex items-center px-3 py-1.5 rounded-full border border-sky-500/30 text-sky-300 bg-sky-500/10 hover:bg-sky-500/20 transition",data: { turbo_frame: "profile_content" } %>
                 <%= button_to t('admin.management.actions.delete'), management_exam_path(exam), method: :delete,
                   form: { data: { turbo_confirm: t('admin.management.delete_confirm') } },
                   class: "inline-flex items-center px-3 py-1.5 rounded-full border border-red-500/30 text-red-300 bg-red-500/10 hover:bg-red-500/20 transition" %>

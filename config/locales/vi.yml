@@ -1014,6 +1014,10 @@ vi:
       cta_subtitle: "Hàng nghìn học viên đã bắt đầu hành trình phát triển kỹ năng của họ."
       cta_action: "Khám phá khóa học"
   chatbot:
+    api:
+      ready: "API chatbot đã sẵn sàng"
+      message_required: "bắt buộc có nội dung tin nhắn"
+      unavailable: "Chatbot hiện không khả dụng"
     page:
       label: "Chatbot"
       title: "Chat hiện đã có trên mọi trang"
@@ -1038,6 +1042,7 @@ vi:
         ready: "Sẵn sàng. Hãy hỏi bất kỳ điều gì về khóa học."
         sign_in_start: "Đăng nhập để bắt đầu trò chuyện."
         sign_in_required: "Đăng nhập để dùng chatbot."
+        service_unavailable: "Dịch vụ hiện chưa sẵn sàng. Vui lòng thử lại sau."
         type_before_sending: "Hãy nhập tin nhắn trước khi gửi."
         sending: "Đang gửi tin nhắn..."
         connected: "Đã kết nối."

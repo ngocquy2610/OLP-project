@@ -17,17 +17,14 @@
         <% @topics.each do |topic| %>
           <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
             <td class="px-6 py-4">
-              <div class="font-medium text-gray-900"><%= topic.name %></div>
-                          <div class="font-medium text-white"><%= topic.name %></div>
+              <div class="font-medium text-white"><%= topic.name %></div>
             </td>
-            <td class="px-6 py-4">
+            <td class="px-6 py-4 text-slate-300">
               <p><%= topic.course.name %></p>
-              <td class="px-6 py-4 text-slate-300">
-                <p><%= topic.course.name %></p>
             </td>
             <td class="px-6 py-4 text-right text-sm font-medium">
               <div class="flex flex-col items-end gap-2 sm:flex-row sm:justify-end sm:items-center sm:gap-3">
-                <%= link_to t('admin.management.actions.edit'), edit_management_topic_path(topic), class: "px-3 py-1 rounded-full border border-sky-500/30 text-sky-400 hover:bg-sky-500/20 text-xs font-label-tech transition",data: { turbo_frame: "profile_content" } %>
+                <%= link_to t('admin.management.actions.edit'), edit_management_topic_path(topic, return_to: request.fullpath), class: "px-3 py-1 rounded-full border border-sky-500/30 text-sky-400 hover:bg-sky-500/20 text-xs font-label-tech transition",data: { turbo_frame: "profile_content" } %>
                 <%= button_to t('admin.management.actions.delete'), management_topic_path(topic), method: :delete,
                   form: { data: { turbo_confirm: t('admin.management.delete_confirm') } },
                   class: "inline px-3 py-1 rounded-full border border-red-500/30 text-red-400 hover:bg-red-500/20 text-xs font-label-tech transition cursor-pointer" %>

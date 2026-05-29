@@ -52,7 +52,7 @@ class Management::CoursesController < ApplicationController
     authorize @course
     if @course.update(course_params)
       @course.pending!
-      redirect_to profile_path(current_user), notice: I18n.t("messages.management.courses.updated")
+      redirect_to safe_return_to(management_courses_path), notice: I18n.t("messages.management.courses.updated")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -87,5 +87,12 @@ class Management::CoursesController < ApplicationController
     if current_user.stripe_account_id.blank? # check if the user has connected their Stripe account
       redirect_to edit_user_registration_path, alert: I18n.t("messages.management.courses.stripe_required")
     end
+  end
+
+  def safe_return_to(fallback_path)
+    path = params[:return_to].to_s
+    return fallback_path unless path.start_with?("/")
+
+    path
   end
 end

@@ -145,7 +145,8 @@
                   <% if current_user&.owned_courses&.exists?(course.id) %>
                     <%= link_to t('home.course.learn_now'),
                           learn_course_path(course),
-                          class: "glow-button px-4 py-2 text-xs rounded-lg shadow font-label-tech uppercase tracking-wider font-semibold" %>
+                          class: "glow-button px-4 py-2 text-xs rounded-lg shadow font-label-tech uppercase tracking-wider font-semibold",
+                          data: { turbo_action: "advance" } %>
                   <% elsif course.user_id == current_user&.id %>
                     <span class="text-xs text-slate-text font-label-tech"><%= t('missing_i18n.home.instructor') %></span>
                   <% else %>

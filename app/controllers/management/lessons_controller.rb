@@ -35,7 +35,7 @@ class Management::LessonsController < ApplicationController
 
     if owned_topic_selected? && @lesson.update(lesson_params)
       @lesson.enqueue_video_attachment # run the background job.
-      redirect_to management_lessons_path(current_user), notice: I18n.t("messages.management.lessons.updated")
+      redirect_to safe_return_to(management_lessons_path), notice: I18n.t("messages.management.lessons.updated")
     else
       render :edit
     end
@@ -82,5 +82,12 @@ class Management::LessonsController < ApplicationController
 
     @lesson.errors.add(:topic_id, :invalid)
     false
+  end
+
+  def safe_return_to(fallback_path)
+    path = params[:return_to].to_s
+    return fallback_path unless path.start_with?("/")
+
+    path
   end
 end

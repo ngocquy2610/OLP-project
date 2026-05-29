@@ -32,7 +32,7 @@ class Management::TopicsController < ApplicationController
 
   def update
     if owned_course_selected? && @topic.update(topic_params)
-      redirect_to profile_path(tab: "topics"), notice: I18n.t("messages.management.topics.updated")
+      redirect_to safe_return_to(management_topics_path), notice: I18n.t("messages.management.topics.updated")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -62,5 +62,12 @@ class Management::TopicsController < ApplicationController
 
     @topic.errors.add(:course_id, :invalid)
     false
+  end
+
+  def safe_return_to(fallback_path)
+    path = params[:return_to].to_s
+    return fallback_path unless path.start_with?("/")
+
+    path
   end
 end

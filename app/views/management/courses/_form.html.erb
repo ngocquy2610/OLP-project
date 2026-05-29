@@ -1,4 +1,5 @@
 <%= form_with(model: [:management, course], class: "space-y-6") do |f| %>
+  <%= hidden_field_tag :return_to, params[:return_to] if params[:return_to].present? %>
   <% if course.errors.any? %>
       <div class="bg-red-500/10 border border-red-500/30 p-4 rounded-xl text-red-400 text-sm">
         <h2 class="font-bold font-label-tech"><%= t('admin.management.errors.header', count: course.errors.count) %></h2>
@@ -22,9 +23,29 @@
       <%= f.label :price, t('admin.management.courses.form.price'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
       <%= f.number_field :price, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
     </div>
-    <div>
+    <div data-image-preview-container>
       <%= f.label :course_image, t('admin.management.courses.form.course_image'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
-      <%= f.file_field :course_image, class: "w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border file:border-primary-fixed-dim/30 file:text-xs file:font-label-tech file:bg-primary-fixed-dim/10 file:text-primary-fixed-dim hover:file:bg-primary-fixed-dim/20" %>
+
+      <div class="mb-3 w-full max-w-xs rounded-xl overflow-hidden border border-outline-variant/30 bg-surface-container-high/40">
+        <%= image_tag(
+          course.course_image.attached? ? course.course_image.variant(:webp_thumb).processed : "",
+          alt: "Selected course image preview",
+          class: "#{course.course_image.attached? ? '' : 'hidden '}w-full h-32 object-cover",
+          data: { image_preview_target: "preview" }
+        ) %>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <%= f.file_field :course_image,
+                         id: "course_image_input",
+                         class: "sr-only",
+                         accept: "image/*",
+                         onchange: "const file=this.files&&this.files[0]; if(!file||!file.type.startsWith('image/')){return;} const container=this.closest('[data-image-preview-container]'); const preview=container&&container.querySelector('[data-image-preview-target=\"preview\"]'); if(!preview){return;} const reader=new FileReader(); reader.onload=(event)=>{preview.src=event.target.result; preview.classList.remove('hidden');}; reader.readAsDataURL(file);",
+                         data: { image_preview_target: "input" } %>
+        <label for="course_image_input" class="inline-flex items-center justify-center cursor-pointer rounded-full border border-primary-fixed-dim/30 bg-primary-fixed-dim/10 px-4 py-2 text-xs font-label-tech text-primary-fixed-dim hover:bg-primary-fixed-dim/20 transition-colors">
+          <%= course.persisted? ? 'Change image' : 'Choose image' %>
+        </label>
+      </div>
     </div>
   </div>
   <div>
@@ -33,6 +54,6 @@
   </div>
   <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-4">
     <%= f.submit t('admin.management.courses.form.submit'), class: "glow-button font-label-tech px-6 py-2 rounded-xl cursor-pointer" %>
-    <%= link_to t('admin.management.courses.form.cancel'), profile_path(current_user), class: "text-slate-400 hover:text-primary-fixed-dim transition font-label-tech text-sm" %>
+    <%= link_to t('admin.management.courses.form.cancel'), (params[:return_to].presence || management_courses_path), class: "text-slate-400 hover:text-primary-fixed-dim transition font-label-tech text-sm" %>
   </div>
 <% end %>
