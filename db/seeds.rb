@@ -1,6 +1,9 @@
 # Seeds for development/demo purposes. Safe to run multiple times (idempotent).
 puts "Seeding demo data..."
 
+DEFAULT_PRACTICE_TIME_LIMIT_MINUTES = 10
+DEFAULT_EXAM_TIME_LIMIT_MINUTES = 15
+
 ActiveRecord::Base.transaction do
   # sample tags to assign to seeded courses
   @sample_tags = %w[ruby rails javascript stimulus web beginner advanced testing deployment]
@@ -161,17 +164,20 @@ ActiveRecord::Base.transaction do
   lesson1.practices.find_or_create_by!(question: "Which symbol starts a symbol literal in Ruby?", type: :multiple_choice) do |p|
     p.answers = [ "@", ":", "$", "%" ].join(",")
     p.correct_answers = [ ":" ].join(",")
+    p.time_limit_minutes = DEFAULT_PRACTICE_TIME_LIMIT_MINUTES
   end
 
   lesson1.practices.find_or_create_by!(question: "True or False: Ruby is statically typed.", type: :true_false) do |p|
     p.answers = [ "true", "false" ].join(",")
     p.correct_answers = [ "false" ].join(",")
+    p.time_limit_minutes = DEFAULT_PRACTICE_TIME_LIMIT_MINUTES
   end
 
   # Topic-level exams (multiple questions)
   topic1.exams.find_or_create_by!(question: "What does IRB stand for?", type: :multiple_choice) do |e|
     e.answers = [ "Interactive Ruby", "Internal Ruby Bridge", "Immediate Ruby Band", "Interface Ruby" ].join(",")
     e.correct_answers = [ "Interactive Ruby" ].join(",")
+    e.time_limit_minutes = DEFAULT_EXAM_TIME_LIMIT_MINUTES
   end
 
   ########################################
@@ -196,11 +202,13 @@ ActiveRecord::Base.transaction do
   lesson2.practices.find_or_create_by!(question: "Which method renders a view from a controller?", type: :multiple_choice) do |p|
     p.answers = [ "render", "redirect_to", "send_file", "respond_to" ].join(",")
     p.correct_answers = [ "render" ].join(",")
+    p.time_limit_minutes = DEFAULT_PRACTICE_TIME_LIMIT_MINUTES
   end
 
   topic2.exams.find_or_create_by!(question: "True or False: `redirect_to` ends the request by issuing an HTTP redirect.", type: :true_false) do |e|
     e.answers = [ "true", "false" ].join(",")
     e.correct_answers = [ "true" ].join(",")
+    e.time_limit_minutes = DEFAULT_EXAM_TIME_LIMIT_MINUTES
   end
 
   ########################################
@@ -224,6 +232,7 @@ ActiveRecord::Base.transaction do
   lesson3.practices.find_or_create_by!(question: "Stimulus controllers are placed inside which folder by convention?", type: :multiple_choice) do |p|
     p.answers = [ "app/javascript/controllers", "app/controllers", "app/assets/javascripts", "app/views" ].join(",")
     p.correct_answers = [ "app/javascript/controllers" ].join(",")
+    p.time_limit_minutes = DEFAULT_PRACTICE_TIME_LIMIT_MINUTES
   end
 
   puts "Seeding finished: Created users, courses, topics, lessons, exams, and practices."
@@ -283,16 +292,22 @@ end
     lesson.practices.find_or_create_by!(question: "Sample question for #{name}", type: :multiple_choice) do |p|
       p.answers = [ "Option A", "Option B", "Option C", "Option D" ].join(",")
       p.correct_answers = [ "Option A" ].join(",")
+      p.time_limit_minutes = DEFAULT_PRACTICE_TIME_LIMIT_MINUTES
     end
 
     topic.exams.find_or_create_by!(question: "Sample exam question for #{name}", type: :true_false) do |e|
       e.answers = [ "true", "false" ].join(",")
       e.correct_answers = [ "true" ].join(",")
+      e.time_limit_minutes = DEFAULT_EXAM_TIME_LIMIT_MINUTES
     end
   end
   end
 
   puts "Created 100 seeded courses."
+
+  practice_backfilled = Practice.where(time_limit_minutes: nil).update_all(time_limit_minutes: DEFAULT_PRACTICE_TIME_LIMIT_MINUTES)
+  exam_backfilled = Exam.where(time_limit_minutes: nil).update_all(time_limit_minutes: DEFAULT_EXAM_TIME_LIMIT_MINUTES)
+  puts "Backfilled time limits: #{practice_backfilled} practices, #{exam_backfilled} exams."
 
   puts "Created additional 100 seeded courses (101..200)."
 
