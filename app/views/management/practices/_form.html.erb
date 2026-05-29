@@ -29,12 +29,12 @@
              button_label: t('admin.management.forms.add_answer', default: 'Add answer') %>
   <div>
     <%= f.label :type, t('admin.management.practices.form.kind'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
-    <%= f.select :type, options_for_select([[t('admin.management.types.multiple_choice'), "multiple_choice"],[t('admin.management.types.true_false'), "true_false"]], f.object.type), { prompt: t('admin.management.forms.choose_type') }, { class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" } %>
+    <%= f.select :type, options_for_select([[t('admin.management.types.multiple_choice'), "multiple_choice"],[t('admin.management.types.true_false'), "true_false"]], f.object.type), { prompt: t('admin.management.forms.choose_type') }, { class: "w-full bg-[#171B24] bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" } %>
   </div>
     <div>
       <%= f.label :time_limit_minutes, t('admin.management.practices.form.time_limit'), class: "block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest" %>
       <p class="text-slate-400 text-xs mb-1"><em><%= t('admin.management.practices.form.time_limit_hint') %></em></p>
-      <%= f.number_field :time_limit_minutes, min: 1, required: true, class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
+      <%= f.number_field :time_limit_minutes, min: 1, required: true, class: "w-full bg-[#171B24] bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim" %>
     </div>
   <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-4">
     <%= f.submit t('admin.management.practices.form.submit'), class: "glow-button font-label-tech px-6 py-2 rounded-xl cursor-pointer" %>

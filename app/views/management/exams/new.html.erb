@@ -3,13 +3,13 @@
   <%= form_with url: management_exams_path, local: true do %>
     <div class="mb-4">
       <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.topic') %></label>
-      <%= select_tag :topic_id, options_from_collection_for_select(@topics, :id, :name, @exam&.topic_id), include_blank: t('admin.management.forms.choose_topic'), class: "w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" %>
+      <%= select_tag :topic_id, options_from_collection_for_select(@topics, :id, :name, @exam&.topic_id), include_blank: t('admin.management.forms.choose_topic'), class: "w-full bg-[#171B24] bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" %>
     </div>
     <div id="questions">
       <div class="question-row mb-4 p-4 rounded-xl border border-white/10 bg-surface-container-high/40">
         <div class="mb-2">
           <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.question') %></label>
-          <input type="text" name="exams[][question]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
+          <input type="text" name="exams[][question]" class="w-full  bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim" />
         </div>
         <%= render "management/shared/answer_fields",
                    param_prefix: "exams[]",
@@ -21,7 +21,7 @@
                    button_label: t('admin.management.forms.add_answer', default: 'Add answer') %>
         <div class="mb-2">
           <label class="block text-xs font-label-tech text-slate-400 mb-1 uppercase tracking-widest"><%= t('admin.management.exams.form.kind') %></label>
-          <select name="exams[][type]" class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim">
+          <select name="exams[][type]" class="w-full bg-[#171B24] bg-surface-container-high border border-outline-variant rounded-lg px-3 py-2 text-white focus:outline-none focus:border-primary-fixed-dim">
             <option value=""><%= t('admin.management.forms.choose_type') %></option>
             <option value="multiple_choice"><%= t('admin.management.types.multiple_choice') %></option>
             <option value="true_false"><%= t('admin.management.types.true_false') %></option>

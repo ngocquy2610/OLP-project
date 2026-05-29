@@ -3,22 +3,30 @@ class Management::PracticesController < ApplicationController
   before_action :set_practice, only: [ :show, :edit, :update, :destroy ]
   before_action :set_owned_lessons, only: [ :new, :create, :edit, :update ]
   def index
-    if current_user&.teacher?
-      @lessons = Lesson.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id)))
+    base_lessons = if current_user&.teacher?
+                     Lesson.where(topic_id: Topic.where(course_id: Course.where(user_id: current_user.id)))
     else
-      @lessons = Lesson.all
+                     Lesson.all
+    end
+
+    @lesson_query = params[:lesson_query].to_s.strip
+    @lessons = if @lesson_query.present?
+                 normalized_query = ActiveRecord::Base.sanitize_sql_like(@lesson_query.downcase)
+                 base_lessons.where("LOWER(lessons.name) LIKE ?", "%#{normalized_query}%")
+    else
+                 base_lessons
     end
 
     @selected_lesson = if params[:lesson_id].present?
                          @lessons.find_by(id: params[:lesson_id])
-    else
-                         @lessons.first
     end
 
-    if @selected_lesson
-      @practices = Practice.where(lesson_id: @selected_lesson.id)
+    @practices = if @selected_lesson
+                   Practice.where(lesson_id: @selected_lesson.id)
+    elsif @lessons.exists?
+                   Practice.where(lesson_id: @lessons.select(:id))
     else
-      @practices = Practice.none
+                   Practice.none
     end
   end
 

@@ -477,6 +477,9 @@ vi:
         index:
           title: "Quản lý Bài kiểm tra"
           new: "Thêm bài kiểm tra mới"
+          search: "Tìm kiếm"
+          search_topic_placeholder: "Tìm theo chủ đề"
+          all_matching_topics: "Tất cả chủ đề phù hợp"
           filter_by_topic: "Lọc theo chủ đề:"
           table:
             topic: "Thuộc chủ đề"
@@ -528,6 +531,8 @@ vi:
         index:
           title: "Quản lý Bài thực hành"
           new: "Thêm bài thực hành mới"
+          search: "Tìm kiếm"
+          search_lesson_placeholder: "Tìm theo bài học"
           filter_by_lesson: "Lọc theo bài học:"
           table:
             lesson: "Thuộc bài học"
@@ -830,6 +835,9 @@ vi:
         index:
           title: "Quản lý Bài kiểm tra"
           new: "Thêm bài kiểm tra mới"
+          search: "Tìm kiếm"
+          search_topic_placeholder: "Tìm theo chủ đề"
+          all_matching_topics: "Tất cả chủ đề phù hợp"
           filter_by_topic: "Lọc theo chủ đề:"
           table:
             topic: "Thuộc chủ đề"
@@ -879,6 +887,8 @@ vi:
         index:
           title: "Quản lý Bài thực hành"
           new: "Thêm bài thực hành mới"
+          search: "Tìm kiếm"
+          search_lesson_placeholder: "Tìm theo bài học"
           filter_by_lesson: "Lọc theo bài học:"
           table:
             lesson: "Thuộc bài học"
@@ -1156,6 +1166,9 @@ vi:
         index:
           title: "Quản lý Bài kiểm tra"
           new: "Thêm bài kiểm tra mới"
+          search: "Tìm kiếm"
+          search_topic_placeholder: "Tìm theo chủ đề"
+          all_matching_topics: "Tất cả chủ đề phù hợp"
           filter_by_topic: "Lọc theo chủ đề:"
           table:
             topic: "Thuộc chủ đề"
@@ -1205,6 +1218,8 @@ vi:
         index:
           title: "Quản lý Bài thực hành"
           new: "Thêm bài thực hành mới"
+          search: "Tìm kiếm"
+          search_lesson_placeholder: "Tìm theo bài học"
           filter_by_lesson: "Lọc theo bài học:"
           table:
             lesson: "Thuộc bài học"

@@ -111,8 +111,8 @@
                   if (!response || response.resultCode !== '000') {
                     console.error('GMO token error', response);
                     btn.disabled = false;
-                    btn.innerText = 'Thanh toán bằng GMO';
-                    alert('Lỗi khi tạo token thẻ. Mã: ' + (response && response.resultCode));
+                    btn.innerText = '<%= j t("orders.show.pay_gmo") %>';
+                    alert('<%= j t("orders.show.token_error", code: "__CODE__") %>'.replace('__CODE__', (response && response.resultCode) || 'unknown'));
                     return;
                   }
 
@@ -120,8 +120,8 @@
                   if (!tokenString) {
                     console.error('No token in GMO response', response);
                     btn.disabled = false;
-                    btn.innerText = 'Thanh toán bằng GMO';
-                    alert('Không nhận được token từ GMO.');
+                    btn.innerText = '<%= j t("orders.show.pay_gmo") %>';
+                    alert('<%= j t("orders.show.no_token") %>');
                     return;
                   }
 
@@ -130,14 +130,14 @@
                   document.getElementById('expire').value = '';
                   document.getElementById('securitycode').value = '';
 
-                  btn.innerText = 'Đang chuyển đi...';
+                  btn.innerText = '<%= j t("orders.show.redirecting") %>';
                   document.getElementById('gmo-payment-form').submit();
                 });
               } catch (err) {
                 console.error('GMO token error:', err);
                 btn.disabled = false;
-                btn.innerText = 'Thanh toán bằng GMO';
-                alert('Lỗi khi tạo token thẻ. Vui lòng kiểm tra console.');
+                btn.innerText = '<%= j t("orders.show.pay_gmo") %>';
+                alert('<%= j t("orders.show.token_error_message") %>');
               }
             });
           }

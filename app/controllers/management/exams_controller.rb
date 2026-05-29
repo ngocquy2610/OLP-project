@@ -3,22 +3,30 @@ class Management::ExamsController < ApplicationController
   before_action :set_exam, only: [ :show, :edit, :update, :destroy ]
   before_action :set_owned_topics, only: [ :new, :create, :edit, :update ]
   def index
-    if current_user&.teacher?
-      @topics = Topic.where(course_id: Course.where(user_id: current_user.id))
+    base_topics = if current_user&.teacher?
+                    Topic.where(course_id: Course.where(user_id: current_user.id))
     else
-      @topics = Topic.all
+                    Topic.all
+    end
+
+    @topic_query = params[:topic_query].to_s.strip
+    @topics = if @topic_query.present?
+                normalized_query = ActiveRecord::Base.sanitize_sql_like(@topic_query.downcase)
+                base_topics.where("LOWER(topics.name) LIKE ?", "%#{normalized_query}%")
+    else
+                base_topics
     end
 
     @selected_topic = if params[:topic_id].present?
                         @topics.find_by(id: params[:topic_id])
-    else
-                        @topics.first
     end
 
-    if @selected_topic
-      @exams = Exam.where(topic_id: @selected_topic.id)
+    @exams = if @selected_topic
+               Exam.where(topic_id: @selected_topic.id)
+    elsif @topics.exists?
+               Exam.where(topic_id: @topics.select(:id))
     else
-      @exams = Exam.none
+               Exam.none
     end
   end
 
