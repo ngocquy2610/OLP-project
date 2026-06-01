@@ -313,6 +313,7 @@ en:
         created: "Voucher created successfully."
         updated: "Voucher updated successfully."
         deleted: "Voucher deleted successfully."
+        cannot_delete_used: "Voucher has been used in orders and cannot be deleted. It was deactivated instead."
       management:
         user_deleted: "User deleted successfully."
         user_delete_failed: "Failed to delete user."
@@ -959,6 +960,8 @@ en:
       admin_panel: "Admin Panel"
       admin_dashboard: "Admin Dashboard"
       user_management: "User Management"
+      course_approvals: "Course Approvals"
+      voucher_management: "Voucher Management"
     edit:
       title: "Edit Profile"
       save: "Save changes"

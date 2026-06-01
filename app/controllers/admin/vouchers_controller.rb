@@ -74,6 +74,23 @@ class Admin::VouchersController < Admin::BaseController
   end
 
   def destroy
+    if Order.exists?(voucher_id: @voucher.id)
+      @voucher.update(active: false)
+
+      respond_to do |format|
+        format.turbo_stream do
+          @vouchers = Voucher.order(created_at: :desc)
+          flash.now[:alert] = I18n.t("messages.admin.vouchers.cannot_delete_used")
+          render turbo_stream: [
+            turbo_stream.replace("profile_content", template: "admin/vouchers/index"),
+            turbo_stream.update("flash_messages", partial: "layouts/flash")
+          ]
+        end
+        format.html { redirect_to admin_vouchers_path, alert: I18n.t("messages.admin.vouchers.cannot_delete_used") }
+      end
+      return
+    end
+
     @voucher.destroy
 
     respond_to do |format|
@@ -87,6 +104,20 @@ class Admin::VouchersController < Admin::BaseController
       end
       format.html { redirect_to admin_vouchers_path, notice: I18n.t("messages.admin.vouchers.deleted") }
     end
+  rescue ActiveRecord::InvalidForeignKey
+    @voucher.update(active: false)
+
+    respond_to do |format|
+      format.turbo_stream do
+        @vouchers = Voucher.order(created_at: :desc)
+        flash.now[:alert] = I18n.t("messages.admin.vouchers.cannot_delete_used")
+        render turbo_stream: [
+          turbo_stream.replace("profile_content", template: "admin/vouchers/index"),
+          turbo_stream.update("flash_messages", partial: "layouts/flash")
+        ]
+      end
+      format.html { redirect_to admin_vouchers_path, alert: I18n.t("messages.admin.vouchers.cannot_delete_used") }
+    end
   end
 
   private
@@ -94,7 +125,7 @@ class Admin::VouchersController < Admin::BaseController
   def calculate_active_price(discount_percent)
     return nil if discount_percent.blank? || discount_percent.to_i <= 0
 
-    20000 / discount_percent.to_f * 100
+    20000 / (100 - discount_percent.to_f) * 100
     # minimum price is 20k so this mathematic calculate the active price base on the minimum price
   end
 

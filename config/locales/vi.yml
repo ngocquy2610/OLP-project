@@ -320,6 +320,7 @@ vi:
         created: "Tạo mã giảm giá thành công."
         updated: "Cập nhật mã giảm giá thành công."
         deleted: "Xóa mã giảm giá thành công."
+        cannot_delete_used: "Mã giảm giá đã được sử dụng trong đơn hàng và không thể xóa. Hệ thống đã chuyển sang trạng thái ngừng kích hoạt."
       management:
         user_deleted: "Xóa người dùng thành công."
         user_delete_failed: "Xóa người dùng thất bại."
@@ -1084,6 +1085,8 @@ vi:
       admin_panel: "Bảng quản trị"
       admin_dashboard: "Quản trị website"
       user_management: "Quản lý người dùng"
+      course_approvals: "Phê duyệt khóa học"
+      voucher_management: "Quản lý mã giảm giá"
     edit:
       title: "Chỉnh sửa hồ sơ"
       save: "Lưu thay đổi"

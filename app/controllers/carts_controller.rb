@@ -29,11 +29,25 @@ class CartsController < ApplicationController
 
     voucher = Voucher.find_by(code: params[:code].to_s.upcase)
 
-    if voucher&.usable?
+    unless voucher&.usable?
+      redirect_to cart_path, alert: I18n.t("messages.cart.voucher_invalid")
+      return
+    end
+
+    selected_ids = session[:selected_items]
+    if selected_ids.blank?
+      redirect_to cart_path, alert: I18n.t("messages.cart.select_items")
+      return
+    end
+
+    subtotal = current_user.cart.cart_items.where(id: selected_ids).sum { |item| item.course.price.to_i }
+    min_price = (voucher.active_price || 20_000).to_i
+
+    if subtotal > min_price
       session[:voucher_id] = voucher.id
       redirect_to cart_path, notice: I18n.t("messages.cart.voucher_applied")
     else
-      redirect_to cart_path, alert: I18n.t("messages.cart.voucher_invalid")
+      redirect_to cart_path, alert: I18n.t("messages.cart.min_total_after_voucher", min_price: min_price)
     end
   end
 
@@ -54,11 +68,9 @@ class CartsController < ApplicationController
       return
     end
 
-    computed = (subtotal * voucher.discount_percent.to_f / 100.0).round(0)
     min_price = (voucher.active_price || 20_000).to_i
-    max_allowed_discount = [ subtotal - min_price, 0 ].max
 
-    if computed <= max_allowed_discount
+    if subtotal > min_price
       render json: { allowed: true }
     else
       render json: { allowed: false, message: I18n.t("messages.cart.min_total_after_voucher", min_price: min_price) }, status: :unprocessable_entity
@@ -93,13 +105,21 @@ class CartsController < ApplicationController
 
     if session[:voucher_id]
       voucher = Voucher.find_by(id: session[:voucher_id])
-      if subtotal > voucher.active_price.to_i && voucher.usable?
-        discount = (subtotal * voucher.discount_percent.to_f / 100.0).round(0)
-        voucher.increment!(:used_count)
-        session[:voucher_id] = nil
-      else
+      min_price = (voucher&.active_price || 20_000).to_i
+
+      unless voucher&.usable?
         session[:voucher_id] = nil
         voucher = nil
+      else
+        if subtotal > min_price
+          discount = (subtotal * voucher.discount_percent.to_f / 100.0).round(0)
+          voucher.increment!(:used_count)
+          session[:voucher_id] = nil
+        else
+          session[:voucher_id] = nil
+          redirect_to cart_path, alert: I18n.t("messages.cart.min_total_after_voucher", min_price: min_price)
+          return
+        end
       end
     end
 

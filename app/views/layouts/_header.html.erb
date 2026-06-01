@@ -7,7 +7,7 @@
       </a>
     </div>
     
-    <div class="hidden xl:flex gap-6 items-center text-on-surface">
+    <div class="hidden xl:flex gap-4 items-center text-on-surface">
       <a class="font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" href="/"><%= t('nav.home') %></a>
       <%= link_to t('nav.about'), about_path, class: "font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" %>
       <a class="font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" href="<%= courses_path %>"><%= t('nav.course') %></a>
@@ -21,7 +21,7 @@
 
       <% if user_signed_in? %>
         <!-- My Purchased Courses Link -->
-        <%= link_to t('nav.my_courses', default: 'My Courses'), my_courses_courses_path, class: "font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" %>
+        <%= link_to t('missing_i18n.courses.my_courses.title', default: 'My Courses'), my_courses_courses_path, class: "font-body-md text-[16px] text-on-surface-variant hover:text-primary-fixed-dim hover:drop-shadow-[0_0_8px_rgba(0,229,255,0.4)] transition-all duration-300 py-2 px-3" %>
 
         <%= link_to current_user.fullname, profile_path, class: "font-body-md text-[16px] text-primary-fixed-dim border border-primary-fixed-dim/30 hover:bg-primary-fixed-dim/10 rounded px-4 py-2 transition-all" %>
       <% else %>
