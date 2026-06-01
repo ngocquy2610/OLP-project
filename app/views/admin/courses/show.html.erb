@@ -37,24 +37,25 @@
             <p class="text-sm font-medium"><%= t('admin.courses.learn.video_load_failed', default: 'Video cannot be loaded right now. Please refresh or try again later.') %></p>
           </div>
         <% else %>
-          <div class="h-[500px] flex items-center justify-center bg-black text-white">
-                      <div class="h-[500px] flex items-center justify-center bg-black text-slate-400 font-label-tech">
+          <div class="h-[500px] flex items-center justify-center bg-black text-slate-400 font-label-tech">
             <%= t('admin.courses.learn.no_video') %>
           </div>
         <% end %>
       </div>
-      <div class="p-6 bg-white">
-    <div class="p-6 bg-surface-container border-t border-white/10">
-      <h2 class="text-xl font-bold text-white font-headline-sm">
+      <div class="p-6 border-t border-white/10" style="background-color: #171B24;">
+        <h2 class="text-xl font-bold text-white font-headline-sm">
           <%= @current_lesson&.name %>
         </h2>
-        <p class="text-gray-600 mt-2">
-          <%= @current_lesson&.description %>
-        </p>
+        <% if @current_lesson&.description.present? %>
+          <p class="text-white mt-2 leading-relaxed">
+            <%= @current_lesson.description %>
+          </p>
+        <% else %>
+          <p class="text-white mt-2 italic">
+            <%= t('admin.courses.show.no_description', default: 'No description available for this lesson yet.') %>
+          </p>
+        <% end %>
       </div>
-    </div>
-
-
     </div>
 
     <div class="lg:w-80 bg-surface-container-high border-t lg:border-t-0 lg:border-l border-white/10 overflow-y-auto" :class="sidebarOpen ? 'block' : 'hidden lg:block'">
