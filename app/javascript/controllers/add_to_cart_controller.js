@@ -28,8 +28,7 @@ export default class extends Controller {
         if (data && data.success) {
           const successMessage = data.message || this.addedMessageValue
           if (successMessage) this.showToast(successMessage)
-          const badge = document.getElementById('cart-count')
-          if (badge) badge.textContent = data.count
+          this.updateCartCount(data.count)
         } else {
           const failedMessage = data?.error || this.failedMessageValue || this.errorMessageValue
           if (failedMessage) this.showToast(failedMessage, true)
@@ -39,6 +38,15 @@ export default class extends Controller {
         console.error(err)
         if (this.errorMessageValue) this.showToast(this.errorMessageValue, true)
       })
+  }
+
+  updateCartCount(count) {
+    const nextCount = String(count)
+    const desktopBadge = document.getElementById('cart-count')
+    const mobileBadge = document.getElementById('cart-count-mobile')
+
+    if (desktopBadge) desktopBadge.textContent = nextCount
+    if (mobileBadge) mobileBadge.textContent = nextCount
   }
 
   showToast(message, isError = false) {
